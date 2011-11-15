@@ -10,31 +10,15 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GalaSoft.MvvmLight.Threading;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using RssStarterKit.ViewModels;
 
 namespace RssStarterKit
 {
     public partial class App : Application
     {
-        private static MainViewModel viewModel = null;
-
-        /// <summary>
-        /// A static ViewModel used by the views to bind against.
-        /// </summary>
-        /// <returns>The MainViewModel object.</returns>
-        public static MainViewModel ViewModel
-        {
-            get
-            {
-                // Delay creation of the view model until necessary
-                if (viewModel == null)
-                    viewModel = new MainViewModel();
-
-                return viewModel;
-            }
-        }
-
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -46,11 +30,14 @@ namespace RssStarterKit
         /// </summary>
         public App()
         {
-            // Global handler for uncaught exceptions. 
+            // Global handler for uncaught exceptions.
             UnhandledException += Application_UnhandledException;
 
             // Standard Silverlight initialization
             InitializeComponent();
+
+            // set up the MVVM Dispatcher Helper
+            DispatcherHelper.Initialize();
 
             // Phone-specific initialization
             InitializePhoneApplication();
@@ -64,7 +51,7 @@ namespace RssStarterKit
                 // Show the areas of the app that are being redrawn in each frame.
                 //Application.Current.Host.Settings.EnableRedrawRegions = true;
 
-                // Enable non-production analysis visualization mode, 
+                // Enable non-production analysis visualization mode,
                 // which shows areas of a page that are handed off to GPU with a colored overlay.
                 //Application.Current.Host.Settings.EnableCacheVisualization = true;
 
@@ -80,6 +67,9 @@ namespace RssStarterKit
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            // Ensure that required application state is persisted here.
+            var vml = Resources["Locator"] as ViewModelLocator;
+            vml.LoadState();
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -87,9 +77,10 @@ namespace RssStarterKit
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             // Ensure that application state is restored appropriately
-            if (!App.ViewModel.IsDataLoaded)
+            if (e.IsApplicationInstancePreserved)
             {
-                App.ViewModel.LoadData();
+                var vml = Resources["Locator"] as ViewModelLocator;
+                vml.LoadState();
             }
         }
 
@@ -97,6 +88,8 @@ namespace RssStarterKit
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            var vml = Resources["Locator"] as ViewModelLocator;
+            vml.SaveState();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
@@ -104,6 +97,8 @@ namespace RssStarterKit
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
             // Ensure that required application state is persisted here.
+            var vml = Resources["Locator"] as ViewModelLocator;
+            vml.SaveState();
         }
 
         // Code to execute if a navigation fails
@@ -160,6 +155,6 @@ namespace RssStarterKit
             RootFrame.Navigated -= CompleteInitializePhoneApplication;
         }
 
-        #endregion
+        #endregion Phone application initialization
     }
 }

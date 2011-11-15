@@ -1,0 +1,100 @@
+﻿<#+
+    // <copyright file="VmGen.tt" company="CompDJ">
+    //  Copyright © CompDJ. All Rights Reserved.
+    // </copyright>
+
+    /// <summary>View model generator</summary>
+    public class VmGen : Generator
+    {
+        /// <summary>Override which generates the templates</summary>
+        protected override void RunCore()
+        {
+            string path = Config.TemplatePath;
+            path = System.IO.Path.Combine(path, "Generated");
+
+            string viewPath = System.IO.Path.Combine(path, Config.ViewNamespace);
+            string viewModelPath = System.IO.Path.Combine(path, Config.ViewModelNamespace);
+            string modelPath = System.IO.Path.Combine(path, Config.ModelNamespace);
+            string messagingPath = System.IO.Path.Combine(path, Config.MessagingNamespace);
+
+            RenderCSharp(viewPath, viewModelPath, modelPath, messagingPath);
+        }
+
+        /// <summary>Override which validates the templates</summary>
+        protected override void Validate()
+        {
+            if (string.IsNullOrEmpty(Config.ViewNamespace))
+            {
+                this.Error("View namespace is null");
+            }
+            if (string.IsNullOrEmpty(Config.ViewModelNamespace))
+            {
+                this.Error("View model namespace is null");
+            }
+            if (string.IsNullOrEmpty(Config.ModelNamespace))
+            {
+                this.Error("Model namespace is null");
+            }
+            if (string.IsNullOrEmpty(Config.MessagingNamespace))
+            {
+                this.Error("Messaging namespace is null");
+            }
+        }
+
+        /// <summary>
+        /// Renders the T4 templates in the C# language
+        /// </summary>
+        /// <param name="viewPath">Path to the view</param>
+        /// <param name="viewModelPath">Path to the view model</param>
+        /// <param name="modelPath">Path to the model</param>
+        /// <param name="messagingPath">Path to the messaging components</param>
+        public void RenderCSharp(string viewPath, string viewModelPath, string modelPath, string messagingPath)
+        {
+            var uim = new UIMessage();
+            uim.RenderToFile(System.IO.Path.Combine(messagingPath, "UIMessage" + Config.LanguageFileExtString()));
+			
+            var uimt = new UIMessageType();
+            uimt.RenderToFile(System.IO.Path.Combine(messagingPath, "UIMessageType" + Config.LanguageFileExtString()));
+			
+            var vm = new ViewModel();
+            vm.RenderToFile(System.IO.Path.Combine(viewModelPath, Config.Name + "ViewModel" + Config.LanguageFileExtString()));
+            
+			var vms = new ViewModelShim();
+            vms.RenderToFile(System.IO.Path.Combine(viewModelPath, "ViewModelShim" + Config.LanguageFileExtString()));
+
+			if (Config.DiContainer == DiContainer.Unity)
+			{
+                var bs = new BootstrapperUnity();
+                bs.RenderToFile(System.IO.Path.Combine(viewModelPath, "Bootstrapper" + Config.LanguageFileExtString()));
+                var vmw = new ViewModelWireUpUnity();
+                vmw.RenderToFile(System.IO.Path.Combine(viewModelPath, "VMWireup.txt"));
+			}				
+			else if (Config.DiContainer == DiContainer.Autofac)
+			{
+                var bs = new BootstrapperAutofac();
+                bs.RenderToFile(System.IO.Path.Combine(viewModelPath, "Bootstrapper" + Config.LanguageFileExtString()));
+                var vmw = new ViewModelWireUpAutofac();
+                vmw.RenderToFile(System.IO.Path.Combine(viewModelPath, "VMWireup.txt"));
+			}				
+			else if (Config.DiContainer == DiContainer.None)
+			{
+                var vmw = new ViewModelWireUp();
+                vmw.RenderToFile(System.IO.Path.Combine(viewModelPath, "VMWireup.txt"));
+			}				
+
+            if (Config.ControlMode == ControlMode.Phone)
+            {
+                var xap = new XamlPhone();
+                xap.RenderToFile(System.IO.Path.Combine(viewPath, Config.Name + "View.xaml"));
+            }
+            else
+            {
+                var xam = new Xaml();
+                xam.RenderToFile(System.IO.Path.Combine(viewPath, Config.Name + "View.xaml"));
+            }
+
+            var xcb = new XamlCodeBehind();
+            xcb.RenderToFile(System.IO.Path.Combine(viewPath, Config.Name + "View.xaml" + Config.LanguageFileExtString()));
+        }
+    }
+#>

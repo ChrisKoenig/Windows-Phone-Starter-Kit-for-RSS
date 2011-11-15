@@ -1,0 +1,72 @@
+﻿<#+
+    // <copyright file="Enums.tt" company="CompDJ">
+    //  Copyright © CompDJ. All Rights Reserved.
+    // </copyright>
+
+    /// <summary>View mode</summary>
+    public enum ViewMode : int
+    {
+        /// <summary>Messaging mode</summary>
+        Messaging,
+
+		/// <summary>View mode</summary>
+        View,
+
+        /// <summary>View model mode</summary>
+        ViewModel,
+
+        /// <summary>Model mode</summary>
+        Model
+    }
+
+    /// <summary>Control mode</summary>
+    public enum ControlMode : int
+    {
+        /// <summary>User control mode</summary>
+        UserControl,
+
+        /// <summary>Page control mode</summary>
+        Page,
+
+        /// <summary>Window control mode</summary>
+        Window,
+
+        /// <summary>Phone control mode</summary>
+        Phone
+    }
+
+    /// <summary>Language mode</summary>
+    public enum Language : int
+    {
+        /// <summary>C# language</summary>
+        CSharp
+
+        //// <summary>Visual Basic language</summary>
+        //VB
+    }
+
+    /// <summary>Technology mode</summary>
+    public enum Technology : int
+    {
+        /// <summary>Wpf technology</summary>
+        Wpf,
+
+        /// <summary>Silverlight technology</summary>
+        Silverlight
+    }
+
+    /// <summary>Technology mode</summary>
+    public enum DiContainer : int
+    {
+        /// <summary>No DI Container</summary>
+        None,
+
+		/// <summary>Unity DI Container</summary>
+        Unity,
+
+        /// <summary>Autofac DI Container</summary>
+        Autofac
+}
+
+
+#>

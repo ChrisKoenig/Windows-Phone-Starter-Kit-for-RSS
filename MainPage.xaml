@@ -9,27 +9,34 @@
                             mc:Ignorable="d"
                             d:DesignWidth="480"
                             d:DesignHeight="768"
-                            d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}"
                             FontFamily="{StaticResource PhoneFontFamilyNormal}"
                             FontSize="{StaticResource PhoneFontSizeNormal}"
                             Foreground="{StaticResource PhoneForegroundBrush}"
+                            DataContext="{Binding Path=Main, Source={StaticResource Locator}}"
                             SupportedOrientations="Portrait"
                             Orientation="Portrait"
                             shell:SystemTray.IsVisible="True">
     <phone:PhoneApplicationPage.Resources>
-        <DataTemplate x:Key="RssItemTemplate">
-            <StackPanel Margin="0,0,0,17">
-                <TextBlock Text="{Binding Title}"
-                           TextWrapping="NoWrap"
-                           FontWeight="{Binding FontWeight}"
-                           Margin="12,0,0,0"
-                           Style="{StaticResource PhoneTextExtraLargeStyle}" />
-                <TextBlock Text="{Binding PublishDate}"
-                           TextWrapping="NoWrap"
-                           Margin="12,-6,0,0"
-                           Style="{StaticResource PhoneTextSubtleStyle}" />
-            </StackPanel>
-        </DataTemplate>
+        <Style TargetType="ListBox"
+               x:Key="RssListBox">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel Margin="0,0,0,17">
+                            <TextBlock Text="{Binding Title}"
+                                       TextWrapping="NoWrap"
+                                       FontWeight="{Binding FontWeight}"
+                                       Margin="12,0,0,0"
+                                       Style="{StaticResource PhoneTextExtraLargeStyle}" />
+                            <TextBlock Text="{Binding PublishDate}"
+                                       TextWrapping="NoWrap"
+                                       Margin="12,-6,0,0"
+                                       Style="{StaticResource PhoneTextSubtleStyle}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -39,34 +46,38 @@
         <controls:Pivot Title="{Binding Title}">
 
             <controls:PivotItem Header="new">
-                <!--Double line list with text wrapping-->
                 <ListBox x:Name="NewRssListBox"
                          Margin="0,0,-12,0"
-                         ItemsSource="{Binding NewItems}">
-                </ListBox>
+                         ItemsSource="{Binding NewItems}" />
             </controls:PivotItem>
 
-            <!--Pivot item two-->
             <controls:PivotItem Header="all">
-                <!--Triple line list no text wrapping-->
                 <ListBox x:Name="AllRssListBox"
                          Margin="0,0,-12,0"
-                         ItemsSource="{Binding Items}">
-                </ListBox>
+                         ItemsSource="{Binding Items}" />
             </controls:PivotItem>
+
+            <controls:PivotItem Header="favorites">
+                <ListBox x:Name="FavoritesRssListBox"
+                         Margin="0,0,-12,0"
+                         ItemsSource="{Binding FavoriteItems}" />
+            </controls:PivotItem>
+
+            <controls:PivotItem Header="about">
+            </controls:PivotItem>
+
         </controls:Pivot>
+
     </Grid>
 
     <!--Sample code showing usage of ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
-                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
-            </shell:ApplicationBar.MenuItems>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True"
+                              IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton x:Name="Refresh"
+                                            IconUri="/Images/appbar_button1.png"
+                                            Text="Button 1" />
         </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>
