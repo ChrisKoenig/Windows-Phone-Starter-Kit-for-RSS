@@ -7,11 +7,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:RssStarterKit.ViewModels"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:ux="clr-namespace:System.Windows.Media;assembly=System.Windows"
              mc:Ignorable="d">
     <!--Application Resources-->
     <Application.Resources>
         <vm:ViewModelLocator x:Key="Locator"
                              d:IsDataSource="True" />
+        <system:String x:Key="RssFeedUrl">http://feeds.feedburner.com/ChrisKoenig</system:String>
+        <ux:SolidColorBrush Color="{StaticResource PhoneForegroundColor}"
+                            x:Key="ThemeForgroundBrush" />
+        <ux:SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"
+                            x:Key="ThemeBackgroundBrush" />
     </Application.Resources>
     <Application.ApplicationLifetimeObjects>
         <!--Required object that handles lifetime events for the application-->

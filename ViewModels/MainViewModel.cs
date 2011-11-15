@@ -1,20 +1,24 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using Microsoft.Practices.ServiceLocation;
 using RssStarterKit.Models;
+using RssStarterKit.Services;
 
 namespace RssStarterKit.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private IRssService service;
+        private IRssDataService service;
+        private string _Title;
+        private ObservableCollection<RssItem> _Items;
 
         public MainViewModel()
         {
             // retrieve the IRssService
-            service = ServiceLocator.Current.GetInstance<IRssService>();
+            service = ServiceLocator.Current.GetInstance<IRssDataService>();
 
             // if runtime, load the real data
             if (!IsInDesignMode)
@@ -25,8 +29,17 @@ namespace RssStarterKit.ViewModels
 
         #region Properties
 
-        // Fields...
-        private ObservableCollection<RssItem> _Items;
+        public string Title
+        {
+            get { return _Title; }
+            set
+            {
+                if (_Title == value)
+                    return;
+                _Title = value;
+                RaisePropertyChanged(() => this.Title);
+            }
+        }
 
         public ObservableCollection<RssItem> Items
         {

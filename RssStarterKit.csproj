@@ -82,7 +82,6 @@
     <Compile Include="Services\IRssDataService.cs" />
     <Compile Include="Services\MockRssDataService.cs" />
     <Compile Include="Services\RssDataService.cs" />
-    <Compile Include="ViewModels\IRssService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
   </ItemGroup>
