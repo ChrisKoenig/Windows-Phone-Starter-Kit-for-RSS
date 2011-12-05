@@ -14,6 +14,7 @@ namespace RssStarterKit.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private RssItem _SelectedItem;
         private const string ISO_STORE_FILE = "settings.json";
         private bool _IsBusy;
         private RssFeed _SelectedFeed;
@@ -24,10 +25,42 @@ namespace RssStarterKit.ViewModels
         public MainViewModel()
         {
             // try to load from isolated storage. if there is nothing in Isolated Storage, then get from scratch
-            if (!LoadState())
-                LoadSettingsFile();
-            _Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
-            _Title = settings.Title;
+            if (IsInDesignMode)
+            {
+                LoadDesignTimeSettings();
+            }
+            else
+            {
+                if (!LoadState())
+                    LoadSettingsFile();
+            }
+            Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
+            Title = settings.Title;
+        }
+
+        private void LoadDesignTimeSettings()
+        {
+            settings = new Settings()
+            {
+                Title = "Designtime Data",
+                RefreshIntervalInMinutes = 5,
+                Theme = new ThemeInfo()
+                {
+                    BodyBackground = "#000000",
+                    BodyForeground = "#ffffff"
+                },
+                RssFeeds = new List<RssFeed>() {
+                    new RssFeed() {
+                        Title = "Chris Koenig",
+                        RssUrl = "http://feeds.feedburner.com/chriskoenig"
+                    },
+                    new RssFeed()
+                    {
+                        Title = "GiveCamp",
+                        RssUrl = "http://feeds.feedburner.com/givecamp"
+                    }
+                }
+            };
         }
 
         #region Properties
@@ -65,6 +98,18 @@ namespace RssStarterKit.ViewModels
                     return;
                 _SelectedFeed = value;
                 RaisePropertyChanged(() => this.SelectedFeed);
+            }
+        }
+
+        public RssItem SelectedItem
+        {
+            get { return _SelectedItem; }
+            set
+            {
+                if (_SelectedItem == value)
+                    return;
+                _SelectedItem = value;
+                RaisePropertyChanged(() => this.SelectedItem);
             }
         }
 
@@ -112,6 +157,20 @@ namespace RssStarterKit.ViewModels
             var json = JsonConvert.SerializeObject(settings);
             IsoHelper.SaveIsoString(ISO_STORE_FILE, json);
             IsBusy = false;
+        }
+
+        internal string BuildHtmlForSelectedItem()
+        {
+            var si = Application.GetResourceStream(new Uri("Resources/preview.html", UriKind.Relative));
+            var reader = new StreamReader(si.Stream);
+            var html = reader.ReadToEnd();
+            html = html.Replace("body.foreground", settings.Theme.BodyForeground);
+            html = html.Replace("body.background", settings.Theme.BodyBackground);
+            html = html.Replace("head.title", SelectedItem.Title);
+            html = html.Replace("body.content", SelectedItem.Description);
+            reader.Dispose();
+            si.Stream.Dispose();
+            return html;
         }
 
         #endregion Methods

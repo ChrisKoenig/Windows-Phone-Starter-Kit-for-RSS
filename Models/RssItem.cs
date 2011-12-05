@@ -10,8 +10,6 @@ namespace RssStarterKit.Models
         // Fields...
         private string _Guid;
         private string _Link;
-        private bool _IsRead;
-        private bool _IsFavorite;
         private string _Description;
         private DateTime _PublishDate;
         private string _Title;
@@ -49,30 +47,6 @@ namespace RssStarterKit.Models
                     return;
                 _Description = value;
                 RaisePropertyChanged(() => this.Description);
-            }
-        }
-
-        public bool IsFavorite
-        {
-            get { return _IsFavorite; }
-            set
-            {
-                if (_IsFavorite == value)
-                    return;
-                _IsFavorite = value;
-                RaisePropertyChanged(() => this.IsFavorite);
-            }
-        }
-
-        public bool IsRead
-        {
-            get { return _IsRead; }
-            set
-            {
-                if (_IsRead == value)
-                    return;
-                _IsRead = value;
-                RaisePropertyChanged(() => this.IsRead);
             }
         }
 

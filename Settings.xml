@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Settings>
-  <AppTitle>My Amazing Application</AppTitle>
-  <RefreshIntervalInMinutes>30</RefreshIntervalInMinutes>
-  <RssFeeds>
-    <RssFeed Title="Chris Koenig">http://feeds.feedburner.com/chriskoenig</RssFeed>
-    <RssFeed Title="GiveCamp">http://feeds.feedburner.com/givecamp</RssFeed>
-  </RssFeeds>
-</Settings>

@@ -1,6 +1,11 @@
 ﻿{
 	"Title":"My Awesome App",
 	"RefreshIntervalInMinutes":30,
+	"Theme":
+	{
+		"BodyForeground":"White",
+		"BodyBackground":"Black"
+	},
 	"RssFeeds":
 	[
 		{

@@ -31,7 +31,6 @@ namespace RssStarterKit.Services
                                  Title = item.Element("title").Value,
                                  Link = item.Element("link").Value,
                                  Description = item.Element("title").Value,
-                                 IsFavorite = false,
                                  PublishDate = ParseRssDateTime(item.Element("pubDate").Value),
                              }).ToList(),
                 };
