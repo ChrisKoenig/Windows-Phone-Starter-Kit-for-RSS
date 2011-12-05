@@ -1,0 +1,25 @@
+﻿{
+	"Title":"My Awesome App",
+	"RefreshIntervalInMinutes":30,
+	"RssFeeds":
+	[
+		{
+			"Title":"Chris Koenig",
+			"RssUrl":"http://feeds.feedburner.com/chriskoenig",
+			"RefreshTimeStamp":null,
+			"Link":null,
+			"Description":null,
+			"ImageUrl":null,
+			"Items":null
+		},
+		{
+			"Title":"GiveCamp",
+			"RssUrl":"http://feeds.feedburner.com/givecamp",
+			"RefreshTimeStamp":null,
+			"Link":null,
+			"Description":null,
+			"ImageUrl":null,
+			"Items":null
+		}
+	]
+}

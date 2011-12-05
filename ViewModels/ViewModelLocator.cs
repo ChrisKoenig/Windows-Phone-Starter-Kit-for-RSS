@@ -1,9 +1,7 @@
 using System.Linq;
-
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using RssStarterKit.Services;
 
 namespace RssStarterKit.ViewModels
 {
@@ -20,12 +18,10 @@ namespace RssStarterKit.ViewModels
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 // Create design time view services and models
-                SimpleIoc.Default.Register<IRssDataService, MockRssDataService>();
             }
             else
             {
                 // Create run time view services and models
-                SimpleIoc.Default.Register<IRssDataService, RssDataService>();
             }
 
             SimpleIoc.Default.Register<MainViewModel>();

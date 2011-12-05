@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Windows;
 using GalaSoft.MvvmLight;
-using Microsoft.Practices.ServiceLocation;
+using Newtonsoft.Json;
+using RssStarterKit.Configuration;
 using RssStarterKit.Models;
 using RssStarterKit.Services;
 
@@ -11,23 +14,35 @@ namespace RssStarterKit.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private IRssDataService service;
+        private const string ISO_STORE_FILE = "settings.json";
+        private bool _IsBusy;
+        private RssFeed _SelectedFeed;
         private string _Title;
-        private ObservableCollection<RssItem> _Items;
+        private ObservableCollection<RssFeed> _Feeds;
+        Settings settings;
 
         public MainViewModel()
         {
-            // retrieve the IRssService
-            service = ServiceLocator.Current.GetInstance<IRssDataService>();
-
-            // if runtime, load the real data
-            if (!IsInDesignMode)
-            {
-                LoadData();
-            }
+            // try to load from isolated storage. if there is nothing in Isolated Storage, then get from scratch
+            if (!LoadState())
+                LoadSettingsFile();
+            _Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
+            _Title = settings.Title;
         }
 
         #region Properties
+
+        public bool IsBusy
+        {
+            get { return _IsBusy; }
+            set
+            {
+                if (_IsBusy == value)
+                    return;
+                _IsBusy = value;
+                RaisePropertyChanged(() => IsBusy);
+            }
+        }
 
         public string Title
         {
@@ -41,37 +56,27 @@ namespace RssStarterKit.ViewModels
             }
         }
 
-        public ObservableCollection<RssItem> Items
+        public RssFeed SelectedFeed
         {
-            get { return _Items; }
+            get { return _SelectedFeed; }
             set
             {
-                if (_Items == value)
+                if (_SelectedFeed == value)
                     return;
-                _Items = value;
-                RaisePropertyChanged(() => this.Items);
+                _SelectedFeed = value;
+                RaisePropertyChanged(() => this.SelectedFeed);
             }
         }
 
-        public ObservableCollection<RssItem> NewItems
+        public ObservableCollection<RssFeed> Feeds
         {
-            get
+            get { return _Feeds; }
+            set
             {
-                if (Items == null)
-                    return null;
-                var query = Items.Where(item => item.IsRead == false);
-                return new ObservableCollection<RssItem>(query);
-            }
-        }
-
-        public ObservableCollection<RssItem> FavoriteItems
-        {
-            get
-            {
-                if (Items == null)
-                    return null;
-                var query = Items.Where(item => item.IsFavorite == true);
-                return new ObservableCollection<RssItem>(query);
+                if (_Feeds == value)
+                    return;
+                _Feeds = value;
+                RaisePropertyChanged(() => this.Feeds);
             }
         }
 
@@ -79,46 +84,36 @@ namespace RssStarterKit.ViewModels
 
         #region Methods
 
-        private void LoadData()
+        private void LoadSettingsFile()
         {
-            // load the Favorite feeds
-            // load the latest RSS feeds
-            // combine together
-            // merge with the stats on those already read
+            var uri = new Uri("Settings.json", UriKind.Relative);
+            var sri = Application.GetResourceStream(uri);
+            using (var reader = new StreamReader(sri.Stream))
+            {
+                var json = reader.ReadToEnd();
+                settings = JsonConvert.DeserializeObject<Settings>(json);
+            }
         }
 
-        private void AddFavorite(RssItem item)
+        public bool LoadState()
         {
+            IsBusy = true;
+            var json = IsoHelper.LoadIsoString(ISO_STORE_FILE);
+            if (json == null)
+                return false;
+            settings = JsonConvert.DeserializeObject<Settings>(json);
+            IsBusy = false;
+            return true;
         }
 
-        private void RemoveFavorite(RssItem item)
+        public void SaveState()
         {
-        }
-
-        private List<RssItem> GetFavorites()
-        {
-            return null;
-        }
-
-        private List<RssItem> GetFromFeed()
-        {
-            return null;
+            IsBusy = true;
+            var json = JsonConvert.SerializeObject(settings);
+            IsoHelper.SaveIsoString(ISO_STORE_FILE, json);
+            IsBusy = false;
         }
 
         #endregion Methods
-
-        #region Tombstoning support
-
-        internal void LoadState()
-        {
-            // save to isolated storage
-        }
-
-        internal void SaveState()
-        {
-            // load from isolated storage
-        }
-
-        #endregion Tombstoning support
     }
 }
