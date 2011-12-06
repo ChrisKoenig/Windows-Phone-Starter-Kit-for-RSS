@@ -1,4 +1,4 @@
-﻿<phone:PhoneApplicationPage x:Class="RssStarterKit.Views.RssFeedView"
+﻿<phone:PhoneApplicationPage
                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                             xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -6,54 +6,17 @@
                             xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:ec="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions" x:Class="RssStarterKit.Views.RssFeedView"
                             FontFamily="{StaticResource PhoneFontFamilyNormal}"
                             FontSize="{StaticResource PhoneFontSizeNormal}"
                             Foreground="{StaticResource PhoneForegroundBrush}"
                             SupportedOrientations="Portrait"
                             Orientation="Portrait"
-                            DataContext="{Binding Path=Main, Source={StaticResource Locator}}"
                             mc:Ignorable="d"
                             d:DesignHeight="768"
                             d:DesignWidth="480"
-                            shell:SystemTray.IsVisible="True">
-
-    <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot"
-          Background="Transparent">
-
-        <controls:Pivot Title="{Binding SelectedFeed.Title}">
-
-            <controls:PivotItem Header="news items">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <ListBox x:Name="RssFeedListBox"
-                             ItemsSource="{Binding SelectedFeed.Items}" />
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Last updated: " />
-                        <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp}" />
-                    </StackPanel>
-                </Grid>
-            </controls:PivotItem>
-
-            <controls:PivotItem Header="feed info">
-                <Grid>
-
-                    <StackPanel Grid.Row="0">
-                        <TextBlock Text="{Binding Description}" />
-                        <TextBlock Text="{Binding ImageUrl}" />
-                        <TextBlock Text="{Binding RefreshTimeStamp}" />
-                        <TextBlock Text="{Binding Link}" />
-                        <TextBlock Text="{Binding RssUrl}" />
-                    </StackPanel>
-
-                </Grid>
-            </controls:PivotItem>
-        </controls:Pivot>
-
-    </Grid>
+                            shell:SystemTray.IsVisible="True"
+                            d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}">
 
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
@@ -65,5 +28,51 @@
                                             Click="RefreshButton_Click" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot"
+          Background="Transparent">
+
+        <controls:Pivot Title="{Binding SelectedFeed.Title}">
+
+            <controls:PivotItem Header="news items">
+                <Grid>
+                	<Grid.ColumnDefinitions>
+                		<ColumnDefinition Width="Auto"/>
+                		<ColumnDefinition/>
+                	</Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Last updated: " d:LayoutOverrides="Width" />
+                    <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp.Value, Mode=OneWay}" HorizontalAlignment="Left" Grid.Column="1" />
+                    <ListBox x:Name="RssFeedListBox"
+                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="26" ItemsSource="{Binding SelectedFeed.Items}" ItemTemplate="{StaticResource FeedListBoxItemTemplate}" >
+                    	<i:Interaction.Triggers>
+                    		<i:EventTrigger EventName="Tap">
+                    			<ec:NavigateToPageAction TargetPage="/Views/RssItemView.xaml"/>
+                    		</i:EventTrigger>
+                    	</i:Interaction.Triggers>
+                    </ListBox>
+                </Grid>
+            </controls:PivotItem>
+
+            <controls:PivotItem Header="feed info">
+                <Grid>
+
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="{Binding SelectedFeed.Description}" />
+                        <TextBlock Text="{Binding SelectedFeed.ImageUrl}" />
+                        <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp.Value, Mode=OneWay}" />
+                        <TextBlock Text="{Binding SelectedFeed.Link}" />
+                        <TextBlock Text="{Binding SelectedFeed.RssUrl}" />
+                    </StackPanel>
+
+                </Grid>
+            </controls:PivotItem>
+        </controls:Pivot>
+
+    </Grid>
 
 </phone:PhoneApplicationPage>

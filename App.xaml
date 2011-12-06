@@ -13,12 +13,17 @@
              mc:Ignorable="d">
     <!--Application Resources-->
     <Application.Resources>
-        <vm:ViewModelLocator x:Key="Locator"
-                             d:IsDataSource="True" />
-        <ux:SolidColorBrush Color="{StaticResource PhoneForegroundColor}"
-                            x:Key="ThemeForgroundBrush" />
-        <ux:SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"
-                            x:Key="ThemeBackgroundBrush" />
+    	<ResourceDictionary>
+    		<ResourceDictionary.MergedDictionaries>
+    			<ResourceDictionary Source="Views/ThemeDictionary.xaml"/>
+    		</ResourceDictionary.MergedDictionaries>
+    		<vm:ViewModelLocator x:Key="Locator" />
+    		<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"
+    			x:Key="ThemeForgroundBrush" />
+    		<SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"
+    			x:Key="ThemeBackgroundBrush" />
+
+    	</ResourceDictionary>
 
     </Application.Resources>
     <Application.ApplicationLifetimeObjects>

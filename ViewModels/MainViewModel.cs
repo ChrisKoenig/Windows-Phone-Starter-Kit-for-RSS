@@ -42,7 +42,7 @@ namespace RssStarterKit.ViewModels
         {
             settings = new Settings()
             {
-                Title = "Designtime Data",
+                Title = "DesignTime Data",
                 RefreshIntervalInMinutes = 5,
                 Theme = new ThemeInfo()
                 {
@@ -52,7 +52,28 @@ namespace RssStarterKit.ViewModels
                 RssFeeds = new List<RssFeed>() {
                     new RssFeed() {
                         Title = "Chris Koenig",
-                        RssUrl = "http://feeds.feedburner.com/chriskoenig"
+                        RssUrl = "http://feeds.feedburner.com/chriskoenig",
+                        Items = new List<RssItem>()
+                        {
+                            new RssItem()
+                            {
+                                Title = "First Post",
+                                Description = "This is the description of the first post. Text only.",
+                                Link = "http://chriskoenig.net?p=100",
+                            },
+                            new RssItem()
+                            {
+                                Title = "Second Post",
+                                Description = "This is the description of the second post. Text only.",
+                                Link = "http://chriskoenig.net?p=101",
+                            },
+                            new RssItem()
+                            {
+                                Title = "Third Post",
+                                Description = "This is the description of the first post. We have <b>html</b> as well, but only <i>simple</i> html.",
+                                Link = "http://chriskoenig.net?p=102",
+                            },
+                        },
                     },
                     new RssFeed()
                     {
@@ -98,6 +119,7 @@ namespace RssStarterKit.ViewModels
                     return;
                 _SelectedFeed = value;
                 RaisePropertyChanged(() => this.SelectedFeed);
+                LoadSelectedFeed();
             }
         }
 
@@ -171,6 +193,25 @@ namespace RssStarterKit.ViewModels
             reader.Dispose();
             si.Stream.Dispose();
             return html;
+        }
+
+        private void LoadSelectedFeed()
+        {
+            if (SelectedFeed.RefreshTimeStamp.HasValue &&
+                SelectedFeed.RefreshTimeStamp.Value.AddDays(settings.RefreshIntervalInMinutes) > DateTime.Today)
+            {
+                // cached feed is OK to show
+            }
+            else
+            {
+                // refresh feed from database
+                RefreshFeed(SelectedFeed);
+            }
+        }
+
+        private void RefreshFeed(RssFeed SelectedFeed)
+        {
+            //
         }
 
         #endregion Methods
