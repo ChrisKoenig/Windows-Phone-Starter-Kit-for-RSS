@@ -12,6 +12,7 @@ namespace RssStarterKit.Models
         private string _Title;
         private string _RssUrl;
         private DateTime? _RefreshTimeStamp;
+        private DateTime? _LastBuildDate;
         private string _Link;
         private string _Description;
         private string _ImageUrl;
@@ -50,6 +51,18 @@ namespace RssStarterKit.Models
                     return;
                 _RefreshTimeStamp = value;
                 RaisePropertyChanged(() => RefreshTimeStamp);
+            }
+        }
+
+        public DateTime? LastBuildDate
+        {
+            get { return _LastBuildDate; }
+            set
+            {
+                if (_LastBuildDate == value)
+                    return;
+                _LastBuildDate = value;
+                RaisePropertyChanged(() => LastBuildDate);
             }
         }
 

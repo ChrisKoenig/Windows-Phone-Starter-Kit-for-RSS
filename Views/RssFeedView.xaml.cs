@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Phone.Controls;
+using RssStarterKit.ViewModels;
 
 namespace RssStarterKit.Views
 {
@@ -14,6 +15,8 @@ namespace RssStarterKit.Views
 
         private void RefreshButton_Click(object sender, EventArgs e)
         {
+            var model = DataContext as MainViewModel;
+            model.RefreshSelectedFeed();
         }
     }
 }

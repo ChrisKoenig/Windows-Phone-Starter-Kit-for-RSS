@@ -9,27 +9,22 @@ namespace RssStarterKit.Views
 {
     public partial class RssItemView : PhoneApplicationPage
     {
-        private MainViewModel _ViewModel;
-
         public RssItemView()
         {
             InitializeComponent();
 
-            Loaded += (sender, e) =>
-            {
-                _ViewModel = DataContext as MainViewModel;
-            };
-
             FeedItemContentBrowser.Loaded += (sender, e) =>
             {
-                var html = _ViewModel.BuildHtmlForSelectedItem();
+                var model = DataContext as MainViewModel;
+                var html = model.BuildHtmlForSelectedItem();
                 FeedItemContentBrowser.NavigateToString(html);
             };
         }
 
         private void VisitWebSiteButton_Click(object sender, EventArgs e)
         {
-            var item = _ViewModel.SelectedItem;
+            var model = DataContext as MainViewModel;
+            var item = model.SelectedItem;
             if (item == null)
                 return;
 

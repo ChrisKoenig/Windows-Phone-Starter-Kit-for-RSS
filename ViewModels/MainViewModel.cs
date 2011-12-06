@@ -141,10 +141,10 @@ namespace RssStarterKit.ViewModels
             var si = Application.GetResourceStream(new Uri("Resources/preview.html", UriKind.Relative));
             var reader = new StreamReader(si.Stream);
             var html = reader.ReadToEnd();
-            html = html.Replace("body.foreground", settings.Theme.BodyForeground);
-            html = html.Replace("body.background", settings.Theme.BodyBackground);
-            html = html.Replace("head.title", SelectedItem.Title);
-            html = html.Replace("body.content", SelectedItem.Description);
+            html = html.Replace("{{body.foreground}}", settings.Theme.BodyForeground);
+            html = html.Replace("{{body.background}}", settings.Theme.BodyBackground);
+            html = html.Replace("{{head.title}}", SelectedItem.Title);
+            html = html.Replace("{{body.content}}", SelectedItem.Description);
             reader.Dispose();
             si.Stream.Dispose();
             return html;
@@ -153,7 +153,7 @@ namespace RssStarterKit.ViewModels
         private void LoadSelectedFeed()
         {
             if (SelectedFeed.RefreshTimeStamp.HasValue &&
-                SelectedFeed.RefreshTimeStamp.Value.AddDays(settings.RefreshIntervalInMinutes) > DateTime.Today)
+                SelectedFeed.RefreshTimeStamp.Value.AddMinutes(settings.RefreshIntervalInMinutes) < DateTime.Now)
             {
                 // cached feed is OK to show
             }
@@ -164,7 +164,7 @@ namespace RssStarterKit.ViewModels
             }
         }
 
-        private void RefreshSelectedFeed()
+        public void RefreshSelectedFeed()
         {
             var request = HttpWebRequest.CreateHttp(SelectedFeed.RssUrl) as HttpWebRequest;
             request.BeginGetResponse((token) =>
@@ -178,7 +178,7 @@ namespace RssStarterKit.ViewModels
                             {
                                 Title = item.Element("title").Value,
                                 Link = item.Element("link").Value,
-                                Description = item.Element("title").Value,
+                                Description = item.Element("description").Value,
                                 PublishDate = ParseRssDateTime(item.Element("pubDate").Value),
                             };
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
@@ -186,16 +186,27 @@ namespace RssStarterKit.ViewModels
                     SelectedFeed.Title = channel.Element("title").Value;
                     SelectedFeed.Link = channel.Element("link").Value;
                     SelectedFeed.Description = channel.Element("description").Value;
-                    SelectedFeed.ImageUrl = channel.Element("image").Element("url").Value;
+                    if (channel.Element("image") != null && channel.Element("image").Element("url") != null)
+                        SelectedFeed.ImageUrl = channel.Element("image").Element("url").Value;
                     SelectedFeed.Items = new ObservableCollection<RssItem>(items);
+                    SelectedFeed.LastBuildDate = ParseRssDateTime(channel.Element("lastBuildDate").Value);
+                    SelectedFeed.RefreshTimeStamp = DateTime.Now;
                 });
+
+                // cache back to IsolatedStorage
+                SaveState();
             }, null);
         }
 
-        private DateTime ParseRssDateTime(string date)
+        private DateTime ParseRssDateTime(string s)
         {
             // date comes in like this: Tue, 06 Dec 2011 20:01:47 GMT
-            return DateTime.Now;
+            // date also comes in like this: Mon, 05 Dec 2011 13:52:05 +0000
+            DateTime date;
+            if (DateTime.TryParse(s, out date))
+                return date;
+            else
+                return DateTime.Now;
         }
 
         #endregion Methods

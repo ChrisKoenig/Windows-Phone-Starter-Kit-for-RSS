@@ -3,42 +3,26 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     mc:Ignorable="d">
+    <!-- Resource dictionary entries should be defined here. -->
+
     <DataTemplate x:Key="AllFeedsListBoxItemTemplate">
         <Grid Margin="0,0,0,15">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Margin="0,0,1,0"
-                       TextWrapping="Wrap"
-                       Text="{Binding Title}"
-                       d:LayoutOverrides="Width, Height"
+            <TextBlock Text="{Binding Title}"
                        FontSize="{StaticResource PhoneFontSizeMedium}" />
-            <TextBlock TextWrapping="Wrap"
-                       Text="{Binding RefreshTimeStamp.Value, Mode=OneWay}"
-                       Margin="0,0,1,0"
-                       VerticalAlignment="Top"
+            <TextBlock Text="{Binding RefreshTimeStamp}"
                        Grid.Row="1" />
         </Grid>
     </DataTemplate>
+
     <DataTemplate x:Key="SingleFeedListBoxItemTemplate">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock Margin="0,0,1,0"
-                       TextWrapping="Wrap"
-                       Text="{Binding Title}"
-                       d:LayoutOverrides="Width, Height"
+            <TextBlock Text="{Binding Title}"
                        FontSize="{StaticResource PhoneFontSizeMedium}" />
-            <TextBlock Margin="0,0,0,4"
-                       TextWrapping="Wrap"
-                       Text="{Binding Description}"
-                       d:LayoutOverrides="Height"
-                       Grid.Row="1"
-                       TextTrimming="WordEllipsis" />
         </Grid>
     </DataTemplate>
-    <!-- Resource dictionary entries should be defined here. -->
+
 </ResourceDictionary>

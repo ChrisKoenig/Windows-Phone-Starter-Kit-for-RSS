@@ -10,10 +10,12 @@
                             Foreground="{StaticResource PhoneForegroundBrush}"
                             SupportedOrientations="Portrait"
                             Orientation="Portrait"
+                            DataContext="{Binding Path=Main, Source={StaticResource Locator}}"
                             mc:Ignorable="d"
                             d:DesignHeight="768"
                             d:DesignWidth="480"
-                            shell:SystemTray.IsVisible="True" d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}">
+                            shell:SystemTray.IsVisible="True"
+                            d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot"

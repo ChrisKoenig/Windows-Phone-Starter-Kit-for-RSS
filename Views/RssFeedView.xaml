@@ -14,22 +14,11 @@
                             SupportedOrientations="Portrait"
                             Orientation="Portrait"
                             mc:Ignorable="d"
-                            d:DesignHeight="768"
+                            d:DesignHeight="696"
                             d:DesignWidth="480"
                             shell:SystemTray.IsVisible="True"
                             DataContext="{Binding Path=Main, Source={StaticResource Locator}}"
                             d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}">
-
-    <!--Sample code showing usage of ApplicationBar-->
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True"
-                              IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png"
-                                            Text="Refresh"
-                                            x:Name="RefreshButton"
-                                            Click="RefreshButton_Click" />
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot"
@@ -48,14 +37,16 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <TextBlock Text="Last updated: "
-                               d:LayoutOverrides="Width" />
-                    <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp.Value, Mode=OneWay}"
-                               HorizontalAlignment="Left"
+                               Grid.Row="0"
+                               Grid.Column="0" />
+                    <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp}"
+                               Grid.Row="0"
                                Grid.Column="1" />
                     <ListBox x:Name="SingleFeedListBox"
-                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                              Grid.Row="1"
-                             Grid.ColumnSpan="26"
+                             Grid.Column="0"
+                             Grid.ColumnSpan="2"
+                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                              ItemsSource="{Binding SelectedFeed.Items}"
                              ItemTemplate="{StaticResource SingleFeedListBoxItemTemplate}">
                         <i:Interaction.Triggers>
@@ -69,19 +60,40 @@
 
             <controls:PivotItem Header="feed info">
                 <Grid>
-
                     <StackPanel Grid.Row="0">
+                        <TextBlock Text="Description"
+                                   Margin="0,10,0,0" />
                         <TextBlock Text="{Binding SelectedFeed.Description}" />
+                        <TextBlock Text="ImageUrl"
+                                   Margin="0,10,0,0" />
                         <TextBlock Text="{Binding SelectedFeed.ImageUrl}" />
-                        <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp.Value, Mode=OneWay}" />
+                        <TextBlock Text="RefreshTimeStamp"
+                                   Margin="0,10,0,0" />
+                        <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp}" />
+                        <TextBlock Text="LastBuildDate"
+                                   Margin="0,10,0,0" />
+                        <TextBlock Text="{Binding SelectedFeed.LastBuildDate}" />
+                        <TextBlock Text="Link"
+                                   Margin="0,10,0,0" />
                         <TextBlock Text="{Binding SelectedFeed.Link}" />
+                        <TextBlock Text="RssUrl"
+                                   Margin="0,10,0,0" />
                         <TextBlock Text="{Binding SelectedFeed.RssUrl}" />
                     </StackPanel>
-
                 </Grid>
             </controls:PivotItem>
         </controls:Pivot>
 
     </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True"
+                              IsMenuEnabled="False">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png"
+                                            x:Name="RefreshButton"
+                                            Click="RefreshButton_Click"
+                                            Text="Refresh List" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>
