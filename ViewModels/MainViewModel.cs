@@ -27,16 +27,6 @@ namespace RssStarterKit.ViewModels
 
         public MainViewModel()
         {
-            if (!IsInDesignMode)
-            {
-                // try to load from isolated storage.
-                // if there is nothing in Isolated Storage,
-                // then get from the supplied file.
-                if (!LoadState())
-                    LoadSettingsFile();
-                Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
-                Title = settings.Title;
-            }
         }
 
         #region Properties
@@ -106,6 +96,28 @@ namespace RssStarterKit.ViewModels
 
         #region Methods
 
+        public void LoadState()
+        {
+            // don't reload the state if we already have state loaded
+            if (settings != null)
+                return;
+
+            IsBusy = true;
+            var json = IsoHelper.LoadIsoString(ISO_STORE_FILE);
+            if (json != null)
+            {
+                settings = JsonConvert.DeserializeObject<Settings>(json);
+            }
+            else
+            {
+                LoadSettingsFile();
+            }
+
+            Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
+            Title = settings.Title;
+            IsBusy = false;
+        }
+
         private void LoadSettingsFile()
         {
             var uri = new Uri("Settings.json", UriKind.Relative);
@@ -115,17 +127,6 @@ namespace RssStarterKit.ViewModels
                 var json = reader.ReadToEnd();
                 settings = JsonConvert.DeserializeObject<Settings>(json);
             }
-        }
-
-        public bool LoadState()
-        {
-            IsBusy = true;
-            var json = IsoHelper.LoadIsoString(ISO_STORE_FILE);
-            if (json == null)
-                return false;
-            settings = JsonConvert.DeserializeObject<Settings>(json);
-            IsBusy = false;
-            return true;
         }
 
         public void SaveState()
