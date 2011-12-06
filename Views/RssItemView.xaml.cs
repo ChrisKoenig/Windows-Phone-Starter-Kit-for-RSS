@@ -31,5 +31,11 @@ namespace RssStarterKit.Views
             var task = new WebBrowserTask() { Uri = new Uri(item.Link, UriKind.Absolute) };
             task.Show();
         }
+
+        private void ShareButton_Click(object sender, EventArgs e)
+        {
+            var model = DataContext as MainViewModel;
+            model.ShareCurrentFeedItem();
+        }
     }
 }

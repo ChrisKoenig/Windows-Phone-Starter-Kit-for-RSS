@@ -31,7 +31,8 @@
                     Margin="12,17,0,28">
             <TextBlock x:Name="ApplicationTitle"
                        Text="{Binding SelectedItem.Title}"
-                       Style="{StaticResource PhoneTextNormalStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
+                       Style="{StaticResource PhoneTextNormalStyle}"
+                       FontSize="{StaticResource PhoneFontSizeLarge}" />
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -46,9 +47,9 @@
         <shell:ApplicationBar IsVisible="True"
                               IsMenuEnabled="False">
             <shell:ApplicationBarIconButton IconUri="/icons/appbar.share.rest.png"
-            	x:Name="ShareButton"
-            	Click="VisitWebSiteButton_Click"
-            	Text="Share" />
+                                            x:Name="ShareButton"
+                                            Click="ShareButton_Click"
+                                            Text="Share" />
             <shell:ApplicationBarIconButton IconUri="/icons/appbar.upload.rest.png"
                                             x:Name="VisitWebSiteButton"
                                             Click="VisitWebSiteButton_Click"

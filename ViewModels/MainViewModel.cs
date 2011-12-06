@@ -8,6 +8,7 @@ using System.Windows;
 using System.Xml.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Threading;
+using Microsoft.Phone.Tasks;
 using Newtonsoft.Json;
 using RssStarterKit.Configuration;
 using RssStarterKit.Models;
@@ -208,6 +209,18 @@ namespace RssStarterKit.ViewModels
                 return date;
             else
                 return DateTime.Now;
+        }
+
+        internal void ShareCurrentFeedItem()
+        {
+            const string format = "{0} (via {1})";
+            var task = new ShareLinkTask()
+            {
+                LinkUri = new Uri(SelectedItem.Link),
+                Title = SelectedItem.Title,
+                Message = String.Format(format, SelectedItem.Title, settings.Title)
+            };
+            task.Show();
         }
 
         #endregion Methods
