@@ -38,17 +38,17 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="Last updated: "
                                Grid.Row="0"
-                               Grid.Column="0" />
+                               Grid.Column="0" FontSize="{StaticResource PhoneFontSizeSmall}" />
                     <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp}"
                                Grid.Row="0"
-                               Grid.Column="1" />
+                               Grid.Column="1" FontSize="{StaticResource PhoneFontSizeSmall}" />
                     <ListBox x:Name="SingleFeedListBox"
                              Grid.Row="1"
                              Grid.Column="0"
                              Grid.ColumnSpan="2"
                              SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                              ItemsSource="{Binding SelectedFeed.Items}"
-                             ItemTemplate="{StaticResource SingleFeedListBoxItemTemplate}">
+                             ItemTemplate="{StaticResource SingleFeedListBoxItemTemplate}" Margin="0,11,0,0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Tap">
                                 <ec:NavigateToPageAction TargetPage="/Views/RssItemView.xaml" />
@@ -89,7 +89,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True"
                               IsMenuEnabled="False">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png"
+            <shell:ApplicationBarIconButton IconUri="/icons/appbar.refresh.rest.png"
                                             x:Name="RefreshButton"
                                             Click="RefreshButton_Click"
                                             Text="Refresh List" />

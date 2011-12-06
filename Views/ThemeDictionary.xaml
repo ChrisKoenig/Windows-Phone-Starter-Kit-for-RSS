@@ -19,9 +19,14 @@
     </DataTemplate>
 
     <DataTemplate x:Key="SingleFeedListBoxItemTemplate">
-        <Grid>
+        <Grid Margin="0,0,0,8">
+        	<Grid.RowDefinitions>
+        		<RowDefinition Height="Auto"/>
+        		<RowDefinition Height="Auto"/>
+        	</Grid.RowDefinitions>
             <TextBlock Text="{Binding Title}"
                        FontSize="{StaticResource PhoneFontSizeMedium}" />
+            <TextBlock HorizontalAlignment="Left" Margin="0,0,0,4" TextWrapping="Wrap" Text="{Binding PublishDate}" d:LayoutOverrides="Height" Grid.Row="1" FontSize="{StaticResource PhoneFontSizeSmall}" FontStyle="Italic"/>
         </Grid>
     </DataTemplate>
 
