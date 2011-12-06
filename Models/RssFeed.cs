@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
 
@@ -14,7 +15,7 @@ namespace RssStarterKit.Models
         private string _Link;
         private string _Description;
         private string _ImageUrl;
-        private List<RssItem> _Items;
+        private ObservableCollection<RssItem> _Items;
 
         public string Title
         {
@@ -24,7 +25,7 @@ namespace RssStarterKit.Models
                 if (_Title == value)
                     return;
                 _Title = value;
-                RaisePropertyChanged(() => this.Title);
+                RaisePropertyChanged(() => Title);
             }
         }
 
@@ -60,7 +61,7 @@ namespace RssStarterKit.Models
                 if (_Link == value)
                     return;
                 _Link = value;
-                RaisePropertyChanged(() => this.Link);
+                RaisePropertyChanged(() => Link);
             }
         }
 
@@ -72,7 +73,7 @@ namespace RssStarterKit.Models
                 if (_Description == value)
                     return;
                 _Description = value;
-                RaisePropertyChanged(() => this.Description);
+                RaisePropertyChanged(() => Description);
             }
         }
 
@@ -84,17 +85,17 @@ namespace RssStarterKit.Models
                 if (_ImageUrl == value)
                     return;
                 _ImageUrl = value;
-                RaisePropertyChanged(() => this.ImageUrl);
+                RaisePropertyChanged(() => ImageUrl);
             }
         }
 
-        public List<RssItem> Items
+        public ObservableCollection<RssItem> Items
         {
             get { return _Items; }
             set
             {
                 _Items = value;
-                RaisePropertyChanged(() => this.ImageUrl);
+                RaisePropertyChanged(() => Items);
             }
         }
     }

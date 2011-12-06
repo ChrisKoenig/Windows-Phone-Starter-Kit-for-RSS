@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows;
+using System.Xml.Linq;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Threading;
 using Newtonsoft.Json;
 using RssStarterKit.Configuration;
 using RssStarterKit.Models;
@@ -24,64 +27,16 @@ namespace RssStarterKit.ViewModels
 
         public MainViewModel()
         {
-            // try to load from isolated storage. if there is nothing in Isolated Storage, then get from scratch
-            if (IsInDesignMode)
+            if (!IsInDesignMode)
             {
-                LoadDesignTimeSettings();
-            }
-            else
-            {
+                // try to load from isolated storage.
+                // if there is nothing in Isolated Storage,
+                // then get from the supplied file.
                 if (!LoadState())
                     LoadSettingsFile();
+                Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
+                Title = settings.Title;
             }
-            Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
-            Title = settings.Title;
-        }
-
-        private void LoadDesignTimeSettings()
-        {
-            settings = new Settings()
-            {
-                Title = "DesignTime Data",
-                RefreshIntervalInMinutes = 5,
-                Theme = new ThemeInfo()
-                {
-                    BodyBackground = "#000000",
-                    BodyForeground = "#ffffff"
-                },
-                RssFeeds = new List<RssFeed>() {
-                    new RssFeed() {
-                        Title = "Chris Koenig",
-                        RssUrl = "http://feeds.feedburner.com/chriskoenig",
-                        Items = new List<RssItem>()
-                        {
-                            new RssItem()
-                            {
-                                Title = "First Post",
-                                Description = "This is the description of the first post. Text only.",
-                                Link = "http://chriskoenig.net?p=100",
-                            },
-                            new RssItem()
-                            {
-                                Title = "Second Post",
-                                Description = "This is the description of the second post. Text only.",
-                                Link = "http://chriskoenig.net?p=101",
-                            },
-                            new RssItem()
-                            {
-                                Title = "Third Post",
-                                Description = "This is the description of the first post. We have <b>html</b> as well, but only <i>simple</i> html.",
-                                Link = "http://chriskoenig.net?p=102",
-                            },
-                        },
-                    },
-                    new RssFeed()
-                    {
-                        Title = "GiveCamp",
-                        RssUrl = "http://feeds.feedburner.com/givecamp"
-                    }
-                }
-            };
         }
 
         #region Properties
@@ -106,7 +61,7 @@ namespace RssStarterKit.ViewModels
                 if (_Title == value)
                     return;
                 _Title = value;
-                RaisePropertyChanged(() => this.Title);
+                RaisePropertyChanged(() => Title);
             }
         }
 
@@ -118,7 +73,7 @@ namespace RssStarterKit.ViewModels
                 if (_SelectedFeed == value)
                     return;
                 _SelectedFeed = value;
-                RaisePropertyChanged(() => this.SelectedFeed);
+                RaisePropertyChanged(() => SelectedFeed);
                 LoadSelectedFeed();
             }
         }
@@ -131,7 +86,7 @@ namespace RssStarterKit.ViewModels
                 if (_SelectedItem == value)
                     return;
                 _SelectedItem = value;
-                RaisePropertyChanged(() => this.SelectedItem);
+                RaisePropertyChanged(() => SelectedItem);
             }
         }
 
@@ -143,7 +98,7 @@ namespace RssStarterKit.ViewModels
                 if (_Feeds == value)
                     return;
                 _Feeds = value;
-                RaisePropertyChanged(() => this.Feeds);
+                RaisePropertyChanged(() => Feeds);
             }
         }
 
@@ -205,13 +160,42 @@ namespace RssStarterKit.ViewModels
             else
             {
                 // refresh feed from database
-                RefreshFeed(SelectedFeed);
+                RefreshSelectedFeed();
             }
         }
 
-        private void RefreshFeed(RssFeed SelectedFeed)
+        private void RefreshSelectedFeed()
         {
-            //
+            var request = HttpWebRequest.CreateHttp(SelectedFeed.RssUrl) as HttpWebRequest;
+            request.BeginGetResponse((token) =>
+            {
+                var response = request.EndGetResponse(token) as HttpWebResponse;
+                var stream = response.GetResponseStream();
+                var doc = XDocument.Load(stream);
+                var channel = doc.Root.Element("channel");
+                var items = from item in doc.Descendants("item")
+                            select new RssItem()
+                            {
+                                Title = item.Element("title").Value,
+                                Link = item.Element("link").Value,
+                                Description = item.Element("title").Value,
+                                PublishDate = ParseRssDateTime(item.Element("pubDate").Value),
+                            };
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    SelectedFeed.Title = channel.Element("title").Value;
+                    SelectedFeed.Link = channel.Element("link").Value;
+                    SelectedFeed.Description = channel.Element("description").Value;
+                    SelectedFeed.ImageUrl = channel.Element("image").Element("url").Value;
+                    SelectedFeed.Items = new ObservableCollection<RssItem>(items);
+                });
+            }, null);
+        }
+
+        private DateTime ParseRssDateTime(string date)
+        {
+            // date comes in like this: Tue, 06 Dec 2011 20:01:47 GMT
+            return DateTime.Now;
         }
 
         #endregion Methods

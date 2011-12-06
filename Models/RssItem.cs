@@ -22,7 +22,7 @@ namespace RssStarterKit.Models
                 if (_Title == value)
                     return;
                 _Title = value;
-                RaisePropertyChanged(() => this.Title);
+                RaisePropertyChanged(() => Title);
             }
         }
 
@@ -34,7 +34,7 @@ namespace RssStarterKit.Models
                 if (_PublishDate == value)
                     return;
                 _PublishDate = value;
-                RaisePropertyChanged(() => this.PublishDate);
+                RaisePropertyChanged(() => PublishDate);
             }
         }
 
@@ -46,7 +46,7 @@ namespace RssStarterKit.Models
                 if (_Description == value)
                     return;
                 _Description = value;
-                RaisePropertyChanged(() => this.Description);
+                RaisePropertyChanged(() => Description);
             }
         }
 
@@ -58,7 +58,7 @@ namespace RssStarterKit.Models
                 if (_Link == value)
                     return;
                 _Link = value;
-                RaisePropertyChanged(() => this.Link);
+                RaisePropertyChanged(() => Link);
             }
         }
 
@@ -70,7 +70,7 @@ namespace RssStarterKit.Models
                 if (_Guid == value)
                     return;
                 _Guid = value;
-                RaisePropertyChanged(() => this.Guid);
+                RaisePropertyChanged(() => Guid);
             }
         }
     }
