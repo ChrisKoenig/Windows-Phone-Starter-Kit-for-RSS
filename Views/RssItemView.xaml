@@ -27,22 +27,18 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel"
-                    Grid.Row="0"
-                    Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle"
-                       Text="{Binding SelectedItem.Title}"
-                       Style="{StaticResource PhoneTextNormalStyle}"
-                       FontSize="{StaticResource PhoneFontSizeLarge}" />
-        </StackPanel>
+        <TextBlock x:Name="ApplicationTitle"
+                   Grid.Row="0"
+                   Margin="12,17,12,17"
+                   Text="{Binding SelectedItem.Title}"
+                   TextWrapping="Wrap"
+                   Style="{StaticResource PhoneTextNormalStyle}"
+                   FontSize="{StaticResource PhoneFontSizeLarge}" />
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel"
-              Grid.Row="1"
-              Margin="12,0,12,0">
-            <phone:WebBrowser x:Name="FeedItemContentBrowser" />
-        </Grid>
+        <phone:WebBrowser x:Name="FeedItemContentBrowser"
+                          Grid.Row="1"
+                          Margin="12,0,12,0" />
+
     </Grid>
 
     <!-- note: the default ApplicationBar does not currently

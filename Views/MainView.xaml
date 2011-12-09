@@ -15,9 +15,10 @@
                             mc:Ignorable="d"
                             shell:SystemTray.IsVisible="True"
                             shell:SystemTray.ProgressIndicator="{StaticResource SystemProgressIndicator}"
-                            IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
                             DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-                            d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}">
+                            d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}"
+                            d:DesignHeight="696"
+                            d:DesignWidth="480">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot"
