@@ -19,15 +19,64 @@
                             d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}"
                             d:DesignHeight="696"
                             d:DesignWidth="480">
+    <phone:PhoneApplicationPage.Resources>
+        <Storyboard x:Name="AboutBoxAppear">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                                           Storyboard.TargetName="AboutBox">
+                <EasingDoubleKeyFrame KeyTime="0"
+                                      Value="-90" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5"
+                                      Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="AboutBoxDisappear">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                                           Storyboard.TargetName="AboutBox">
+                <EasingDoubleKeyFrame KeyTime="0"
+                                      Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5"
+                                      Value="-90" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot"
           Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"
-                           MinHeight="380" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
+
+        <Popup x:Name="AboutBox"
+               Tap="AboutBox_Tap"
+               IsOpen="False">
+            <Popup.Projection>
+                <PlaneProjection RotationX="-90" />
+            </Popup.Projection>
+            <Border BorderBrush="{StaticResource PhoneForegroundBrush}"
+                    BorderThickness="5"
+                    Margin="8,8,0,0">
+                <Grid Width="450"
+                      Height="273">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Rectangle Fill="{StaticResource PhoneChromeBrush}"
+                               Grid.RowSpan="2" />
+                    <TextBlock Text="{Binding LocalizedResources.MainView_About_Title, Source={StaticResource LocalizedStrings}}"
+                               Style="{StaticResource PhoneTextTitle2Style}"
+                               Grid.Row="0"
+                               Margin="10,10,10,17" />
+                    <TextBlock Text="Enter your comments here in the language of your choice. The user can press the BACK button to close this window - we don't need a separate button just for that. Also, just adjust the height of the grid as necessary to fit all your text and make it look nice."
+                               Grid.Row="1"
+                               Margin="24,0 "
+                               Style="{StaticResource PhoneTextSubtleStyle}"
+                               TextWrapping="Wrap" />
+                </Grid>
+            </Border>
+        </Popup>
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel"
@@ -57,26 +106,6 @@
                 </i:Interaction.Triggers>
             </ListBox>
         </Grid>
-
-        <Popup x:Name="AboutBox"
-               IsOpen="False">
-            <Grid Width="400"
-                  Height="200">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <TextBlock Text="{Binding LocalizedResources.MainView_About_Title, Source={StaticResource LocalizedStrings}}"
-                           Style="{StaticResource PhoneTextTitle2Style}"
-                           Grid.Row="0"
-                           Margin="10,10,10,17" />
-                <TextBlock Text="Enter your comments here in the language of your choice."
-                           Grid.Row="1"
-                           Margin="24,0 "
-                           Style="{StaticResource PhoneTextSubtleStyle}"
-                           TextWrapping="Wrap" />
-            </Grid>
-        </Popup>
 
     </Grid>
 

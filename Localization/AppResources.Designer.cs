@@ -140,5 +140,14 @@ namespace RssStarterKit.Localization {
                 return ResourceManager.GetString("MainView_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to *new*.
+        /// </summary>
+        public static string NoDataCollectedConverterText {
+            get {
+                return ResourceManager.GetString("NoDataCollectedConverterText", resourceCulture);
+            }
+        }
     }
 }

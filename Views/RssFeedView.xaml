@@ -65,27 +65,38 @@
                 <Grid>
                     <StackPanel Grid.Row="0">
                         <TextBlock Text="Feed Description"
+                                   Style="{StaticResource PhoneTextLargeStyle}"
                                    Margin="0,10,0,0" />
-                        <TextBlock Text="{Binding SelectedFeed.Description}" />
+                        <TextBlock Text="{Binding SelectedFeed.Description}"
+                                   Style="{StaticResource PhoneTextSubtleStyle}" />
                         <TextBlock Text="ImageUrl"
+                                   Style="{StaticResource PhoneTextLargeStyle}"
                                    Margin="0,10,0,0" />
-                        <TextBlock Text="{Binding SelectedFeed.ImageUrl}" />
+                        <TextBlock Text="{Binding SelectedFeed.ImageUrl}"
+                                   Tap="TextBlock_Tap"
+                                   Style="{StaticResource PhoneTextSubtleStyle}" />
                         <TextBlock Text="Last refresh time"
+                                   Style="{StaticResource PhoneTextLargeStyle}"
                                    Margin="0,10,0,0" />
-                        <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp}" />
+                        <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp}"
+                                   Style="{StaticResource PhoneTextSubtleStyle}" />
                         <TextBlock Text="Last news item post date"
+                                   Style="{StaticResource PhoneTextLargeStyle}"
                                    Margin="0,10,0,0" />
-                        <TextBlock Text="{Binding SelectedFeed.LastBuildDate}" />
+                        <TextBlock Text="{Binding SelectedFeed.LastBuildDate}"
+                                   Style="{StaticResource PhoneTextSubtleStyle}" />
                         <TextBlock Text="Website link"
+                                   Style="{StaticResource PhoneTextLargeStyle}"
                                    Margin="0,10,0,0" />
-                        <HyperlinkButton Content="{Binding SelectedFeed.Link}"
-                                         NavigateUri="{Binding SelectedFeed.Link}"
-                                         Margin="0,10,0,0" />
+                        <TextBlock Text="{Binding SelectedFeed.Link}"
+                                   Tap="TextBlock_Tap"
+                                   Style="{StaticResource PhoneTextSubtleStyle}" />
                         <TextBlock Text="Link to RSS Feed URL"
+                                   Style="{StaticResource PhoneTextLargeStyle}"
                                    Margin="0,10,0,0" />
-                        <HyperlinkButton Content="{Binding SelectedFeed.RssUrl}"
-                                         NavigateUri="{Binding SelectedFeed.RssUrl}"
-                                         Margin="0,10,0,0" />
+                        <TextBlock Text="{Binding SelectedFeed.RssUrl}"
+                                   Tap="TextBlock_Tap"
+                                   Style="{StaticResource PhoneTextSubtleStyle}" />
                     </StackPanel>
                 </Grid>
             </controls:PivotItem>

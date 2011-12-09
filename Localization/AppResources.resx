@@ -152,4 +152,7 @@
     <value>News Feeds</value>
     <comment>Used on the MainView for the Title panel</comment>
   </data>
+  <data name="NoDataCollectedConverterText" xml:space="preserve">
+    <value>*new*</value>
+  </data>
 </root>

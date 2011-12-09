@@ -29,6 +29,7 @@
                                      IsIndeterminate="True"
                                      IsVisible="{Binding Source={StaticResource Locator}, Path=Main.IsBusy}" />
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+            <converters:NoDataCollectedConverter x:Key="NoDataCollectedConverter" />
         </ResourceDictionary>
     </Application.Resources>
     <Application.ApplicationLifetimeObjects>
