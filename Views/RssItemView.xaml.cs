@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
+using RssStarterKit.Localization;
 using RssStarterKit.ViewModels;
 
 namespace RssStarterKit.Views
@@ -12,6 +14,12 @@ namespace RssStarterKit.Views
         public RssItemView()
         {
             InitializeComponent();
+
+            Loaded += (sender, e) =>
+            {
+                ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = AppResources.ItemView_AppBar_Button_Share;
+                ((ApplicationBarIconButton)ApplicationBar.Buttons[1]).Text = AppResources.ItemView_AppBar_Button_VisitWebSite;
+            };
 
             FeedItemContentBrowser.Loaded += (sender, e) =>
             {

@@ -13,10 +13,10 @@
                             Foreground="{StaticResource PhoneForegroundBrush}"
                             SupportedOrientations="Portrait"
                             Orientation="Portrait"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
                             mc:Ignorable="d"
-                            d:DesignHeight="696"
-                            d:DesignWidth="480"
                             shell:SystemTray.IsVisible="True"
+                            shell:SystemTray.ProgressIndicator="{StaticResource SystemProgressIndicator}"
                             DataContext="{Binding Path=Main, Source={StaticResource Locator}}"
                             d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}">
 
@@ -26,7 +26,7 @@
 
         <controls:Pivot Title="{Binding SelectedFeed.Title}">
 
-            <controls:PivotItem Header="news items">
+            <controls:PivotItem Header="{Binding LocalizedResources.FeedView_PivotHeader_NewsItems, Source={StaticResource LocalizedStrings}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -36,19 +36,22 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Last updated: "
+                    <TextBlock Text="{Binding LocalizedResources.FeedView_LastUpdated, Source={StaticResource LocalizedStrings}}"
                                Grid.Row="0"
-                               Grid.Column="0" FontSize="{StaticResource PhoneFontSizeSmall}" />
+                               Grid.Column="0"
+                               FontSize="{StaticResource PhoneFontSizeSmall}" />
                     <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp}"
                                Grid.Row="0"
-                               Grid.Column="1" FontSize="{StaticResource PhoneFontSizeSmall}" />
+                               Grid.Column="1"
+                               FontSize="{StaticResource PhoneFontSizeSmall}" />
                     <ListBox x:Name="SingleFeedListBox"
                              Grid.Row="1"
                              Grid.Column="0"
                              Grid.ColumnSpan="2"
                              SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                              ItemsSource="{Binding SelectedFeed.Items}"
-                             ItemTemplate="{StaticResource SingleFeedListBoxItemTemplate}" Margin="0,11,0,0">
+                             ItemTemplate="{StaticResource SingleFeedListBoxItemTemplate}"
+                             Margin="0,11,0,0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Tap">
                                 <ec:NavigateToPageAction TargetPage="/Views/RssItemView.xaml" />
@@ -58,27 +61,31 @@
                 </Grid>
             </controls:PivotItem>
 
-            <controls:PivotItem Header="feed info">
+            <controls:PivotItem Header="{Binding LocalizedResources.FeedView_PivotHeader_FeedInfo, Source={StaticResource LocalizedStrings}}">
                 <Grid>
                     <StackPanel Grid.Row="0">
-                        <TextBlock Text="Description"
+                        <TextBlock Text="Feed Description"
                                    Margin="0,10,0,0" />
                         <TextBlock Text="{Binding SelectedFeed.Description}" />
                         <TextBlock Text="ImageUrl"
                                    Margin="0,10,0,0" />
                         <TextBlock Text="{Binding SelectedFeed.ImageUrl}" />
-                        <TextBlock Text="RefreshTimeStamp"
+                        <TextBlock Text="Last refresh time"
                                    Margin="0,10,0,0" />
                         <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp}" />
-                        <TextBlock Text="LastBuildDate"
+                        <TextBlock Text="Last news item post date"
                                    Margin="0,10,0,0" />
                         <TextBlock Text="{Binding SelectedFeed.LastBuildDate}" />
-                        <TextBlock Text="Link"
+                        <TextBlock Text="Website link"
                                    Margin="0,10,0,0" />
-                        <TextBlock Text="{Binding SelectedFeed.Link}" />
-                        <TextBlock Text="RssUrl"
+                        <HyperlinkButton Content="{Binding SelectedFeed.Link}"
+                                         NavigateUri="{Binding SelectedFeed.Link}"
+                                         Margin="0,10,0,0" />
+                        <TextBlock Text="Link to RSS Feed URL"
                                    Margin="0,10,0,0" />
-                        <TextBlock Text="{Binding SelectedFeed.RssUrl}" />
+                        <HyperlinkButton Content="{Binding SelectedFeed.RssUrl}"
+                                         NavigateUri="{Binding SelectedFeed.RssUrl}"
+                                         Margin="0,10,0,0" />
                     </StackPanel>
                 </Grid>
             </controls:PivotItem>
@@ -86,13 +93,15 @@
 
     </Grid>
 
+    <!-- note: the default ApplicationBar does not currently
+               support data binding, so we do that in the codebehind -->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True"
                               IsMenuEnabled="False">
             <shell:ApplicationBarIconButton IconUri="/icons/appbar.refresh.rest.png"
                                             x:Name="RefreshButton"
                                             Click="RefreshButton_Click"
-                                            Text="Refresh List" />
+                                            Text="refresh" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

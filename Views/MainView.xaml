@@ -9,35 +9,15 @@
                             x:Class="RssStarterKit.Views.MainView"
                             SupportedOrientations="Portrait"
                             Orientation="Portrait"
+                            FontFamily="{StaticResource PhoneFontFamilyNormal}"
+                            FontSize="{StaticResource PhoneFontSizeNormal}"
+                            Foreground="{StaticResource PhoneForegroundBrush}"
                             mc:Ignorable="d"
-                            d:DesignHeight="696"
-                            d:DesignWidth="480"
                             shell:SystemTray.IsVisible="True"
+                            shell:SystemTray.ProgressIndicator="{StaticResource SystemProgressIndicator}"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
+                            DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
                             d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}">
-
-    <phone:PhoneApplicationPage.DataContext>
-        <Binding Path="Main"
-                 Source="{StaticResource Locator}" />
-    </phone:PhoneApplicationPage.DataContext>
-    <phone:PhoneApplicationPage.FontFamily>
-        <StaticResource ResourceKey="PhoneFontFamilyNormal" />
-    </phone:PhoneApplicationPage.FontFamily>
-    <phone:PhoneApplicationPage.FontSize>
-        <StaticResource ResourceKey="PhoneFontSizeNormal" />
-    </phone:PhoneApplicationPage.FontSize>
-    <phone:PhoneApplicationPage.Foreground>
-        <StaticResource ResourceKey="PhoneForegroundBrush" />
-    </phone:PhoneApplicationPage.Foreground>
-
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Minimized">
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="About"
-                                              x:Name="AboutMenuItem"
-                                              Click="AboutMenuItem_Click" />
-            </shell:ApplicationBar.MenuItems>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot"
@@ -55,7 +35,7 @@
                        Text="{Binding Title}"
                        Style="{StaticResource PhoneTextNormalStyle}" />
             <TextBlock x:Name="PageTitle"
-                       Text="News Feeds"
+                       Text="{Binding LocalizedResources.Main_Title, Source={StaticResource LocalizedStrings}}"
                        Margin="9,-7,0,0"
                        Style="{StaticResource PhoneTextTitle1Style}" />
         </StackPanel>
@@ -76,5 +56,17 @@
             </ListBox>
         </Grid>
     </Grid>
+
+    <!-- note: the default ApplicationBar does not currently
+               support data binding, so we do that in the codebehind -->
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Mode="Minimized">
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="about"
+                                              x:Name="AboutMenuItem"
+                                              Click="AboutMenuItem_Click" />
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>

@@ -10,21 +10,26 @@
              xmlns:config="clr-namespace:RssStarterKit.Configuration"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:ux="clr-namespace:System.Windows.Media;assembly=System.Windows"
+             xmlns:converters="clr-namespace:RssStarterKit.Converters"
+             xmlns:localization="clr-namespace:RssStarterKit.Localization"
              mc:Ignorable="d">
     <!--Application Resources-->
     <Application.Resources>
-    	<ResourceDictionary>
-    		<ResourceDictionary.MergedDictionaries>
-    			<ResourceDictionary Source="Views/ThemeDictionary.xaml"/>
-    		</ResourceDictionary.MergedDictionaries>
-    		<vm:ViewModelLocator x:Key="Locator" />
-    		<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"
-    			x:Key="ThemeForgroundBrush" />
-    		<SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"
-    			x:Key="ThemeBackgroundBrush" />
-
-    	</ResourceDictionary>
-
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Views/ThemeDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <localization:Localization x:Name="LocalizedStrings" />
+            <vm:ViewModelLocator x:Key="Locator" />
+            <SolidColorBrush Color="{StaticResource PhoneForegroundColor}"
+                             x:Key="ThemeForgroundBrush" />
+            <SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"
+                             x:Key="ThemeBackgroundBrush" />
+            <shell:ProgressIndicator x:Name="SystemProgressIndicator"
+                                     IsIndeterminate="True"
+                                     IsVisible="{Binding Source={StaticResource Locator}, Path=Main.IsBusy}" />
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
     </Application.Resources>
     <Application.ApplicationLifetimeObjects>
         <!--Required object that handles lifetime events for the application-->

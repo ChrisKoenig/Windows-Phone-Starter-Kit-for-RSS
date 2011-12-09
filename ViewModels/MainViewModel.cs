@@ -20,7 +20,7 @@ namespace RssStarterKit.ViewModels
     {
         private RssItem _SelectedItem;
         private const string ISO_STORE_FILE = "settings.json";
-        private bool _IsBusy;
+        private bool _IsBusy = false;
         private RssFeed _SelectedFeed;
         private string _Title;
         private ObservableCollection<RssFeed> _Feeds;
@@ -64,8 +64,8 @@ namespace RssStarterKit.ViewModels
                 if (_SelectedFeed == value)
                     return;
                 _SelectedFeed = value;
-                RaisePropertyChanged(() => SelectedFeed);
                 LoadSelectedFeed();
+                RaisePropertyChanged(() => SelectedFeed);
             }
         }
 
@@ -104,38 +104,27 @@ namespace RssStarterKit.ViewModels
                 return;
 
             IsBusy = true;
-            var json = IsoHelper.LoadIsoString(ISO_STORE_FILE);
-            if (json != null)
+            string data = IsoHelper.LoadIsoString(ISO_STORE_FILE);
+            if (data == null)
             {
-                settings = JsonConvert.DeserializeObject<Settings>(json);
+                var uri = new Uri("Settings.json", UriKind.Relative);
+                var sri = Application.GetResourceStream(uri);
+                using (var reader = new StreamReader(sri.Stream))
+                    data = reader.ReadToEnd();
             }
-            else
-            {
-                LoadSettingsFile();
-            }
-
+            settings = JsonConvert.DeserializeObject<Settings>(data);
             Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
             Title = settings.Title;
             IsBusy = false;
         }
 
-        private void LoadSettingsFile()
-        {
-            var uri = new Uri("Settings.json", UriKind.Relative);
-            var sri = Application.GetResourceStream(uri);
-            using (var reader = new StreamReader(sri.Stream))
-            {
-                var json = reader.ReadToEnd();
-                settings = JsonConvert.DeserializeObject<Settings>(json);
-            }
-        }
-
         public void SaveState()
         {
-            IsBusy = true;
-            var json = JsonConvert.SerializeObject(settings);
-            IsoHelper.SaveIsoString(ISO_STORE_FILE, json);
-            IsBusy = false;
+            System.Threading.ThreadPool.QueueUserWorkItem((cb) =>
+            {
+                var json = JsonConvert.SerializeObject(settings);
+                IsoHelper.SaveIsoString(ISO_STORE_FILE, json);
+            });
         }
 
         internal string BuildHtmlForSelectedItem()
@@ -168,6 +157,7 @@ namespace RssStarterKit.ViewModels
 
         public void RefreshSelectedFeed()
         {
+            IsBusy = true;
             var request = HttpWebRequest.CreateHttp(SelectedFeed.RssUrl) as HttpWebRequest;
             request.BeginGetResponse((token) =>
             {
@@ -193,6 +183,7 @@ namespace RssStarterKit.ViewModels
                     SelectedFeed.Items = new ObservableCollection<RssItem>(items);
                     SelectedFeed.LastBuildDate = ParseRssDateTime(channel.Element("lastBuildDate").Value);
                     SelectedFeed.RefreshTimeStamp = DateTime.Now;
+                    IsBusy = false;
                 });
 
                 // cache back to IsolatedStorage
@@ -202,8 +193,7 @@ namespace RssStarterKit.ViewModels
 
         private DateTime ParseRssDateTime(string s)
         {
-            // date comes in like this: Tue, 06 Dec 2011 20:01:47 GMT
-            // date also comes in like this: Mon, 05 Dec 2011 13:52:05 +0000
+            // date comes in like "Tue, 06 Dec 2011 20:01:47 GMT" or like "Mon, 05 Dec 2011 13:52:05 +0000"
             DateTime date;
             if (DateTime.TryParse(s, out date))
                 return date;
@@ -211,7 +201,7 @@ namespace RssStarterKit.ViewModels
                 return DateTime.Now;
         }
 
-        internal void ShareCurrentFeedItem()
+        public void ShareCurrentFeedItem()
         {
             const string format = "{0} (via {1})";
             var task = new ShareLinkTask()
