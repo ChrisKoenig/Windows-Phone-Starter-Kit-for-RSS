@@ -141,11 +141,14 @@
     <value>visit website</value>
     <comment>visit website button on the RssItemView page</comment>
   </data>
+  <data name="MainView_About_Title" xml:space="preserve">
+    <value>About RssStarterKit</value>
+  </data>
   <data name="MainView_AppBar_Menu_About" xml:space="preserve">
     <value>about</value>
     <comment>about menu on the RssFeedView Application Bar</comment>
   </data>
-  <data name="Main_Title" xml:space="preserve">
+  <data name="MainView_Title" xml:space="preserve">
     <value>News Feeds</value>
     <comment>Used on the MainView for the Title panel</comment>
   </data>

@@ -20,6 +20,20 @@ namespace RssStarterKit.Views
 
         private void AboutMenuItem_Click(object sender, EventArgs e)
         {
+            AboutBox.IsOpen = true;
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            if (AboutBox.IsOpen)
+            {
+                AboutBox.IsOpen = false;
+                e.Cancel = true;
+            }
+            else
+            {
+                base.OnBackKeyPress(e);
+            }
         }
     }
 }

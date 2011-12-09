@@ -24,19 +24,20 @@
     <Grid x:Name="LayoutRoot"
           Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"
+                           MinHeight="380" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel"
                     Grid.Row="0"
-                    Margin="12,17,0,28">
+                    Margin="12,17,0,8">
             <TextBlock x:Name="ApplicationTitle"
                        Text="{Binding Title}"
                        Style="{StaticResource PhoneTextNormalStyle}" />
             <TextBlock x:Name="PageTitle"
-                       Text="{Binding LocalizedResources.Main_Title, Source={StaticResource LocalizedStrings}}"
+                       Text="{Binding LocalizedResources.MainView_Title, Source={StaticResource LocalizedStrings}}"
                        Margin="9,-7,0,0"
                        Style="{StaticResource PhoneTextTitle1Style}" />
         </StackPanel>
@@ -56,6 +57,27 @@
                 </i:Interaction.Triggers>
             </ListBox>
         </Grid>
+
+        <Popup x:Name="AboutBox"
+               IsOpen="False">
+            <Grid Width="400"
+                  Height="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding LocalizedResources.MainView_About_Title, Source={StaticResource LocalizedStrings}}"
+                           Style="{StaticResource PhoneTextTitle2Style}"
+                           Grid.Row="0"
+                           Margin="10,10,10,17" />
+                <TextBlock Text="Enter your comments here in the language of your choice."
+                           Grid.Row="1"
+                           Margin="24,0 "
+                           Style="{StaticResource PhoneTextSubtleStyle}"
+                           TextWrapping="Wrap" />
+            </Grid>
+        </Popup>
+
     </Grid>
 
     <!-- note: the default ApplicationBar does not currently

@@ -115,11 +115,11 @@ namespace RssStarterKit.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to News Feeds.
+        ///   Looks up a localized string similar to About RssStarterKit.
         /// </summary>
-        public static string Main_Title {
+        public static string MainView_About_Title {
             get {
-                return ResourceManager.GetString("Main_Title", resourceCulture);
+                return ResourceManager.GetString("MainView_About_Title", resourceCulture);
             }
         }
         
@@ -129,6 +129,15 @@ namespace RssStarterKit.Localization {
         public static string MainView_AppBar_Menu_About {
             get {
                 return ResourceManager.GetString("MainView_AppBar_Menu_About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to News Feeds.
+        /// </summary>
+        public static string MainView_Title {
+            get {
+                return ResourceManager.GetString("MainView_Title", resourceCulture);
             }
         }
     }
