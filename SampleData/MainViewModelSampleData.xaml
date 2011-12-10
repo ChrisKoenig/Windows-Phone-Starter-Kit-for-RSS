@@ -1,6 +1,6 @@
 ﻿<RssStarterKit_ViewModels:MainViewModel xmlns:RssStarterKit_ViewModels="clr-namespace:RssStarterKit.ViewModels" xmlns:RssStarterKit_Models="clr-namespace:RssStarterKit.Models" IsInDesignMode="False" IsInDesignModeStatic="True" IsBusy="True" Title="Sed cras platea">
 	<RssStarterKit_ViewModels:MainViewModel.Feeds>
-		<RssStarterKit_Models:RssFeed Description="Cras maecenas" ImageUrl="Praesent accumsan bibendum class" Link="Dignissim dolor sed" RssUrl="Habitant sem inceptos" Title="Elementum sit" SubTitle="Aliquam aenean">
+		<RssStarterKit_Models:RssFeed Description="Cras maecenas" ImageUri="Praesent accumsan bibendum class" Link="Dignissim dolor sed" RssUrl="Habitant sem inceptos" Title="Elementum sit" SubTitle="Aliquam aenean" FeedType="RSS">
 			<RssStarterKit_Models:RssFeed.Items>
 				<RssStarterKit_Models:RssItem Description="Vestibulum duis nunc adipiscing" Guid="Amet parturient dictumst nam" Link="Curae aliquam donec eleifend" PublishDate="12/05/2011 17:26:32" Title="Sed facilisi vestibulum"/>
 				<RssStarterKit_Models:RssItem Description="Aenean etiam mauris dis vestibulum" Guid="Curabitur ante" Link="Est adipiscing" PublishDate="12/05/2011 17:26:32" Title="Parturient integer vestibulum quisque vestibulum"/>
@@ -9,7 +9,7 @@
 				<RssStarterKit_Models:RssItem Description="Nec arcu" Guid="Parturient cubilia vestibulum diam" Link="Non proin vestibulum augue per" PublishDate="12/05/2011 17:26:32" Title="Dapibus eget adipiscing"/>
 			</RssStarterKit_Models:RssFeed.Items>
 		</RssStarterKit_Models:RssFeed>
-		<RssStarterKit_Models:RssFeed Description="Egestas vel fames euismod parturient" ImageUrl="Elit interdum felis dictum facilisis" Link="Netus nulla" RssUrl="Malesuada mauris vehicula" Title="Penatibus vel quis volutpat parturient" SubTitle="Mauris nam">
+		<RssStarterKit_Models:RssFeed Description="Egestas vel fames euismod parturient" ImageUri="Elit interdum felis dictum facilisis" Link="Netus nulla" RssUrl="Malesuada mauris vehicula" Title="Penatibus vel quis volutpat parturient" SubTitle="Mauris nam" FeedType="RSS">
 			<RssStarterKit_Models:RssFeed.Items>
 				<RssStarterKit_Models:RssItem Description="Vestibulum lobortis" Guid="Vestibulum ipsum" Link="Nam fermentum lectus nascetur sed" PublishDate="12/05/2011 17:26:32" Title="Dis est enim adipiscing fringilla"/>
 				<RssStarterKit_Models:RssItem Description="Erat habitasse parturient hac" Guid="Eros vestibulum pharetra vestibulum leo" Link="Adipiscing placerat hendrerit justo" PublishDate="12/05/2011 17:26:32" Title="Libero lacus himenaeos feugiat pulvinar"/>
@@ -18,7 +18,7 @@
 				<RssStarterKit_Models:RssItem Description="Pede magnis" Guid="Morbi neque suscipit" Link="Quam torquent ultrices" PublishDate="12/05/2011 17:26:32" Title="Potenti vestibulum adipiscing imperdiet mattis"/>
 			</RssStarterKit_Models:RssFeed.Items>
 		</RssStarterKit_Models:RssFeed>
-		<RssStarterKit_Models:RssFeed Description="Pretium mollis nam" ImageUrl="Montes vestibulum sed vestibulum adipiscing" Link="Etiam nam" RssUrl="Fermentum sapien fusce blandit" Title="Semper commodo" SubTitle="Maecenas integer class praesent">
+		<RssStarterKit_Models:RssFeed Description="Pretium mollis nam" ImageUri="Montes vestibulum sed vestibulum adipiscing" Link="Etiam nam" RssUrl="Fermentum sapien fusce blandit" Title="Semper commodo" SubTitle="Maecenas integer class praesent" FeedType="RSS">
 			<RssStarterKit_Models:RssFeed.Items>
 				<RssStarterKit_Models:RssItem Description="Maecenas dis porttitor" Guid="Nostra porta tincidunt" Link="Est ornare purus praesent" PublishDate="12/05/2011 17:26:32" Title="Risus accumsan tristique hac bibendum"/>
 				<RssStarterKit_Models:RssItem Description="Dictumst ultricies velit" Guid="Urna cras rhoncus" Link="Venenatis parturient vitae sodales" PublishDate="12/05/2011 17:26:32" Title="Viverra eleifend vulputate aliquam curabitur"/>
@@ -27,7 +27,7 @@
 				<RssStarterKit_Models:RssItem Description="Nascetur sed" Guid="Nunc parturient aliquet" Link="Sem pharetra sit elementum facilisis" PublishDate="12/05/2011 17:26:32" Title="Vestibulum vel vestibulum"/>
 			</RssStarterKit_Models:RssFeed.Items>
 		</RssStarterKit_Models:RssFeed>
-		<RssStarterKit_Models:RssFeed Description="Sociis amet sed dis est" ImageUrl="Adipiscing fringilla habitasse placerat lorem" Link="Mauris vulputate hac" RssUrl="Volutpat metus" Title="Eros curabitur nullam nibh morbi" SubTitle="Sed quisque dis cras">
+		<RssStarterKit_Models:RssFeed Description="Sociis amet sed dis est" ImageUri="Adipiscing fringilla habitasse placerat lorem" Link="Mauris vulputate hac" RssUrl="Volutpat metus" Title="Eros curabitur nullam nibh morbi" SubTitle="Sed quisque dis cras" FeedType="RSS">
 			<RssStarterKit_Models:RssFeed.Items>
 				<RssStarterKit_Models:RssItem Description="Pulvinar hac parturient" Guid="Morbi leo" Link="Mus nulla vestibulum proin" PublishDate="12/05/2011 17:26:32" Title="Ante hendrerit"/>
 				<RssStarterKit_Models:RssItem Description="Augue sagittis himenaeos taciti" Guid="Senectus tellus imperdiet malesuada penatibus" Link="Sociosqu tempor" PublishDate="12/05/2011 17:26:32" Title="Nec arcu dolor porttitor"/>
@@ -36,7 +36,7 @@
 				<RssStarterKit_Models:RssItem Description="Dis adipiscing torquent erat parturient" Guid="Ultrices vestibulum justo est varius" Link="Dapibus lacus lorem egestas" PublishDate="12/05/2011 17:26:32" Title="Magna massa euismod aenean vehicula"/>
 			</RssStarterKit_Models:RssFeed.Items>
 		</RssStarterKit_Models:RssFeed>
-		<RssStarterKit_Models:RssFeed Description="Phasellus nisi vestibulum" ImageUrl="Aptent consequat nisl nunc" Link="Vestibulum donec himenaeos" RssUrl="Elit posuere enim adipiscing faucibus" Title="Litora parturient luctus dis" SubTitle="Accumsan bibendum duis">
+		<RssStarterKit_Models:RssFeed Description="Phasellus nisi vestibulum" ImageUri="Aptent consequat nisl nunc" Link="Vestibulum donec himenaeos" RssUrl="Elit posuere enim adipiscing faucibus" Title="Litora parturient luctus dis" SubTitle="Accumsan bibendum duis" FeedType="RSS">
 			<RssStarterKit_Models:RssFeed.Items>
 				<RssStarterKit_Models:RssItem Description="Maecenas leo" Guid="Mus neque" Link="Adipiscing convallis" PublishDate="12/05/2011 17:26:32" Title="Dignissim praesent"/>
 				<RssStarterKit_Models:RssItem Description="Elementum parturient nec odio facilisis" Guid="Orci accumsan pede fermentum quam" Link="Quis vestibulum" PublishDate="12/05/2011 17:26:32" Title="Urna auctor non cras netus"/>
@@ -45,7 +45,7 @@
 				<RssStarterKit_Models:RssItem Description="Arcu nam parturient vestibulum" Guid="Diam bibendum laoreet class curae" Link="Sed natoque dictumst" PublishDate="12/05/2011 17:26:32" Title="Eleifend facilisi eget"/>
 			</RssStarterKit_Models:RssFeed.Items>
 		</RssStarterKit_Models:RssFeed>
-		<RssStarterKit_Models:RssFeed Description="Est magnis etiam potenti" ImageUrl="Imperdiet erat eros mattis pretium" Link="Augue dolor blandit" RssUrl="Fames vestibulum" Title="Felis commodo" SubTitle="Curae vivamus dictumst nunc">
+		<RssStarterKit_Models:RssFeed Description="Est magnis etiam potenti" ImageUri="Imperdiet erat eros mattis pretium" Link="Augue dolor blandit" RssUrl="Fames vestibulum" Title="Felis commodo" SubTitle="Curae vivamus dictumst nunc" FeedType="RSS">
 			<RssStarterKit_Models:RssFeed.Items>
 				<RssStarterKit_Models:RssItem Description="Mauris mollis" Guid="Nibh fusce malesuada penatibus" Link="Nisi nisl nunc rhoncus" PublishDate="12/05/2011 17:26:32" Title="Habitant lorem"/>
 				<RssStarterKit_Models:RssItem Description="Vestibulum vestibulum porttitor" Guid="Montes nostra" Link="Sodales tincidunt" PublishDate="12/05/2011 17:26:32" Title="Odio morbi"/>
@@ -54,7 +54,7 @@
 				<RssStarterKit_Models:RssItem Description="Pede rutrum" Guid="Sapien leo" Link="Semper aliquet sociis quam" PublishDate="12/05/2011 17:26:32" Title="Quis curabitur"/>
 			</RssStarterKit_Models:RssFeed.Items>
 		</RssStarterKit_Models:RssFeed>
-		<RssStarterKit_Models:RssFeed Description="Taciti mus urna nec" ImageUrl="Ipsum tellus adipiscing phasellus conubia" Link="Dis cursus fringilla elit adipiscing" RssUrl="Est habitasse volutpat" Title="Maecenas praesent parturient natoque" SubTitle="Aliquam aliquet">
+		<RssStarterKit_Models:RssFeed Description="Taciti mus urna nec" ImageUri="Ipsum tellus adipiscing phasellus conubia" Link="Dis cursus fringilla elit adipiscing" RssUrl="Est habitasse volutpat" Title="Maecenas praesent parturient natoque" SubTitle="Aliquam aliquet" FeedType="RSS">
 			<RssStarterKit_Models:RssFeed.Items>
 				<RssStarterKit_Models:RssItem Description="Consequat justo tempor placerat" Guid="Lacus pulvinar cras" Link="Non lorem magna tempus" PublishDate="12/05/2011 17:26:32" Title="Tortor massa"/>
 				<RssStarterKit_Models:RssItem Description="Parturient per sed" Guid="Turpis sagittis" Link="Cubilia metus morbi" PublishDate="12/05/2011 17:26:32" Title="Dapibus varius aenean"/>
@@ -63,7 +63,7 @@
 				<RssStarterKit_Models:RssItem Description="Arcu vestibulum vestibulum ultrices lacinia" Guid="Aptent vehicula laoreet" Link="Auctor porta fermentum" PublishDate="12/05/2011 17:26:32" Title="Diam congue eget"/>
 			</RssStarterKit_Models:RssFeed.Items>
 		</RssStarterKit_Models:RssFeed>
-		<RssStarterKit_Models:RssFeed Description="Enim purus posuere vestibulum erat" ImageUrl="Eros accumsan" Link="Cras vel nam duis" RssUrl="Habitant sed inceptos" Title="Mattis curabitur interdum phasellus" SubTitle="Donec etiam fusce">
+		<RssStarterKit_Models:RssFeed Description="Enim purus posuere vestibulum erat" ImageUri="Eros accumsan" Link="Cras vel nam duis" RssUrl="Habitant sed inceptos" Title="Mattis curabitur interdum phasellus" SubTitle="Donec etiam fusce" FeedType="RSS">
 			<RssStarterKit_Models:RssFeed.Items>
 				<RssStarterKit_Models:RssItem Description="Bibendum potenti" Guid="Hac hendrerit vestibulum himenaeos" Link="Nibh pretium leo dictum risus" PublishDate="12/05/2011 17:26:32" Title="Adipiscing parturient dictumst vestibulum"/>
 				<RssStarterKit_Models:RssItem Description="Nisi eleifend mus" Guid="Rhoncus lectus" Link="Sodales libero viverra" PublishDate="12/05/2011 17:26:32" Title="Nisl velit imperdiet nec vitae"/>
@@ -72,7 +72,7 @@
 				<RssStarterKit_Models:RssItem Description="Ultricies litora sem venenatis vulputate" Guid="Quis sit" Link="Adipiscing urna etiam" PublishDate="12/05/2011 17:26:32" Title="Luctus parturient magnis"/>
 			</RssStarterKit_Models:RssFeed.Items>
 		</RssStarterKit_Models:RssFeed>
-		<RssStarterKit_Models:RssFeed Description="Nunc amet dis est aliquet" ImageUrl="Blandit consequat" Link="Suscipit feugiat nisi" RssUrl="Rutrum nisl lacus lorem" Title="Nam tristique gravida iaculis" SubTitle="Blandit commodo nullam lorem">
+		<RssStarterKit_Models:RssFeed Description="Nunc amet dis est aliquet" ImageUri="Blandit consequat" Link="Suscipit feugiat nisi" RssUrl="Rutrum nisl lacus lorem" Title="Nam tristique gravida iaculis" SubTitle="Blandit commodo nullam lorem" FeedType="RSS">
 			<RssStarterKit_Models:RssFeed.Items>
 				<RssStarterKit_Models:RssItem Description="Fusce commodo mauris hac" Guid="Ante convallis conubia vestibulum" Link="Arcu dignissim lorem leo morbi" PublishDate="12/05/2011 17:26:32" Title="Cubilia vestibulum elementum"/>
 				<RssStarterKit_Models:RssItem Description="Adipiscing parturient" Guid="Facilisis mollis" Link="Diam mus dapibus lobortis" PublishDate="12/05/2011 17:26:32" Title="Vestibulum fermentum nulla nascetur pharetra"/>
@@ -81,7 +81,7 @@
 				<RssStarterKit_Models:RssItem Description="Vel malesuada adipiscing ornare" Guid="Penatibus euismod platea porttitor" Link="Tincidunt parturient senectus sociosqu" PublishDate="12/05/2011 17:26:32" Title="Primis justo"/>
 			</RssStarterKit_Models:RssFeed.Items>
 		</RssStarterKit_Models:RssFeed>
-		<RssStarterKit_Models:RssFeed Description="Ultricies torquent sapien nunc sed" ImageUrl="Lacinia ultrices" Link="Adipiscing parturient quisque vestibulum" RssUrl="Vestibulum netus" Title="Nulla adipiscing" SubTitle="Conubia aptent eleifend">
+		<RssStarterKit_Models:RssFeed Description="Ultricies torquent sapien nunc sed" ImageUri="Lacinia ultrices" Link="Adipiscing parturient quisque vestibulum" RssUrl="Vestibulum netus" Title="Nulla adipiscing" SubTitle="Conubia aptent eleifend" FeedType="RSS">
 			<RssStarterKit_Models:RssFeed.Items>
 				<RssStarterKit_Models:RssItem Description="Venenatis laoreet" Guid="Vehicula odio orci" Link="Semper natoque" PublishDate="12/05/2011 17:26:32" Title="Posuere vulputate sociis"/>
 				<RssStarterKit_Models:RssItem Description="Magna pede dis" Guid="Taciti quam vestibulum tellus quis" Link="Curabitur phasellus massa potenti consequat" PublishDate="12/05/2011 17:26:32" Title="Est vestibulum"/>
@@ -92,7 +92,7 @@
 		</RssStarterKit_Models:RssFeed>
 	</RssStarterKit_ViewModels:MainViewModel.Feeds>
 	<RssStarterKit_ViewModels:MainViewModel.SelectedFeed>
-		<RssStarterKit_Models:RssFeed Description="Vivamus porta mus nec malesuada" ImageUrl="Aptent habitant aliquam inceptos" Link="Vel himenaeos nam" RssUrl="Aliquam suscipit lacus imperdiet" Title="Torquent orci aliquet" SubTitle="Cubilia morbi facilisi">
+		<RssStarterKit_Models:RssFeed Description="Vivamus porta mus nec malesuada" ImageUri="Aptent habitant aliquam inceptos" Link="Vel himenaeos nam" RssUrl="Aliquam suscipit lacus imperdiet" Title="Torquent orci aliquet" SubTitle="Cubilia morbi facilisi" FeedType="RSS">
 			<RssStarterKit_Models:RssFeed.Items>
 				<RssStarterKit_Models:RssItem Description="Non parturient" Guid="Purus interdum duis risus" Link="Per vestibulum" PublishDate="12/05/2011 17:26:32" Title="Nunc velit vestibulum vitae penatibus"/>
 				<RssStarterKit_Models:RssItem Description="Amet auctor sed ante class" Guid="Porttitor adipiscing curae tincidunt congue" Link="Parturient tristique" PublishDate="12/05/2011 17:26:32" Title="Sem arcu aliquet blandit vestibulum"/>

@@ -12,9 +12,9 @@ using GalaSoft.MvvmLight.Threading;
 using Microsoft.Phone.Tasks;
 using Newtonsoft.Json;
 using RssStarterKit.Configuration;
+using RssStarterKit.Helpers;
 using RssStarterKit.Localization;
 using RssStarterKit.Models;
-using RssStarterKit.Services;
 
 namespace RssStarterKit.ViewModels
 {

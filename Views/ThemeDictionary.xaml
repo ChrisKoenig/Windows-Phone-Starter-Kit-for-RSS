@@ -26,8 +26,7 @@
             <TextBlock Text="{Binding Title}"
                        Grid.Row="0"
                        Grid.Column="1"
-                       FontSize="{StaticResource PhoneFontSizeLarge}"
-                       TextWrapping="Wrap" />
+                       FontSize="{StaticResource PhoneFontSizeMediumLarge}" VerticalAlignment="Center" />
             <TextBlock Text="{Binding RefreshTimeStamp, Converter={StaticResource NoDataCollectedConverter}}"
                        Grid.Row="1"
                        Grid.Column="1"
@@ -43,7 +42,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding Title}"
-                       FontSize="{StaticResource PhoneFontSizeLarge}" />
+                       FontSize="{StaticResource PhoneFontSizeLarge}" TextWrapping="Wrap" />
             <TextBlock HorizontalAlignment="Left"
                        Margin="0,0,0,4"
                        TextWrapping="Wrap"

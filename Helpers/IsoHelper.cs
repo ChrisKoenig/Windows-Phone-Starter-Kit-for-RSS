@@ -2,7 +2,7 @@
 using System.IO;
 using System.IO.IsolatedStorage;
 
-namespace RssStarterKit.Services
+namespace RssStarterKit.Helpers
 {
     public class IsoHelper
     {

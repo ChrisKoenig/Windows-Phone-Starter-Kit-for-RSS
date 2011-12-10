@@ -28,26 +28,27 @@
 
             <controls:PivotItem Header="{Binding LocalizedResources.FeedView_PivotHeader_NewsItems, Source={StaticResource LocalizedStrings}}">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
+					<Grid Grid.Row="0">
+						<Grid.Background>
+							<SolidColorBrush Color="{StaticResource PhoneInactiveColor}"/>
+						</Grid.Background>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
                     <TextBlock Text="{Binding LocalizedResources.FeedView_LastUpdated, Source={StaticResource LocalizedStrings}}"
-                               Grid.Row="0"
                                Grid.Column="0"
-                               FontSize="{StaticResource PhoneFontSizeSmall}" />
+                               FontSize="{StaticResource PhoneFontSizeSmall}" Margin="8,4,0,4" />
                     <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp}"
-                               Grid.Row="0"
                                Grid.Column="1"
-                               FontSize="{StaticResource PhoneFontSizeSmall}" />
+                               FontSize="{StaticResource PhoneFontSizeSmall}" Margin="0,4,8,4" />
+					</Grid>
                     <ListBox x:Name="SingleFeedListBox"
                              Grid.Row="1"
-                             Grid.Column="0"
-                             Grid.ColumnSpan="2"
                              SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                              ItemsSource="{Binding SelectedFeed.Items}"
                              ItemTemplate="{StaticResource SingleFeedListBoxItemTemplate}"
