@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.ServiceModel.Syndication;
 using System.Windows;
+using System.Xml;
 using System.Xml.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Threading;
@@ -155,50 +158,54 @@ namespace RssStarterKit.ViewModels
             }
         }
 
+        private static string NS_ATOM = "http://www.w3.org/2005/Atom";
+
         public void RefreshSelectedFeed()
         {
             IsBusy = true;
             var request = HttpWebRequest.CreateHttp(SelectedFeed.RssUrl) as HttpWebRequest;
             request.BeginGetResponse((token) =>
             {
-                var response = request.EndGetResponse(token) as HttpWebResponse;
-                var stream = response.GetResponseStream();
-                var doc = XDocument.Load(stream);
-                var channel = doc.Root.Element("channel");
-                var items = from item in doc.Descendants("item")
-                            select new RssItem()
-                            {
-                                Title = item.Element("title").Value,
-                                Link = item.Element("link").Value,
-                                Description = item.Element("description").Value,
-                                PublishDate = ParseRssDateTime(item.Element("pubDate").Value),
-                            };
-                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                SyndicationFeed feed;
+                using (var response = request.EndGetResponse(token) as HttpWebResponse)
+                using (var stream = response.GetResponseStream())
+                using (var reader = XmlReader.Create(stream))
                 {
-                    SelectedFeed.Title = channel.Element("title").Value;
-                    SelectedFeed.Link = channel.Element("link").Value;
-                    SelectedFeed.Description = channel.Element("description").Value;
-                    if (channel.Element("image") != null && channel.Element("image").Element("url") != null)
-                        SelectedFeed.ImageUrl = channel.Element("image").Element("url").Value;
-                    SelectedFeed.Items = new ObservableCollection<RssItem>(items);
-                    SelectedFeed.LastBuildDate = ParseRssDateTime(channel.Element("lastBuildDate").Value);
-                    SelectedFeed.RefreshTimeStamp = DateTime.Now;
-                    IsBusy = false;
-                });
+                    feed = SyndicationFeed.Load(reader);
+                    var items = feed.Items.Select(item => new RssItem()
+                    {
+                        Title = item.Title.Text,
+                        Link = item.Links.FirstOrDefault().Uri.AbsoluteUri,
+                        Description = item.Content.ToSafeString(),
+                        PublishDate = item.PublishDate.LocalDateTime,
+                    });
+                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                    {
+                        // these are simple mappings from the feed to the view object
+                        SelectedFeed.SubTitle = feed.Title.Text;
+                        SelectedFeed.Link = feed.Links.FirstOrDefault().Uri.AbsoluteUri;
+                        SelectedFeed.Description = feed.Description.Text;
+                        SelectedFeed.Items = new ObservableCollection<RssItem>(items);
+                        SelectedFeed.LastBuildDate = feed.LastUpdatedTime.LocalDateTime;
+                        SelectedFeed.RefreshTimeStamp = DateTime.Now;
 
-                // cache back to IsolatedStorage
-                SaveState();
+                        // multiple choice on the ImageUrl
+                        var icon = feed.ElementExtensions.ReadElementExtensions<string>("icon", NS_ATOM).FirstOrDefault();
+                        if (icon != null)
+                        {
+                            SelectedFeed.ImageUri = new Uri(icon, UriKind.Absolute);
+                        }
+                        else
+                        {
+                            SelectedFeed.ImageUri = new Uri("/Images/RssFeed.png", UriKind.Relative);
+                        }
+
+                        IsBusy = false;
+                    });
+                    // cache back to IsolatedStorage
+                    SaveState();
+                }
             }, null);
-        }
-
-        private DateTime ParseRssDateTime(string s)
-        {
-            // date comes in like "Tue, 06 Dec 2011 20:01:47 GMT" or like "Mon, 05 Dec 2011 13:52:05 +0000"
-            DateTime date;
-            if (DateTime.TryParse(s, out date))
-                return date;
-            else
-                return DateTime.Now;
         }
 
         public void ShareCurrentFeedItem()
@@ -210,6 +217,7 @@ namespace RssStarterKit.ViewModels
                 Title = SelectedItem.Title,
                 Message = String.Format(format, SelectedItem.Title, settings.Title)
             };
+
             task.Show();
         }
 

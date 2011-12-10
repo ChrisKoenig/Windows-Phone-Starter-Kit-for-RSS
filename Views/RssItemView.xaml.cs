@@ -18,7 +18,7 @@ namespace RssStarterKit.Views
             Loaded += (sender, e) =>
             {
                 ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = AppResources.ItemView_AppBar_Button_Share;
-                ((ApplicationBarIconButton)ApplicationBar.Buttons[1]).Text = AppResources.ItemView_AppBar_Button_VisitWebSite;
+                ((ApplicationBarIconButton)ApplicationBar.Buttons[1]).Text = AppResources.ItemView_AppBar_Button_Open;
             };
 
             FeedItemContentBrowser.Loaded += (sender, e) =>

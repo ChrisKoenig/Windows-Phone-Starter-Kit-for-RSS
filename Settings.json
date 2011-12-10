@@ -1,5 +1,5 @@
 ﻿{
-	"Title":"My Awesome App",
+	"Title":"RssStarterKit Application",
 	"RefreshIntervalInMinutes":30,
 	"Theme":
 	{
@@ -8,6 +8,15 @@
 	},
 	"RssFeeds":
 	[
+		{
+			"Title":"Deviant Art",
+			"RssUrl":"http://backend.deviantart.com/rss.xml?q=boost%3Apopular+meta%3Aall+max_age%3A8h&type=deviation",
+			"RefreshTimeStamp":null,
+			"Link":null,
+			"Description":null,
+			"ImageUrl":null,
+			"Items":null
+		},
 		{
 			"Title":"Chris Koenig",
 			"RssUrl":"http://feeds.feedburner.com/chriskoenig",

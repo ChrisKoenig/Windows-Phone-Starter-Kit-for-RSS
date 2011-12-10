@@ -133,16 +133,17 @@
     <value>news items</value>
     <comment>Used on the RssFeedView for the primary panorama item title</comment>
   </data>
+  <data name="ItemView_AppBar_Button_Open" xml:space="preserve">
+    <value>open</value>
+    <comment>open website button on the RssItemView page</comment>
+  </data>
   <data name="ItemView_AppBar_Button_Share" xml:space="preserve">
     <value>share</value>
     <comment>share button on the RssItemView page</comment>
   </data>
-  <data name="ItemView_AppBar_Button_VisitWebSite" xml:space="preserve">
-    <value>visit website</value>
-    <comment>visit website button on the RssItemView page</comment>
-  </data>
   <data name="MainView_About_Title" xml:space="preserve">
     <value>About RssStarterKit</value>
+    <comment>about appbar menu on MainView</comment>
   </data>
   <data name="MainView_AppBar_Menu_About" xml:space="preserve">
     <value>about</value>

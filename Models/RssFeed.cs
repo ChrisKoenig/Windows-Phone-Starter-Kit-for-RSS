@@ -9,13 +9,14 @@ namespace RssStarterKit.Models
     public class RssFeed : ObservableObject
     {
         // Fields...
+        private string _SubTitle;
         private string _Title;
         private string _RssUrl;
         private DateTime? _RefreshTimeStamp;
         private DateTime? _LastBuildDate;
         private string _Link;
         private string _Description;
-        private string _ImageUrl;
+        private Uri _ImageUri;
         private ObservableCollection<RssItem> _Items;
 
         public string Title
@@ -27,6 +28,18 @@ namespace RssStarterKit.Models
                     return;
                 _Title = value;
                 RaisePropertyChanged(() => Title);
+            }
+        }
+
+        public string SubTitle
+        {
+            get { return _SubTitle; }
+            set
+            {
+                if (_SubTitle == value)
+                    return;
+                _SubTitle = value;
+                RaisePropertyChanged(() => SubTitle);
             }
         }
 
@@ -90,15 +103,15 @@ namespace RssStarterKit.Models
             }
         }
 
-        public string ImageUrl
+        public Uri ImageUri
         {
-            get { return _ImageUrl; }
+            get { return _ImageUri; }
             set
             {
-                if (_ImageUrl == value)
+                if (_ImageUri == value)
                     return;
-                _ImageUrl = value;
-                RaisePropertyChanged(() => ImageUrl);
+                _ImageUri = value;
+                RaisePropertyChanged(() => ImageUri);
             }
         }
 

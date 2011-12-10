@@ -26,18 +26,14 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <TextBlock x:Name="ApplicationTitle"
-                   Grid.Row="0"
-                   Margin="12,17,12,17"
-                   Text="{Binding SelectedItem.Title}"
-                   TextWrapping="Wrap"
-                   Style="{StaticResource PhoneTextNormalStyle}"
-                   FontSize="{StaticResource PhoneFontSizeLarge}" />
-
-        <phone:WebBrowser x:Name="FeedItemContentBrowser"
-                          Grid.Row="1"
-                          Margin="12,0,12,0" />
+        <TextBlock Grid.Row="0" x:Name="ApplicationTitle"
+    		Text="{Binding SelectedItem.Title}"
+    		TextWrapping="Wrap"
+    		Style="{StaticResource PhoneTextNormalStyle}"
+    		FontSize="{StaticResource PhoneFontSizeLarge}" Margin="17,12" />
+        <phone:WebBrowser x:Name="FeedItemContentBrowser" Margin="4,4,4,12"
+        	Grid.Row="1"
+                          />
 
     </Grid>
 
@@ -53,7 +49,7 @@
             <shell:ApplicationBarIconButton IconUri="/icons/appbar.upload.rest.png"
                                             x:Name="VisitWebSiteButton"
                                             Click="VisitWebSiteButton_Click"
-                                            Text="visit website" />
+                                            Text="open" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

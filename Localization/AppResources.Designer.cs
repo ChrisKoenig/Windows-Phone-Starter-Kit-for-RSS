@@ -97,20 +97,20 @@ namespace RssStarterKit.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to open.
+        /// </summary>
+        public static string ItemView_AppBar_Button_Open {
+            get {
+                return ResourceManager.GetString("ItemView_AppBar_Button_Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to share.
         /// </summary>
         public static string ItemView_AppBar_Button_Share {
             get {
                 return ResourceManager.GetString("ItemView_AppBar_Button_Share", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to visit website.
-        /// </summary>
-        public static string ItemView_AppBar_Button_VisitWebSite {
-            get {
-                return ResourceManager.GetString("ItemView_AppBar_Button_VisitWebSite", resourceCulture);
             }
         }
         
