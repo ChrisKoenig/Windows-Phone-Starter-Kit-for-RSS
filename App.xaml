@@ -30,6 +30,8 @@
                                      IsVisible="{Binding Source={StaticResource Locator}, Path=Main.IsBusy}" />
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
             <converters:NoDataCollectedConverter x:Key="NoDataCollectedConverter" />
+            <converters:FeedTypeImagePathConverter x:Key="FeedTypeImagePathConverter" />
+            <system:String x:Key="FeedTypeImagePath">/Images/FeedType/</system:String>
         </ResourceDictionary>
     </Application.Resources>
     <Application.ApplicationLifetimeObjects>

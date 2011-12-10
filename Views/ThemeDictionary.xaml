@@ -6,16 +6,33 @@
     <!-- Resource dictionary entries should be defined here. -->
 
     <DataTemplate x:Key="AllFeedsListBoxItemTemplate">
-        <Grid Margin="0,0,0,15">
+        <Grid Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <Image Source="{Binding FeedType, Converter={StaticResource FeedTypeImagePathConverter}, ConverterParameter={StaticResource FeedTypeImagePath}}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Width="72"
+                   Height="72"
+                   Grid.Column="0"
+                   Grid.RowSpan="2"
+                   Margin="4,4,14,4" />
             <TextBlock Text="{Binding Title}"
-                       FontSize="{StaticResource PhoneFontSizeLarge}" />
+                       Grid.Row="0"
+                       Grid.Column="1"
+                       FontSize="{StaticResource PhoneFontSizeLarge}"
+                       TextWrapping="Wrap" />
             <TextBlock Text="{Binding RefreshTimeStamp, Converter={StaticResource NoDataCollectedConverter}}"
+                       Grid.Row="1"
+                       Grid.Column="1"
                        Style="{StaticResource PhoneTextSubtleStyle}"
-                       Grid.Row="1" />
+                       Margin="0" />
         </Grid>
     </DataTemplate>
 

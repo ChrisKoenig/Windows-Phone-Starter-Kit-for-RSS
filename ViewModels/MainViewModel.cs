@@ -12,6 +12,7 @@ using GalaSoft.MvvmLight.Threading;
 using Microsoft.Phone.Tasks;
 using Newtonsoft.Json;
 using RssStarterKit.Configuration;
+using RssStarterKit.Localization;
 using RssStarterKit.Models;
 using RssStarterKit.Services;
 
@@ -148,10 +149,13 @@ namespace RssStarterKit.ViewModels
                 html = reader.ReadToEnd();
 
             // replace bits of the HTML via tokens with data from our settings and selected feed item
+            var content = SelectedItem.Description;
+            if (content.Trim().Length == 0)
+                content = AppResources.ItemView_FeedItemHasNoContent;
             html = html.Replace("{{body.foreground}}", settings.Theme.BodyForeground);
             html = html.Replace("{{body.background}}", settings.Theme.BodyBackground);
             html = html.Replace("{{head.title}}", SelectedItem.Title);
-            html = html.Replace("{{body.content}}", SelectedItem.Description);
+            html = html.Replace("{{body.content}}", content);
 
             return html;
         }
@@ -196,7 +200,7 @@ namespace RssStarterKit.ViewModels
                     {
                         Title = item.Title.Text,
                         Link = item.Links.FirstOrDefault().Uri.AbsoluteUri,
-                        Description = item.Content.ToSafeString(),
+                        Description = item.Summary.Text,
                         PublishDate = item.PublishDate.LocalDateTime,
                     });
 

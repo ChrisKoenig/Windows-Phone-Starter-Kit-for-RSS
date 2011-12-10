@@ -115,6 +115,15 @@ namespace RssStarterKit.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The feed item you selected item has no content. Please visit the website using the button below to read this post..
+        /// </summary>
+        public static string ItemView_FeedItemHasNoContent {
+            get {
+                return ResourceManager.GetString("ItemView_FeedItemHasNoContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About RssStarterKit.
         /// </summary>
         public static string MainView_About_Title {

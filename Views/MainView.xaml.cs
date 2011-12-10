@@ -46,5 +46,10 @@ namespace RssStarterKit.Views
             if (AboutBox.IsOpen)
                 AboutBoxDisappear.Begin();
         }
+
+        private void ResetMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace RssStarterKit.Models
     public class RssFeed : ObservableObject
     {
         // Fields...
+        private string _FeedType;
         private string _SubTitle;
         private string _Title;
         private string _RssUrl;
@@ -40,6 +41,18 @@ namespace RssStarterKit.Models
                     return;
                 _SubTitle = value;
                 RaisePropertyChanged(() => SubTitle);
+            }
+        }
+
+        public string FeedType
+        {
+            get { return _FeedType; }
+            set
+            {
+                if (_FeedType == value)
+                    return;
+                _FeedType = value;
+                RaisePropertyChanged(() => FeedType);
             }
         }
 

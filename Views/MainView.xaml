@@ -117,6 +117,10 @@
                 <shell:ApplicationBarMenuItem Text="about"
                                               x:Name="AboutMenuItem"
                                               Click="AboutMenuItem_Click" />
+                <shell:ApplicationBarMenuItem Text="reset"
+                                              x:Name="ResetMenuItem"
+                                              IsEnabled="False"
+                                              Click="ResetMenuItem_Click" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

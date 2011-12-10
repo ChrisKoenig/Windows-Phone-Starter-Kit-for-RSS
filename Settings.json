@@ -10,30 +10,28 @@
 	[
 		{
 			"Title":"Deviant Art",
+			"FeedType":"RSS",
 			"RssUrl":"http://backend.deviantart.com/rss.xml?q=boost%3Apopular+meta%3Aall+max_age%3A8h&type=deviation",
-			"RefreshTimeStamp":null,
-			"Link":null,
-			"Description":null,
-			"ImageUrl":null,
-			"Items":null
 		},
 		{
 			"Title":"Chris Koenig",
+			"FeedType":"RSS",
 			"RssUrl":"http://feeds.feedburner.com/chriskoenig",
-			"RefreshTimeStamp":null,
-			"Link":null,
-			"Description":null,
-			"ImageUrl":null,
-			"Items":null
+		},
+		{
+			"Title":"Big (D)esign Conference",
+			"FeedType":"RSS",
+			"RssUrl":"http://feeds.feedburner.com/bigdesignevents",
+		},
+		{
+			"Title":"Windows Phone",
+			"FeedType":"ATOM",
+			"RssUrl":"http://feeds.feedburner.com/bigdesignevents",
 		},
 		{
 			"Title":"GiveCamp",
+			"FeedType":"RSS",
 			"RssUrl":"http://feeds.feedburner.com/givecamp",
-			"RefreshTimeStamp":null,
-			"Link":null,
-			"Description":null,
-			"ImageUrl":null,
-			"Items":null
 		}
 	]
 }

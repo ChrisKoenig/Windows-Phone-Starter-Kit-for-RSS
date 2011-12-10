@@ -141,6 +141,10 @@
     <value>share</value>
     <comment>share button on the RssItemView page</comment>
   </data>
+  <data name="ItemView_FeedItemHasNoContent" xml:space="preserve">
+    <value>The feed item you selected item has no content. Please visit the website using the button below to read this post.</value>
+    <comment>Used on the ItemView when the selected feed item has no content</comment>
+  </data>
   <data name="MainView_About_Title" xml:space="preserve">
     <value>About RssStarterKit</value>
     <comment>about appbar menu on MainView</comment>
