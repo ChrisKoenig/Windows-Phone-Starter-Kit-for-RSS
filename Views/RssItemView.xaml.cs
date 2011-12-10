@@ -36,7 +36,10 @@ namespace RssStarterKit.Views
             if (item == null)
                 return;
 
-            var task = new WebBrowserTask() { Uri = new Uri(item.Link, UriKind.Absolute) };
+            var task = new WebBrowserTask()
+            {
+                Uri = new Uri(item.Link, UriKind.Absolute)
+            };
             task.Show();
         }
 

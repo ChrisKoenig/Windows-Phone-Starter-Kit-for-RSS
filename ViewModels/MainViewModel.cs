@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.ServiceModel.Syndication;
 using System.Windows;
 using System.Xml;
-using System.Xml.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Phone.Tasks;
@@ -100,6 +98,9 @@ namespace RssStarterKit.ViewModels
 
         #region Methods
 
+        /// <summary>
+        /// load the settings and all the feed data from isolated storage (json format)
+        /// </summary>
         public void LoadState()
         {
             // don't reload the state if we already have state loaded
@@ -121,6 +122,9 @@ namespace RssStarterKit.ViewModels
             IsBusy = false;
         }
 
+        /// <summary>
+        /// save the settings and all the feed data to isolated storage (json format)
+        /// </summary>
         public void SaveState()
         {
             System.Threading.ThreadPool.QueueUserWorkItem((cb) =>
@@ -130,20 +134,31 @@ namespace RssStarterKit.ViewModels
             });
         }
 
-        internal string BuildHtmlForSelectedItem()
+        /// <summary>
+        /// assemble an html string for the web browser to display the contents of the selected feed item
+        /// </summary>
+        /// <returns></returns>
+        public string BuildHtmlForSelectedItem()
         {
-            var si = Application.GetResourceStream(new Uri("Resources/preview.html", UriKind.Relative));
-            var reader = new StreamReader(si.Stream);
-            var html = reader.ReadToEnd();
+            string html;
+
+            // retrieve the HTML from the included file
+            using (var stream = Application.GetResourceStream(new Uri("Resources/preview.html", UriKind.Relative)).Stream)
+            using (var reader = new StreamReader(stream))
+                html = reader.ReadToEnd();
+
+            // replace bits of the HTML via tokens with data from our settings and selected feed item
             html = html.Replace("{{body.foreground}}", settings.Theme.BodyForeground);
             html = html.Replace("{{body.background}}", settings.Theme.BodyBackground);
             html = html.Replace("{{head.title}}", SelectedItem.Title);
             html = html.Replace("{{body.content}}", SelectedItem.Description);
-            reader.Dispose();
-            si.Stream.Dispose();
+
             return html;
         }
 
+        /// <summary>
+        /// refresh the selected feed from the internet
+        /// </summary>
         private void LoadSelectedFeed()
         {
             if (SelectedFeed.RefreshTimeStamp.HasValue &&
@@ -162,11 +177,16 @@ namespace RssStarterKit.ViewModels
 
         public void RefreshSelectedFeed()
         {
+            // lock the UI
             IsBusy = true;
+
+            // retrieve the feed and it's items from the internet
             var request = HttpWebRequest.CreateHttp(SelectedFeed.RssUrl) as HttpWebRequest;
             request.BeginGetResponse((token) =>
             {
                 SyndicationFeed feed;
+
+                // process the response
                 using (var response = request.EndGetResponse(token) as HttpWebResponse)
                 using (var stream = response.GetResponseStream())
                 using (var reader = XmlReader.Create(stream))
@@ -179,6 +199,8 @@ namespace RssStarterKit.ViewModels
                         Description = item.Content.ToSafeString(),
                         PublishDate = item.PublishDate.LocalDateTime,
                     });
+
+                    // use the dispatcher thread to update properties of the SelectedFeed since it's bound to the UI
                     DispatcherHelper.CheckBeginInvokeOnUI(() =>
                     {
                         // these are simple mappings from the feed to the view object
@@ -189,17 +211,25 @@ namespace RssStarterKit.ViewModels
                         SelectedFeed.LastBuildDate = feed.LastUpdatedTime.LocalDateTime;
                         SelectedFeed.RefreshTimeStamp = DateTime.Now;
 
-                        // multiple choice on the ImageUrl
+                        // choose the best image for the ImageUrl
                         var icon = feed.ElementExtensions.ReadElementExtensions<string>("icon", NS_ATOM).FirstOrDefault();
-                        if (icon != null)
+                        if (icon != null && IsValidFileExtension(icon))
                         {
                             SelectedFeed.ImageUri = new Uri(icon, UriKind.Absolute);
                         }
                         else
                         {
-                            SelectedFeed.ImageUri = new Uri("/Images/RssFeed.png", UriKind.Relative);
+                            if (feed.ImageUrl != null && IsValidFileExtension(feed.ImageUrl.AbsoluteUri))
+                            {
+                                SelectedFeed.ImageUri = feed.ImageUrl;
+                            }
+                            else
+                            {
+                                SelectedFeed.ImageUri = new Uri("/Images/RssFeed.png", UriKind.Relative);
+                            }
                         }
 
+                        // unlock the UI
                         IsBusy = false;
                     });
                     // cache back to IsolatedStorage
@@ -208,6 +238,19 @@ namespace RssStarterKit.ViewModels
             }, null);
         }
 
+        /// <summary>
+        /// only jpg and png images are supposed in windows phone
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private bool IsValidFileExtension(string path)
+        {
+            return path.EndsWith("png") || path.EndsWith("jpg");
+        }
+
+        /// <summary>
+        /// share the current feed via the windows phone social media task
+        /// </summary>
         public void ShareCurrentFeedItem()
         {
             const string format = "{0} (via {1})";

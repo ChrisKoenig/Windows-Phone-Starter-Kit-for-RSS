@@ -154,6 +154,7 @@
     <comment>Used on the MainView for the Title panel</comment>
   </data>
   <data name="NoDataCollectedConverterText" xml:space="preserve">
-    <value>*new*</value>
+    <value>click to load...</value>
+    <comment>Used on the MainView feed list box to indicate that the feed has not been retrieved from the internet yet...</comment>
   </data>
 </root>

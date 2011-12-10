@@ -142,7 +142,7 @@ namespace RssStarterKit.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to *new*.
+        ///   Looks up a localized string similar to click to load....
         /// </summary>
         public static string NoDataCollectedConverterText {
             get {
