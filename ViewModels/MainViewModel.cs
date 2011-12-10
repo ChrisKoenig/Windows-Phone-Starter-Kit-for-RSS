@@ -102,25 +102,44 @@ namespace RssStarterKit.ViewModels
         /// <summary>
         /// load the settings and all the feed data from isolated storage (json format)
         /// </summary>
-        public void LoadState()
+        public void LoadState(bool forceRefresh = false)
         {
+            string data;
+
+            // not sure I should keep this in here...
+            if (forceRefresh)
+            {
+                data = InitializeSettings();
+                settings = JsonConvert.DeserializeObject<Settings>(data);
+                Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
+                Title = settings.Title;
+                return;
+            }
+
             // don't reload the state if we already have state loaded
             if (settings != null)
                 return;
 
             IsBusy = true;
-            string data = IsoHelper.LoadIsoString(ISO_STORE_FILE);
-            if (data == null)
+            data = IsoHelper.LoadIsoString(ISO_STORE_FILE);
+            if (data == null || data.Length == 0)
             {
-                var uri = new Uri("Settings.json", UriKind.Relative);
-                var sri = Application.GetResourceStream(uri);
-                using (var reader = new StreamReader(sri.Stream))
-                    data = reader.ReadToEnd();
+                data = InitializeSettings();
             }
             settings = JsonConvert.DeserializeObject<Settings>(data);
             Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
             Title = settings.Title;
             IsBusy = false;
+        }
+
+        private string InitializeSettings()
+        {
+            string data;
+            var uri = new Uri("Settings.json", UriKind.Relative);
+            var sri = Application.GetResourceStream(uri);
+            using (var reader = new StreamReader(sri.Stream))
+                data = reader.ReadToEnd();
+            return data;
         }
 
         /// <summary>
@@ -269,5 +288,10 @@ namespace RssStarterKit.ViewModels
         }
 
         #endregion Methods
+
+        internal void ResetFeeds()
+        {
+            LoadState(forceRefresh: true);
+        }
     }
 }

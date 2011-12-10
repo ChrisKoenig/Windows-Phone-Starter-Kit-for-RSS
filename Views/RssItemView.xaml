@@ -26,14 +26,16 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" x:Name="ApplicationTitle"
-    		Text="{Binding SelectedItem.Title}"
-    		TextWrapping="Wrap"
-    		Style="{StaticResource PhoneTextNormalStyle}"
-    		FontSize="{StaticResource PhoneFontSizeLarge}" Margin="17,12" />
-        <phone:WebBrowser x:Name="FeedItemContentBrowser" Margin="4,4,4,12"
-        	Grid.Row="1"
-                          />
+        <TextBlock Grid.Row="0"
+                   x:Name="ApplicationTitle"
+                   Text="{Binding SelectedItem.Title}"
+                   TextWrapping="Wrap"
+                   Style="{StaticResource PhoneTextNormalStyle}"
+                   FontSize="{StaticResource PhoneFontSizeLarge}"
+                   Margin="17,12" />
+        <phone:WebBrowser x:Name="FeedItemContentBrowser"
+                          Margin="4,4,4,12"
+                          Grid.Row="1" />
 
     </Grid>
 

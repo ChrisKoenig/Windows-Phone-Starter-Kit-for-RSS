@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using RssStarterKit.Localization;
+using RssStarterKit.ViewModels;
 
 namespace RssStarterKit.Views
 {
@@ -12,10 +13,6 @@ namespace RssStarterKit.Views
         public MainView()
         {
             InitializeComponent();
-            AboutBoxDisappear.Completed += (x, y) =>
-            {
-                AboutBox.IsOpen = false;
-            };
             Loaded += (s, e) =>
             {
                 ((ApplicationBarMenuItem)ApplicationBar.MenuItems[0]).Text = AppResources.MainView_AppBar_Menu_About;
@@ -25,14 +22,13 @@ namespace RssStarterKit.Views
         private void AboutMenuItem_Click(object sender, EventArgs e)
         {
             AboutBox.IsOpen = true;
-            AboutBoxAppear.Begin();
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             if (AboutBox.IsOpen)
             {
-                AboutBoxDisappear.Begin();
+                AboutBox.IsOpen = false;
                 e.Cancel = true;
             }
             else
@@ -43,13 +39,13 @@ namespace RssStarterKit.Views
 
         private void AboutBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (AboutBox.IsOpen)
-                AboutBoxDisappear.Begin();
+            AboutBox.IsOpen = false;
         }
 
         private void ResetMenuItem_Click(object sender, EventArgs e)
         {
-
+            var model = this.DataContext as MainViewModel;
+            model.ResetFeeds();
         }
     }
 }

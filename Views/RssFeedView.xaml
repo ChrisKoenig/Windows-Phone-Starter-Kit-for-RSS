@@ -7,6 +7,7 @@
                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                             xmlns:ec="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+                            xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
                             x:Class="RssStarterKit.Views.RssFeedView"
                             FontFamily="{StaticResource PhoneFontFamilyNormal}"
                             FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -32,23 +33,27 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-					<Grid Grid.Row="0">
-						<Grid.Background>
-							<SolidColorBrush Color="{StaticResource PhoneInactiveColor}"/>
-						</Grid.Background>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding LocalizedResources.FeedView_LastUpdated, Source={StaticResource LocalizedStrings}}"
-                               Grid.Column="0"
-                               FontSize="{StaticResource PhoneFontSizeSmall}" Margin="8,4,0,4" />
-                    <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp}"
-                               Grid.Column="1"
-                               FontSize="{StaticResource PhoneFontSizeSmall}" Margin="0,4,8,4" />
-					</Grid>
+                    <Grid Grid.Row="0"
+                          Margin="-10,0,-9,0">
+                        <Grid.Background>
+                            <SolidColorBrush Color="{StaticResource PhoneInactiveColor}" />
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding LocalizedResources.FeedView_LastUpdated, Source={StaticResource LocalizedStrings}}"
+                                   Grid.Column="0"
+                                   FontSize="{StaticResource PhoneFontSizeSmall}"
+                                   Margin="8,4,0,4" />
+                        <TextBlock Text="{Binding SelectedFeed.RefreshTimeStamp}"
+                                   Grid.Column="1"
+                                   FontSize="{StaticResource PhoneFontSizeSmall}"
+                                   Margin="0,4,8,4" />
+                    </Grid>
                     <ListBox x:Name="SingleFeedListBox"
                              Grid.Row="1"
+                             toolkit:TiltEffect.IsTiltEnabled="True"
                              SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                              ItemsSource="{Binding SelectedFeed.Items}"
                              ItemTemplate="{StaticResource SingleFeedListBoxItemTemplate}"
@@ -132,12 +137,14 @@
                                        Style="{StaticResource PhoneTextLargeStyle}"
                                        Margin="0,10,0,0" />
                             <TextBlock Text="{Binding SelectedFeed.Link}"
+                                       toolkit:TiltEffect.IsTiltEnabled="True"
                                        Tap="TextBlock_Tap"
                                        Style="{StaticResource PhoneTextSubtleStyle}" />
                             <TextBlock Text="Link to RSS Feed URL"
                                        Style="{StaticResource PhoneTextLargeStyle}"
                                        Margin="0,10,0,0" />
                             <TextBlock Text="{Binding SelectedFeed.RssUrl}"
+                                       toolkit:TiltEffect.IsTiltEnabled="True"
                                        Tap="TextBlock_Tap"
                                        Style="{StaticResource PhoneTextSubtleStyle}" />
                         </StackPanel>
