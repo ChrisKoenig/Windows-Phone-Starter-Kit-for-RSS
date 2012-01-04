@@ -15,18 +15,19 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Image Source="{Binding FeedType, Converter={StaticResource FeedTypeImagePathConverter}, ConverterParameter={StaticResource FeedTypeImagePath}}"
+            <Image Source="{Binding ImageUri, Converter={StaticResource ImageNotAvailableConverter}, ConverterParameter={StaticResource FeedTypeImagePath}}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   Width="72"
-                   Height="72"
+                   Width="99"
+                   Height="99"
                    Grid.Column="0"
                    Grid.RowSpan="2"
                    Margin="4,4,14,4" />
             <TextBlock Text="{Binding Title}"
                        Grid.Row="0"
                        Grid.Column="1"
-                       FontSize="{StaticResource PhoneFontSizeMediumLarge}" VerticalAlignment="Center" />
+                       FontSize="{StaticResource PhoneFontSizeLarge}"
+                       VerticalAlignment="Center" />
             <TextBlock Text="{Binding RefreshTimeStamp, Converter={StaticResource NoDataCollectedConverter}}"
                        Grid.Row="1"
                        Grid.Column="1"
@@ -42,7 +43,8 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding Title}"
-                       FontSize="{StaticResource PhoneFontSizeLarge}" TextWrapping="Wrap" />
+                       FontSize="{StaticResource PhoneFontSizeLarge}"
+                       TextWrapping="Wrap" />
             <TextBlock HorizontalAlignment="Left"
                        Margin="0,0,0,4"
                        TextWrapping="Wrap"

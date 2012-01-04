@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Settings xmlns="http://schemas.datacontract.org/2004/07/RssStarterKit.Configuration"
+          xmlns:m="http://schemas.datacontract.org/2004/07/RssStarterKit.Models">
+  <Title>RssStarterKit Application</Title>
+  <Theme>
+    <BodyForeground>White</BodyForeground>
+    <BodyBackground>Black</BodyBackground>
+  </Theme>
+  <RssFeeds>
+    <m:RssFeed>
+      <m:Title>DeviantArt</m:Title>
+      <m:FeedType>RSS</m:FeedType>
+      <m:RssUrl>http://backend.deviantart.com/rss.xml?q=boost%3Apopular+meta%3Aall+max_age%3A8h&amp;type=deviation</m:RssUrl>
+    </m:RssFeed>
+    <m:RssFeed>
+      <m:Title>Chris Koenig</m:Title>
+      <m:FeedType>
+        RSS
+      </m:FeedType>
+      <m:RssUrl>http://feeds.feedburner.com/chriskoenig</m:RssUrl>
+    </m:RssFeed>
+    <m:RssFeed>
+      <m:Title>Big (D)esign Conference"</m:Title>
+      <m:FeedType>RSS</m:FeedType>
+      <m:RssUrl>http://feeds.feedburner.com/bigdesignevents</m:RssUrl>
+    </m:RssFeed>
+    <m:RssFeed>
+      <m:Title>Windows Phone</m:Title>
+      <m:FeedType>ATOM</m:FeedType>
+      <m:RssUrl>http://feeds.feedburner.com/bigdesignevents</m:RssUrl>
+    </m:RssFeed>
+    <m:RssFeed>
+      <m:Title>GIveCamp</m:Title>
+      <m:FeedType>RSS</m:FeedType>
+      <m:RssUrl>http://feeds.feedburner.com/givecamp</m:RssUrl>
+    </m:RssFeed>
+  </RssFeeds>
+</Settings>

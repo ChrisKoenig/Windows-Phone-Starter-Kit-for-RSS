@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
 using System.ServiceModel.Syndication;
 using System.Windows;
 using System.Xml;
+using System.Xml.Serialization;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Phone.Tasks;
-using Newtonsoft.Json;
 using RssStarterKit.Configuration;
 using RssStarterKit.Helpers;
 using RssStarterKit.Localization;
@@ -21,7 +23,7 @@ namespace RssStarterKit.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private RssItem _SelectedItem;
-        private const string ISO_STORE_FILE = "settings.json";
+        private const string ISO_STORE_FILE = "settings.xml";
         private bool _IsBusy = false;
         private RssFeed _SelectedFeed;
         private string _Title;
@@ -100,7 +102,7 @@ namespace RssStarterKit.ViewModels
         #region Methods
 
         /// <summary>
-        /// load the settings and all the feed data from isolated storage (json format)
+        /// load the settings and all the feed data from isolated storage
         /// </summary>
         public void LoadState(bool forceRefresh = false)
         {
@@ -110,7 +112,8 @@ namespace RssStarterKit.ViewModels
             if (forceRefresh)
             {
                 data = InitializeSettings();
-                settings = JsonConvert.DeserializeObject<Settings>(data);
+                //settings = JsonConvert.DeserializeObject<Settings>(data);
+                settings = DeserializeSettings(data);
                 Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
                 Title = settings.Title;
                 return;
@@ -126,16 +129,44 @@ namespace RssStarterKit.ViewModels
             {
                 data = InitializeSettings();
             }
-            settings = JsonConvert.DeserializeObject<Settings>(data);
+            //settings = JsonConvert.DeserializeObject<Settings>(data);
+            settings = DeserializeSettings(data);
             Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
             Title = settings.Title;
             IsBusy = false;
         }
 
+        private Settings DeserializeSettings(string data)
+        {
+            Settings settings;
+            //var ser = new XmlSerializer(typeof(Settings));
+            var ser = new DataContractSerializer(typeof(Settings));
+            using (var sr = new StringReader(data))
+            using (var xr = XmlReader.Create(sr))
+                settings = (Settings)ser.ReadObject(xr);
+            return settings;
+        }
+
+        private string SerializeSettings(Settings settings)
+        {
+            string data;
+            var ser = new DataContractSerializer(typeof(Settings));
+            using (var stream = new MemoryStream())
+            {
+                ser.WriteObject(stream, settings);
+                stream.Position = 0;
+                using (var reader = new StreamReader(stream))
+                {
+                    data = reader.ReadToEnd();
+                }
+            }
+            return data;
+        }
+
         private string InitializeSettings()
         {
             string data;
-            var uri = new Uri("Settings.json", UriKind.Relative);
+            var uri = new Uri(ISO_STORE_FILE, UriKind.Relative);
             var sri = Application.GetResourceStream(uri);
             using (var reader = new StreamReader(sri.Stream))
                 data = reader.ReadToEnd();
@@ -143,14 +174,15 @@ namespace RssStarterKit.ViewModels
         }
 
         /// <summary>
-        /// save the settings and all the feed data to isolated storage (json format)
+        /// save the settings and all the feed data to isolated storage
         /// </summary>
         public void SaveState()
         {
             System.Threading.ThreadPool.QueueUserWorkItem((cb) =>
             {
-                var json = JsonConvert.SerializeObject(settings);
-                IsoHelper.SaveIsoString(ISO_STORE_FILE, json);
+                //var data = JsonConvert.SerializeObject(settings);
+                string data = SerializeSettings(settings);
+                IsoHelper.SaveIsoString(ISO_STORE_FILE, data);
             });
         }
 
@@ -184,6 +216,8 @@ namespace RssStarterKit.ViewModels
         /// </summary>
         private void LoadSelectedFeed()
         {
+            if (SelectedFeed == null)
+                return;
             if (SelectedFeed.RefreshTimeStamp.HasValue &&
                 SelectedFeed.RefreshTimeStamp.Value.AddMinutes(settings.RefreshIntervalInMinutes) < DateTime.Now)
             {
@@ -248,7 +282,7 @@ namespace RssStarterKit.ViewModels
                             }
                             else
                             {
-                                SelectedFeed.ImageUri = new Uri("/Images/RssFeed.png", UriKind.Relative);
+                                SelectedFeed.ImageUri = new Uri("/Images/FeedType/RSS.jpg", UriKind.Relative);
                             }
                         }
 
