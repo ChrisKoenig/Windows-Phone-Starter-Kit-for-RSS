@@ -14,7 +14,13 @@ namespace RssStarterKit.Configuration
 
     public class Settings
     {
+        public Settings()
+        {
+        }
+
         public string Title { get; set; }
+
+        public int Version { get; set; }
 
         public int RefreshIntervalInMinutes { get; set; }
 
@@ -22,8 +28,10 @@ namespace RssStarterKit.Configuration
 
         public ThemeInfo Theme { get; set; }
 
-        public Settings()
-        {
-        }
+        public bool PreviewEnabled { get; set; }
+
+        public RssFeed SelectedFeed { get; set; }
+
+        public RssItem SelectedItem { get; set; }
     }
 }

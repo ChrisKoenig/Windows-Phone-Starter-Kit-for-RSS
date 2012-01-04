@@ -24,8 +24,21 @@ namespace RssStarterKit.Views
             FeedItemContentBrowser.Loaded += (sender, e) =>
             {
                 var model = DataContext as MainViewModel;
-                var html = model.BuildHtmlForSelectedItem();
-                FeedItemContentBrowser.NavigateToString(html);
+                if (model.PreviewEnabled)
+                {
+                    ApplicationTitle.Visibility = System.Windows.Visibility.Visible;
+                    var html = model.BuildHtmlForSelectedItem();
+                    FeedItemContentBrowser.NavigateToString(html);
+                }
+                else
+                {
+                    ApplicationTitle.Visibility = System.Windows.Visibility.Collapsed;
+                    var item = model.SelectedItem;
+                    if (item == null)
+                        return;
+                    var uri = new Uri(item.Link, UriKind.Absolute);
+                    FeedItemContentBrowser.Navigate(uri);
+                }
             };
         }
 

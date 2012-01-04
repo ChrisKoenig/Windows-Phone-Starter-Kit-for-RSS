@@ -9,9 +9,13 @@ namespace RssStarterKit.Helpers
         internal static void SaveIsoString(string filename, string data)
         {
             using (var file = IsolatedStorageFile.GetUserStoreForApplication())
-            using (var stream = file.CreateFile(filename))
-            using (var writer = new StreamWriter(stream))
-                writer.Write(data);
+            {
+                if (file.FileExists(filename))
+                    file.DeleteFile(filename);
+                using (var stream = file.CreateFile(filename))
+                using (var writer = new StreamWriter(stream))
+                    writer.Write(data);
+            }
         }
 
         internal static string LoadIsoString(string filename)

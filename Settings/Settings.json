@@ -1,0 +1,31 @@
+﻿{
+	"Version":1
+	"Title":"RssStarterKit Application",
+	"RefreshIntervalInMinutes":30,
+	"PreviewEnabled":false,
+	"Theme":
+	{
+		"BodyForeground":"White",
+		"BodyBackground":"Black"
+	},
+	"RssFeeds":
+	[
+		{
+			"Title":"Windows Phone Blog",
+			"RssUrl":"http://windowsteamblog.com/windows_phone/b/windowsphone/rss.aspx",
+		},
+		{
+			"Title":"Windows Phone Developer Blog",
+			"RssUrl":"http://windowsteamblog.com/windows_phone/b/wpdev/rss.aspx",
+		},
+		{
+			"Title":"Blogging Windows",
+			"RssUrl":"http://windowsteamblog.com/windows/b/bloggingwindows/rss.aspx",
+		},
+		{
+			"Title":"Chris Koenig",
+			"RssUrl":"http://feeds.feedburner.com/chriskoenig",
+		},
+	
+	]
+}

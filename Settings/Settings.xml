@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Settings xmlns="http://schemas.datacontract.org/2004/07/RssStarterKit.Configuration"
+          xmlns:m="http://schemas.datacontract.org/2004/07/RssStarterKit.Models">
+  <Version>1</Version>
+  <Title>RssStarterKit Application</Title>
+  <RefreshIntervalInMinutes>30</RefreshIntervalInMinutes>
+  <PreviewEnabled>false</PreviewEnabled>
+  <Theme>
+    <BodyForeground>White</BodyForeground>
+    <BodyBackground>Black</BodyBackground>
+  </Theme>
+  <RssFeeds>
+    <m:RssFeed>
+      <m:Title>Windows Phone Blog</m:Title>
+      <m:RssUrl>http://windowsteamblog.com/windows_phone/b/windowsphone/rss.aspx</m:RssUrl>
+    </m:RssFeed>
+    <m:RssFeed>
+      <m:Title>Windows Phone Developer Blog</m:Title>
+      <m:RssUrl>http://windowsteamblog.com/windows_phone/b/wpdev/rss.aspx</m:RssUrl>
+    </m:RssFeed>
+    <m:RssFeed>
+      <m:Title>Blogging Windows</m:Title>
+      <m:RssUrl>http://windowsteamblog.com/windows/b/bloggingwindows/rss.aspx</m:RssUrl>
+    </m:RssFeed>
+    <m:RssFeed>
+      <m:Title>Chris Koenig</m:Title>
+      <m:RssUrl>http://feeds.feedburner.com/chriskoenig</m:RssUrl>
+    </m:RssFeed>
+  </RssFeeds>
+</Settings>

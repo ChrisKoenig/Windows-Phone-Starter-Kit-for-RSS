@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -9,7 +8,6 @@ using System.Runtime.Serialization;
 using System.ServiceModel.Syndication;
 using System.Windows;
 using System.Xml;
-using System.Xml.Serialization;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Phone.Tasks;
@@ -24,17 +22,30 @@ namespace RssStarterKit.ViewModels
     {
         private RssItem _SelectedItem;
         private const string ISO_STORE_FILE = "settings.xml";
-        private bool _IsBusy = false;
+        private bool _IsBusy;
+        private bool _PreviewEnabled;
         private RssFeed _SelectedFeed;
         private string _Title;
         private ObservableCollection<RssFeed> _Feeds;
         Settings settings;
-
-        public MainViewModel()
-        {
-        }
+        private static string NS_ATOM = "http://www.w3.org/2005/Atom";
 
         #region Properties
+
+        public bool PreviewEnabled
+        {
+            get
+            {
+                return _PreviewEnabled;
+            }
+            set
+            {
+                if (_PreviewEnabled == value)
+                    return;
+                _PreviewEnabled = value;
+                RaisePropertyChanged(() => PreviewEnabled);
+            }
+        }
 
         public bool IsBusy
         {
@@ -106,40 +117,60 @@ namespace RssStarterKit.ViewModels
         /// </summary>
         public void LoadState(bool forceRefresh = false)
         {
-            string data;
+            IsBusy = true;
 
             // not sure I should keep this in here...
             if (forceRefresh)
             {
-                data = InitializeSettings();
-                //settings = JsonConvert.DeserializeObject<Settings>(data);
-                settings = DeserializeSettings(data);
-                Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
-                Title = settings.Title;
-                return;
+                settings = GetSettingsFromConfigFile();
+                InitializeProperties();
             }
-
-            // don't reload the state if we already have state loaded
-            if (settings != null)
-                return;
-
-            IsBusy = true;
-            data = IsoHelper.LoadIsoString(ISO_STORE_FILE);
-            if (data == null || data.Length == 0)
+            else
             {
-                data = InitializeSettings();
+                var isoData = IsoHelper.LoadIsoString(ISO_STORE_FILE);
+
+                if (isoData == null || isoData.Length == 0)
+                {
+                    settings = GetSettingsFromConfigFile();
+                    InitializeProperties();
+                }
+                else
+                {
+                    var configSettings = GetSettingsFromConfigFile();
+                    var isoSettings = DeserializeSettings(isoData);
+                    if (isoSettings.Version < configSettings.Version)
+                    {
+                        settings = configSettings;
+                        InitializeProperties();
+                    }
+
+                    else
+                    {
+                        settings = isoSettings;
+                        InitializeProperties();
+                    }
+                }
             }
-            //settings = JsonConvert.DeserializeObject<Settings>(data);
-            settings = DeserializeSettings(data);
-            Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
-            Title = settings.Title;
+
             IsBusy = false;
+        }
+
+        private void InitializeProperties()
+        {
+            Feeds = new ObservableCollection<RssFeed>(settings.RssFeeds);
+            PreviewEnabled = settings.PreviewEnabled;
+            Title = settings.Title;
+            if (settings.SelectedFeed != null)
+                SelectedFeed = settings.SelectedFeed;
+            if (settings.SelectedItem != null)
+                SelectedItem = settings.SelectedItem;
+            SaveState();
         }
 
         private Settings DeserializeSettings(string data)
         {
             Settings settings;
-            //var ser = new XmlSerializer(typeof(Settings));
+            //settings = JsonConvert.DeserializeObject<Settings>(data);
             var ser = new DataContractSerializer(typeof(Settings));
             using (var sr = new StringReader(data))
             using (var xr = XmlReader.Create(sr))
@@ -150,6 +181,7 @@ namespace RssStarterKit.ViewModels
         private string SerializeSettings(Settings settings)
         {
             string data;
+            //var data = JsonConvert.SerializeObject(settings);
             var ser = new DataContractSerializer(typeof(Settings));
             using (var stream = new MemoryStream())
             {
@@ -163,14 +195,14 @@ namespace RssStarterKit.ViewModels
             return data;
         }
 
-        private string InitializeSettings()
+        private Settings GetSettingsFromConfigFile()
         {
             string data;
-            var uri = new Uri(ISO_STORE_FILE, UriKind.Relative);
+            var uri = new Uri("Settings/" + ISO_STORE_FILE, UriKind.Relative);
             var sri = Application.GetResourceStream(uri);
             using (var reader = new StreamReader(sri.Stream))
                 data = reader.ReadToEnd();
-            return data;
+            return DeserializeSettings(data);
         }
 
         /// <summary>
@@ -178,12 +210,10 @@ namespace RssStarterKit.ViewModels
         /// </summary>
         public void SaveState()
         {
-            System.Threading.ThreadPool.QueueUserWorkItem((cb) =>
-            {
-                //var data = JsonConvert.SerializeObject(settings);
-                string data = SerializeSettings(settings);
-                IsoHelper.SaveIsoString(ISO_STORE_FILE, data);
-            });
+            settings.SelectedFeed = SelectedFeed;
+            settings.SelectedItem = SelectedItem;
+            string data = SerializeSettings(settings);
+            IsoHelper.SaveIsoString(ISO_STORE_FILE, data);
         }
 
         /// <summary>
@@ -230,8 +260,10 @@ namespace RssStarterKit.ViewModels
             }
         }
 
-        private static string NS_ATOM = "http://www.w3.org/2005/Atom";
-
+        /// <summary>
+        /// This is the workhorse of the MainViewModel, responsible for retrieving the data from the RSS
+        /// feed and processing it for viewing
+        /// </summary>
         public void RefreshSelectedFeed()
         {
             // lock the UI
@@ -296,7 +328,7 @@ namespace RssStarterKit.ViewModels
         }
 
         /// <summary>
-        /// only jpg and png images are supposed in windows phone
+        /// only jpg and png images are supported in windows phone
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -310,6 +342,8 @@ namespace RssStarterKit.ViewModels
         /// </summary>
         public void ShareCurrentFeedItem()
         {
+            if (SelectedItem == null)
+                return;
             const string format = "{0} (via {1})";
             var task = new ShareLinkTask()
             {
@@ -321,11 +355,12 @@ namespace RssStarterKit.ViewModels
             task.Show();
         }
 
-        #endregion Methods
-
+        // do a "full reset" on all the retrieved feeds
         internal void ResetFeeds()
         {
             LoadState(forceRefresh: true);
         }
+
+        #endregion Methods
     }
 }
