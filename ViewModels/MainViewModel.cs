@@ -28,7 +28,7 @@ namespace RssStarterKit.ViewModels
         private string _Title;
         private ObservableCollection<RssFeed> _Feeds;
         Settings settings;
-        private static string NS_ATOM = "http://www.w3.org/2005/Atom";
+        private readonly static string NS_ATOM = "http://www.w3.org/2005/Atom";
 
         #region Properties
 
@@ -119,7 +119,6 @@ namespace RssStarterKit.ViewModels
         {
             IsBusy = true;
 
-            // not sure I should keep this in here...
             if (forceRefresh)
             {
                 settings = GetSettingsFromConfigFile();
@@ -170,7 +169,6 @@ namespace RssStarterKit.ViewModels
         private Settings DeserializeSettings(string data)
         {
             Settings settings;
-            //settings = JsonConvert.DeserializeObject<Settings>(data);
             var ser = new DataContractSerializer(typeof(Settings));
             using (var sr = new StringReader(data))
             using (var xr = XmlReader.Create(sr))
@@ -181,7 +179,6 @@ namespace RssStarterKit.ViewModels
         private string SerializeSettings(Settings settings)
         {
             string data;
-            //var data = JsonConvert.SerializeObject(settings);
             var ser = new DataContractSerializer(typeof(Settings));
             using (var stream = new MemoryStream())
             {
@@ -321,6 +318,7 @@ namespace RssStarterKit.ViewModels
                         // unlock the UI
                         IsBusy = false;
                     });
+
                     // cache back to IsolatedStorage
                     SaveState();
                 }

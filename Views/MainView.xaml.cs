@@ -44,7 +44,7 @@ namespace RssStarterKit.Views
 
         private void ResetMenuItem_Click(object sender, EventArgs e)
         {
-            var model = this.DataContext as MainViewModel;
+            var model = DataContext as MainViewModel;
             model.ResetFeeds();
         }
     }

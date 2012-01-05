@@ -1,14 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Settings xmlns="http://schemas.datacontract.org/2004/07/RssStarterKit.Configuration"
           xmlns:m="http://schemas.datacontract.org/2004/07/RssStarterKit.Models">
+
+  <!-- Increment this number each time you submit to the marketplace
+       so that the application will update properly-->
   <Version>1</Version>
+
+  <!-- This is the title of the application that shows up on the application pages -->
   <Title>RssStarterKit Application</Title>
-  <RefreshIntervalInMinutes>30</RefreshIntervalInMinutes>
+
+  <!-- This parameter indicates how often a refresh should occur to the content of each of the feeds -->
+  <RefreshIntervalInMinutes>60</RefreshIntervalInMinutes>
+
+  <!-- This setting enables a local preview of the selected feed item - useful if running offline -->
   <PreviewEnabled>false</PreviewEnabled>
+
+  <!--
+  This section describes the theme customization points for colors, etc. for the HTML Preview.
+  Application theme customization is handled via Blend or Visual Studio customization.
+  Colors can be listed by name, or by hex equivalents (e.g. #00FF00 for green)
+  -->
   <Theme>
     <BodyForeground>White</BodyForeground>
     <BodyBackground>Black</BodyBackground>
   </Theme>
+
+  <!--
+  This section contains the separate RSS or ATOM feeds consumed by the application.  Each feed
+  contains the following elements:
+
+    Title - the common title of the feed for display on the page
+    RssUrl - the URL for the rss or atom data feed for the content
+
+  The "m:" markers (called Namespaces in XML) are REQUIRED for the application to function
+  properly. If you want to add more feeds, simply copy an existing one and change the data.
+  -->
   <RssFeeds>
     <m:RssFeed>
       <m:Title>Windows Phone Blog</m:Title>
@@ -27,4 +53,5 @@
       <m:RssUrl>http://feeds.feedburner.com/chriskoenig</m:RssUrl>
     </m:RssFeed>
   </RssFeeds>
+
 </Settings>

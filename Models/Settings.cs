@@ -14,10 +14,6 @@ namespace RssStarterKit.Configuration
 
     public class Settings
     {
-        public Settings()
-        {
-        }
-
         public string Title { get; set; }
 
         public int Version { get; set; }
