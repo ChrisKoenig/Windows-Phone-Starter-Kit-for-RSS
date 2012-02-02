@@ -221,6 +221,9 @@ namespace RssStarterKit.ViewModels
         {
             string html;
 
+            // is your preview window not showing up? Make sure the PreviewEnabled setting
+            // is set to "true" in the Settings.xml configuration file.
+
             // retrieve the HTML from the included file
             using (var stream = Application.GetResourceStream(new Uri("Resources/preview.html", UriKind.Relative)).Stream)
             using (var reader = new StreamReader(stream))

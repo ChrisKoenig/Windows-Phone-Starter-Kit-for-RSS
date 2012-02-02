@@ -12,7 +12,11 @@
   <!-- This parameter indicates how often a refresh should occur to the content of each of the feeds -->
   <RefreshIntervalInMinutes>60</RefreshIntervalInMinutes>
 
-  <!-- This setting enables a local preview of the selected feed item - useful if running offline -->
+  <!--
+  This setting enables a local preview of the selected feed item. This is useful if your
+  application is running offline, without access to the network, and you want to maintain
+  some text to display to the user.
+  -->
   <PreviewEnabled>false</PreviewEnabled>
 
   <!--
@@ -34,6 +38,11 @@
 
   The "m:" markers (called Namespaces in XML) are REQUIRED for the application to function
   properly. If you want to add more feeds, simply copy an existing one and change the data.
+
+  Also - for each of the RSS feeds, you need to ensure that the feed URL is properly encoded. The
+  biggest place this causes errors for folks is the Ampersand character. Isntead of the
+  "default" character, it needs to be encoded as "&amp;".  If you're getting deserialization
+  errors when running the app, chances are this is the cause...
   -->
   <RssFeeds>
     <m:RssFeed>

@@ -1,4 +1,19 @@
 ﻿<!DOCTYPE html>
+<!--
+NOTES TO DEVELOPERS:
+
+This template can be customized to make the preivew window display however you like. There are,
+by default, only 4 "tokens" that are supported for replacement:
+
+{{head.title}} - title of the rss feed item
+{{body.foreground}} - the foreground (text) color for the feed item
+{{body.background}} - the background color for the display window
+{{body.content}} - this is the content of the feed text.
+
+Depending on the feeds you're using, you might want to change the placement of these, but more
+likely you'll want to customize the way the content is manage in the C# code rather than how it's
+displayed here. Please refer to the MainViewModel class in the BuildHtmlForSelectedItem method.
+-->
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -7,8 +22,8 @@
     <style>
         BODY
         {
-            background: "{{body.background}}";
-            color: "{{body.color}}";
+            color: {{body.foreground}};
+            background-color: {{body.background}};
             margin: 8;
         }
     </style>
