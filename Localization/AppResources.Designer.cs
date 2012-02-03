@@ -151,6 +151,15 @@ namespace RssStarterKit.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The network is not currently available - some features of the application will be disabled until network is restored. \n\nPress &quot;back&quot; to continue using cached data, or exit the application and try again later..
+        /// </summary>
+        public static string NetworkNotAvailableMessage {
+            get {
+                return ResourceManager.GetString("NetworkNotAvailableMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to click to load....
         /// </summary>
         public static string NoDataCollectedConverterText {

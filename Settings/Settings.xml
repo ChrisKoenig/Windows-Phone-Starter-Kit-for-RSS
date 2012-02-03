@@ -31,7 +31,7 @@
 
   <!--
   This section contains the separate RSS or ATOM feeds consumed by the application.  Each feed
-  contains the following elements:
+  contains the following elements - both of which are REQUIRED:
 
     Title - the common title of the feed for display on the page
     RssUrl - the URL for the rss or atom data feed for the content
@@ -40,9 +40,12 @@
   properly. If you want to add more feeds, simply copy an existing one and change the data.
 
   Also - for each of the RSS feeds, you need to ensure that the feed URL is properly encoded. The
-  biggest place this causes errors for folks is the Ampersand character. Isntead of the
+  biggest place this causes errors for folks is the Ampersand character. Instead of the
   "default" character, it needs to be encoded as "&amp;".  If you're getting deserialization
   errors when running the app, chances are this is the cause...
+
+  To test out your feed before pasting here, try it out at http://feedvalidator.org
+
   -->
   <RssFeeds>
     <m:RssFeed>
@@ -60,6 +63,10 @@
     <m:RssFeed>
       <m:Title>Chris Koenig</m:Title>
       <m:RssUrl>http://feeds.feedburner.com/chriskoenig</m:RssUrl>
+    </m:RssFeed>
+    <m:RssFeed>
+      <m:Title>Atom Enabled</m:Title>
+      <m:RssUrl>http://www.atomenabled.org/atom.xml</m:RssUrl>
     </m:RssFeed>
   </RssFeeds>
 

@@ -157,6 +157,10 @@
     <value>News Feeds</value>
     <comment>Used on the MainView for the Title panel</comment>
   </data>
+  <data name="NetworkNotAvailableMessage" xml:space="preserve">
+    <value>The network is not currently available - some features of the application will be disabled until network is restored. \n\nPress "back" to continue using cached data, or exit the application and try again later.</value>
+    <comment>Used to display an error message when the application is launched if there is no network.</comment>
+  </data>
   <data name="NoDataCollectedConverterText" xml:space="preserve">
     <value>click to load...</value>
     <comment>Used on the MainView feed list box to indicate that the feed has not been retrieved from the internet yet...</comment>

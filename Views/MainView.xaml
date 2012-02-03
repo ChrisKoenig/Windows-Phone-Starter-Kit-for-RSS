@@ -56,6 +56,24 @@
             </Border>
         </Popup>
 
+        <Popup x:Name="NetworkMessagePopup"
+               Tap="NetworkMessagePopup_Tap"
+               IsOpen="False"
+               d:IsHidden="True">
+            <Border BorderBrush="{StaticResource PhoneForegroundBrush}"
+                    BorderThickness="5"
+                    Margin="8,8,0,0">
+                <Grid Width="450"
+                      Height="392">
+                    <TextBlock Margin="25"
+                               FontSize="{StaticResource PhoneFontSizeLarge}"
+                               Text="{Binding LocalizedResources.NetworkNotAvailableMessage, Source={StaticResource LocalizedStrings}}"
+                               TextWrapping="Wrap" />
+
+                </Grid>
+            </Border>
+        </Popup>
+
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel"
                     Grid.Row="0"

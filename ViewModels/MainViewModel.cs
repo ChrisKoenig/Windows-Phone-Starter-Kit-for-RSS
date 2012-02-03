@@ -255,7 +255,7 @@ namespace RssStarterKit.ViewModels
             }
             else
             {
-                // refresh feed from database
+                // refresh feed from network
                 RefreshSelectedFeed();
             }
         }
@@ -266,6 +266,10 @@ namespace RssStarterKit.ViewModels
         /// </summary>
         public void RefreshSelectedFeed()
         {
+            var app = (App)App.Current;
+            if (!app.IsNetworkAvailable)
+                return;
+
             // lock the UI
             IsBusy = true;
 
@@ -283,9 +287,9 @@ namespace RssStarterKit.ViewModels
                     feed = SyndicationFeed.Load(reader);
                     var items = feed.Items.Select(item => new RssItem()
                     {
-                        Title = item.Title.Text,
+                        Title = GetSafeValue(item.Title),
                         Link = item.Links.FirstOrDefault().Uri.AbsoluteUri,
-                        Description = item.Summary.Text,
+                        Description = GetSafeValue(item.Summary),
                         PublishDate = item.PublishDate.LocalDateTime,
                     });
 
@@ -293,9 +297,9 @@ namespace RssStarterKit.ViewModels
                     DispatcherHelper.CheckBeginInvokeOnUI(() =>
                     {
                         // these are simple mappings from the feed to the view object
-                        SelectedFeed.SubTitle = feed.Title.Text;
+                        SelectedFeed.SubTitle = GetSafeValue(feed.Title);
                         SelectedFeed.Link = feed.Links.FirstOrDefault().Uri.AbsoluteUri;
-                        SelectedFeed.Description = feed.Description.Text;
+                        SelectedFeed.Description = GetSafeValue(feed.Description);
                         SelectedFeed.Items = new ObservableCollection<RssItem>(items);
                         SelectedFeed.LastBuildDate = feed.LastUpdatedTime.LocalDateTime;
                         SelectedFeed.RefreshTimeStamp = DateTime.Now;
@@ -326,6 +330,14 @@ namespace RssStarterKit.ViewModels
                     SaveState();
                 }
             }, null);
+        }
+
+        private string GetSafeValue(TextSyndicationContent textSyndicationContent, string defaultValue = "")
+        {
+            if (textSyndicationContent == null)
+                return defaultValue;
+            else
+                return textSyndicationContent.Text;
         }
 
         /// <summary>

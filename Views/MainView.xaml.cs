@@ -10,12 +10,21 @@ namespace RssStarterKit.Views
 {
     public partial class MainView : PhoneApplicationPage
     {
+        private readonly App app = (App)App.Current;
+
         public MainView()
         {
             InitializeComponent();
             Loaded += (s, e) =>
             {
                 ((ApplicationBarMenuItem)ApplicationBar.MenuItems[0]).Text = AppResources.MainView_AppBar_Menu_About;
+                if (!app.IsNetworkAvailable && !app.NetworkMessageShown)
+                {
+                    NetworkMessagePopup.IsOpen = true;
+                    ContentPanel.Visibility = System.Windows.Visibility.Collapsed;
+                    TitlePanel.Visibility = System.Windows.Visibility.Collapsed;
+                    app.NetworkMessageShown = true;
+                }
             };
         }
 
@@ -29,6 +38,13 @@ namespace RssStarterKit.Views
             if (AboutBox.IsOpen)
             {
                 AboutBox.IsOpen = false;
+                e.Cancel = true;
+            }
+            else if (NetworkMessagePopup.IsOpen)
+            {
+                NetworkMessagePopup.IsOpen = false;
+                TitlePanel.Visibility = System.Windows.Visibility.Visible;
+                ContentPanel.Visibility = System.Windows.Visibility.Visible;
                 e.Cancel = true;
             }
             else
@@ -46,6 +62,13 @@ namespace RssStarterKit.Views
         {
             var model = DataContext as MainViewModel;
             model.ResetFeeds();
+        }
+
+        private void NetworkMessagePopup_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NetworkMessagePopup.IsOpen = false;
+            TitlePanel.Visibility = System.Windows.Visibility.Visible;
+            ContentPanel.Visibility = System.Windows.Visibility.Visible;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Navigation;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Shell;
 using RssStarterKit.Configuration;
 using RssStarterKit.ViewModels;
@@ -18,6 +19,10 @@ namespace RssStarterKit
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         public PhoneApplicationFrame RootFrame { get; private set; }
+
+        public bool IsNetworkAvailable { get; set; }
+
+        public bool NetworkMessageShown { get; set; }
 
         /// <summary>
         /// Constructor for the Application object.
@@ -35,6 +40,12 @@ namespace RssStarterKit
 
             // Phone-specific initialization
             InitializePhoneApplication();
+
+            // store network availability
+            IsNetworkAvailable =
+                NetworkInterface.NetworkInterfaceType != NetworkInterfaceType.None &&
+                NetworkInterface.GetIsNetworkAvailable();
+            NetworkMessageShown = false;
 
             // Show graphics profiling information while debugging.
             if (System.Diagnostics.Debugger.IsAttached)

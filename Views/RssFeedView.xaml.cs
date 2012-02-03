@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
@@ -15,6 +17,7 @@ namespace RssStarterKit.Views
         public RssFeedView()
         {
             InitializeComponent();
+
             Loaded += (s, e) =>
             {
                 ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = AppResources.FeedView_AppBar_Button_Refresh;
