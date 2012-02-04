@@ -7,7 +7,6 @@ using GalaSoft.MvvmLight.Threading;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Shell;
-using RssStarterKit.Configuration;
 using RssStarterKit.ViewModels;
 
 namespace RssStarterKit
