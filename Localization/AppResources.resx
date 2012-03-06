@@ -145,6 +145,10 @@
     <value>The feed item you selected item has no content. Please visit the website using the button below to read this post.</value>
     <comment>Used on the ItemView when the selected feed item has no content</comment>
   </data>
+  <data name="MainView_About_Body" xml:space="preserve">
+    <value>About RssStarterKit text</value>
+    <comment>Used on the MainView in the AboutBox</comment>
+  </data>
   <data name="MainView_About_Title" xml:space="preserve">
     <value>About RssStarterKit</value>
     <comment>about appbar menu on MainView</comment>
@@ -153,12 +157,16 @@
     <value>about</value>
     <comment>about menu on the RssFeedView Application Bar</comment>
   </data>
+  <data name="MainView_NetworkErrorMessage" xml:space="preserve">
+    <value>NETWORK UNAVAILABLE</value>
+    <comment>Used on the MainView for displaying status of network</comment>
+  </data>
   <data name="MainView_Title" xml:space="preserve">
     <value>News Feeds</value>
     <comment>Used on the MainView for the Title panel</comment>
   </data>
   <data name="NetworkNotAvailableMessage" xml:space="preserve">
-    <value>The network is not currently available - some features of the application will be disabled until network is restored. \n\nPress "back" to continue using cached data, or exit the application and try again later.</value>
+    <value>The network is not currently available - some features of the application will be disabled until network is restored. Press the "back" to continue using cached data, or exit the application and try again later.</value>
     <comment>Used to display an error message when the application is launched if there is no network.</comment>
   </data>
   <data name="NoDataCollectedConverterText" xml:space="preserve">

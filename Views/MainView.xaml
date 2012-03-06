@@ -7,6 +7,7 @@
                             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                             xmlns:ec="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
                             xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+                            xmlns:c4f="clr-namespace:Coding4Fun.Phone.Controls;assembly=Coding4Fun.Phone.Controls"
                             x:Class="RssStarterKit.Views.MainView"
                             SupportedOrientations="Portrait"
                             Orientation="Portrait"
@@ -29,51 +30,6 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Popup x:Name="AboutBox"
-               Tap="AboutBox_Tap"
-               IsOpen="False">
-            <Border BorderBrush="{StaticResource PhoneForegroundBrush}"
-                    BorderThickness="5"
-                    Margin="8,8,0,0">
-                <Grid Width="450"
-                      Height="273">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Rectangle Fill="{StaticResource PhoneChromeBrush}"
-                               Grid.RowSpan="2" />
-                    <TextBlock Text="{Binding LocalizedResources.MainView_About_Title, Source={StaticResource LocalizedStrings}}"
-                               Style="{StaticResource PhoneTextTitle2Style}"
-                               Grid.Row="0"
-                               Margin="10,10,10,17" />
-                    <TextBlock Text="Enter your comments here in the language of your choice. The user can press the BACK button to close this window - we don't need a separate button just for that. Also, just adjust the height of the grid as necessary to fit all your text and make it look nice."
-                               Grid.Row="1"
-                               Margin="24,0 "
-                               Style="{StaticResource PhoneTextSubtleStyle}"
-                               TextWrapping="Wrap" />
-                </Grid>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="NetworkMessagePopup"
-               Tap="NetworkMessagePopup_Tap"
-               IsOpen="False"
-               d:IsHidden="True">
-            <Border BorderBrush="{StaticResource PhoneForegroundBrush}"
-                    BorderThickness="5"
-                    Margin="8,8,0,0">
-                <Grid Width="450"
-                      Height="392">
-                    <TextBlock Margin="25"
-                               FontSize="{StaticResource PhoneFontSizeLarge}"
-                               Text="{Binding LocalizedResources.NetworkNotAvailableMessage, Source={StaticResource LocalizedStrings}}"
-                               TextWrapping="Wrap" />
-
-                </Grid>
-            </Border>
-        </Popup>
-
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel"
                     Grid.Row="0"
@@ -91,7 +47,18 @@
         <Grid x:Name="ContentPanel"
               Grid.Row="1"
               Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding LocalizedResources.MainView_NetworkErrorMessage, Source={StaticResource LocalizedStrings}}"
+                       Visibility="{Binding NetworkErrorVisibility}"
+                       Foreground="{StaticResource PhoneAccentBrush}"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,10"
+                       FontSize="36" />
             <ListBox x:Name="AllFeedsListBox"
+                     Grid.Row="1"
                      toolkit:TiltEffect.IsTiltEnabled="True"
                      SelectedItem="{Binding SelectedFeed, Mode=TwoWay}"
                      ItemsSource="{Binding Feeds}"

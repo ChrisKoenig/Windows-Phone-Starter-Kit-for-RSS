@@ -31,9 +31,17 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0"
+                    <TextBlock Text="{Binding LocalizedResources.MainView_NetworkErrorMessage, Source={StaticResource LocalizedStrings}}"
+                               Visibility="{Binding NetworkErrorVisibility}"
+                               Foreground="{StaticResource PhoneAccentBrush}"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,10"
+                               Grid.Row="0"
+                               FontSize="36" />
+                    <Grid Grid.Row="1"
                           Margin="-10,0,-9,0">
                         <Grid.Background>
                             <SolidColorBrush Color="{StaticResource PhoneInactiveColor}" />
@@ -52,7 +60,7 @@
                                    Margin="0,4,8,4" />
                     </Grid>
                     <ListBox x:Name="SingleFeedListBox"
-                             Grid.Row="1"
+                             Grid.Row="2"
                              toolkit:TiltEffect.IsTiltEnabled="True"
                              SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                              ItemsSource="{Binding SelectedFeed.Items}"

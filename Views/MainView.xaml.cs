@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using Coding4Fun.Phone.Controls;
+using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using RssStarterKit.Localization;
+using RssStarterKit.Messages;
 using RssStarterKit.ViewModels;
 
 namespace RssStarterKit.Views
@@ -15,60 +19,41 @@ namespace RssStarterKit.Views
         public MainView()
         {
             InitializeComponent();
+            Messenger.Default.Register<NetworkUnavailableMessage>(this, (message) => ShowNetworkUnavailable());
             Loaded += (s, e) =>
             {
                 ((ApplicationBarMenuItem)ApplicationBar.MenuItems[0]).Text = AppResources.MainView_AppBar_Menu_About;
                 if (!app.IsNetworkAvailable && !app.NetworkMessageShown)
                 {
-                    NetworkMessagePopup.IsOpen = true;
-                    ContentPanel.Visibility = System.Windows.Visibility.Collapsed;
-                    TitlePanel.Visibility = System.Windows.Visibility.Collapsed;
                     app.NetworkMessageShown = true;
+                    ShowNetworkUnavailable();
                 }
             };
         }
 
+        private void ShowNetworkUnavailable()
+        {
+            var prompt = new MessagePrompt()
+            {
+                Message = AppResources.NetworkNotAvailableMessage,
+            };
+            prompt.Show();
+        }
+
         private void AboutMenuItem_Click(object sender, EventArgs e)
         {
-            AboutBox.IsOpen = true;
-        }
-
-        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
-        {
-            if (AboutBox.IsOpen)
+            var about = new AboutPrompt()
             {
-                AboutBox.IsOpen = false;
-                e.Cancel = true;
-            }
-            else if (NetworkMessagePopup.IsOpen)
-            {
-                NetworkMessagePopup.IsOpen = false;
-                TitlePanel.Visibility = System.Windows.Visibility.Visible;
-                ContentPanel.Visibility = System.Windows.Visibility.Visible;
-                e.Cancel = true;
-            }
-            else
-            {
-                base.OnBackKeyPress(e);
-            }
-        }
-
-        private void AboutBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            AboutBox.IsOpen = false;
+                Title = Localization.AppResources.MainView_About_Title,
+                Body = Localization.AppResources.MainView_About_Body,
+            };
+            about.Show();
         }
 
         private void ResetMenuItem_Click(object sender, EventArgs e)
         {
             var model = DataContext as MainViewModel;
             model.ResetFeeds();
-        }
-
-        private void NetworkMessagePopup_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            NetworkMessagePopup.IsOpen = false;
-            TitlePanel.Visibility = System.Windows.Visibility.Visible;
-            ContentPanel.Visibility = System.Windows.Visibility.Visible;
         }
     }
 }

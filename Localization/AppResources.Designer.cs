@@ -124,6 +124,15 @@ namespace RssStarterKit.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About RssStarterKit text.
+        /// </summary>
+        public static string MainView_About_Body {
+            get {
+                return ResourceManager.GetString("MainView_About_Body", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About RssStarterKit.
         /// </summary>
         public static string MainView_About_Title {
@@ -142,6 +151,15 @@ namespace RssStarterKit.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NETWORK UNAVAILABLE.
+        /// </summary>
+        public static string MainView_NetworkErrorMessage {
+            get {
+                return ResourceManager.GetString("MainView_NetworkErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to News Feeds.
         /// </summary>
         public static string MainView_Title {
@@ -151,7 +169,7 @@ namespace RssStarterKit.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The network is not currently available - some features of the application will be disabled until network is restored. \n\nPress &quot;back&quot; to continue using cached data, or exit the application and try again later..
+        ///   Looks up a localized string similar to The network is not currently available - some features of the application will be disabled until network is restored. Press the &quot;back&quot; to continue using cached data, or exit the application and try again later..
         /// </summary>
         public static string NetworkNotAvailableMessage {
             get {

@@ -14,6 +14,7 @@ using Microsoft.Phone.Tasks;
 using RssStarterKit.Configuration;
 using RssStarterKit.Helpers;
 using RssStarterKit.Localization;
+using RssStarterKit.Messages;
 using RssStarterKit.Models;
 
 namespace RssStarterKit.ViewModels
@@ -29,8 +30,26 @@ namespace RssStarterKit.ViewModels
         private ObservableCollection<RssFeed> _Feeds;
         Settings settings;
         private readonly static string NS_ATOM = "http://www.w3.org/2005/Atom";
+        private Visibility _NetworkErrorVisibility;
 
         #region Properties
+
+        public Visibility NetworkErrorVisibility
+        {
+            get
+            {
+                var app = (App)Application.Current;
+                return app.IsNetworkAvailable ? Visibility.Collapsed : Visibility.Visible;
+                // return _NetworkErrorVisibility;
+            }
+            //set
+            //{
+            //    if (_NetworkErrorVisibility == value)
+            //        return;
+            //    _NetworkErrorVisibility = value;
+            //    RaisePropertyChanged(() => NetworkErrorVisibility);
+            //}
+        }
 
         public bool PreviewEnabled
         {
@@ -256,6 +275,13 @@ namespace RssStarterKit.ViewModels
             else
             {
                 // refresh feed from network
+                var app = (App)App.Current;
+                if (!app.IsNetworkAvailable)
+                {
+                    MessengerInstance.Send<NetworkUnavailableMessage>(new NetworkUnavailableMessage());
+                    return;
+                }
+
                 RefreshSelectedFeed();
             }
         }
