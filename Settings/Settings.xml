@@ -10,7 +10,7 @@
   <Title>RssStarterKit Application</Title>
 
   <!-- This parameter indicates how often a refresh should occur to the content of each of the feeds -->
-  <RefreshIntervalInMinutes>60</RefreshIntervalInMinutes>
+  <RefreshIntervalInMinutes>5</RefreshIntervalInMinutes>
 
   <!--
   This setting enables a local preview of the selected feed item. This is useful if your

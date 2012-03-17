@@ -11,7 +11,7 @@ namespace RssStarterKit.Models
         private string _Guid;
         private string _Link;
         private string _Description;
-        private DateTime _PublishDate;
+        private DateTime? _PublishDate;
         private string _Title;
 
         public string Title
@@ -26,7 +26,7 @@ namespace RssStarterKit.Models
             }
         }
 
-        public DateTime PublishDate
+        public DateTime? PublishDate
         {
             get { return _PublishDate; }
             set

@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
-using System.ServiceModel.Syndication;
 using System.Windows;
 using System.Xml;
+using System.Xml.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Phone.Tasks;
@@ -21,6 +21,9 @@ namespace RssStarterKit.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private readonly static XNamespace NS_MEDIA = "http://search.yahoo.com/mrss/";
+        private readonly static XNamespace NS_ITUNES = "http://www.itunes.com/dtds/podcast-1.0.dtd";
+        private readonly static string NS_ATOM = "http://www.w3.org/2005/Atom";
         private RssItem _SelectedItem;
         private const string ISO_STORE_FILE = "settings.xml";
         private bool _IsBusy;
@@ -29,8 +32,6 @@ namespace RssStarterKit.ViewModels
         private string _Title;
         private ObservableCollection<RssFeed> _Feeds;
         Settings settings;
-        private readonly static string NS_ATOM = "http://www.w3.org/2005/Atom";
-        private Visibility _NetworkErrorVisibility;
 
         #region Properties
 
@@ -40,15 +41,7 @@ namespace RssStarterKit.ViewModels
             {
                 var app = (App)Application.Current;
                 return app.IsNetworkAvailable ? Visibility.Collapsed : Visibility.Visible;
-                // return _NetworkErrorVisibility;
             }
-            //set
-            //{
-            //    if (_NetworkErrorVisibility == value)
-            //        return;
-            //    _NetworkErrorVisibility = value;
-            //    RaisePropertyChanged(() => NetworkErrorVisibility);
-            //}
         }
 
         public bool PreviewEnabled
@@ -267,8 +260,11 @@ namespace RssStarterKit.ViewModels
         {
             if (SelectedFeed == null)
                 return;
+
+            var compDate = DateTime.Now.Subtract(TimeSpan.FromMinutes(settings.RefreshIntervalInMinutes));
+
             if (SelectedFeed.RefreshTimeStamp.HasValue &&
-                SelectedFeed.RefreshTimeStamp.Value.AddMinutes(settings.RefreshIntervalInMinutes) < DateTime.Now)
+                DateTime.Compare(SelectedFeed.RefreshTimeStamp.Value, compDate) > 0)
             {
                 // cached feed is OK to show
             }
@@ -303,50 +299,26 @@ namespace RssStarterKit.ViewModels
             var request = HttpWebRequest.CreateHttp(SelectedFeed.RssUrl) as HttpWebRequest;
             request.BeginGetResponse((token) =>
             {
-                SyndicationFeed feed;
-
                 // process the response
                 using (var response = request.EndGetResponse(token) as HttpWebResponse)
                 using (var stream = response.GetResponseStream())
                 using (var reader = XmlReader.Create(stream))
                 {
-                    feed = SyndicationFeed.Load(reader);
-                    var items = feed.Items.Select(item => new RssItem()
-                    {
-                        Title = GetSafeValue(item.Title),
-                        Link = item.Links.FirstOrDefault().Uri.AbsoluteUri,
-                        Description = GetSafeValue(item.Summary),
-                        PublishDate = item.PublishDate.LocalDateTime,
-                    });
+                    var feed = GetFeedDataFromReader(reader);
+                    feed.RssUrl = request.RequestUri.AbsoluteUri;
 
                     // use the dispatcher thread to update properties of the SelectedFeed since it's bound to the UI
                     DispatcherHelper.CheckBeginInvokeOnUI(() =>
                     {
-                        // these are simple mappings from the feed to the view object
-                        SelectedFeed.SubTitle = GetSafeValue(feed.Title);
-                        SelectedFeed.Link = feed.Links.FirstOrDefault().Uri.AbsoluteUri;
-                        SelectedFeed.Description = GetSafeValue(feed.Description);
-                        SelectedFeed.Items = new ObservableCollection<RssItem>(items);
-                        SelectedFeed.LastBuildDate = feed.LastUpdatedTime.LocalDateTime;
+                        // man, this is ugly
+                        SelectedFeed.Description = feed.Description;
+                        SelectedFeed.FeedType = feed.FeedType;
+                        SelectedFeed.ImageUri = feed.ImageUri;
+                        SelectedFeed.Items = feed.Items;
+                        SelectedFeed.LastBuildDate = feed.LastBuildDate;
+                        SelectedFeed.Link = feed.Link;
                         SelectedFeed.RefreshTimeStamp = DateTime.Now;
-
-                        // choose the best image for the ImageUrl
-                        var icon = feed.ElementExtensions.ReadElementExtensions<string>("icon", NS_ATOM).FirstOrDefault();
-                        if (icon != null && IsValidFileExtension(icon))
-                        {
-                            SelectedFeed.ImageUri = new Uri(icon, UriKind.Absolute);
-                        }
-                        else
-                        {
-                            if (feed.ImageUrl != null && IsValidFileExtension(feed.ImageUrl.AbsoluteUri))
-                            {
-                                SelectedFeed.ImageUri = feed.ImageUrl;
-                            }
-                            else
-                            {
-                                SelectedFeed.ImageUri = new Uri("/Images/FeedType/RSS.jpg", UriKind.Relative);
-                            }
-                        }
+                        SelectedFeed.RssUrl = feed.RssUrl;
 
                         // unlock the UI
                         IsBusy = false;
@@ -358,12 +330,60 @@ namespace RssStarterKit.ViewModels
             }, null);
         }
 
-        private string GetSafeValue(TextSyndicationContent textSyndicationContent, string defaultValue = "")
+        private RssFeed GetFeedDataFromReader(XmlReader reader)
         {
-            if (textSyndicationContent == null)
-                return defaultValue;
-            else
-                return textSyndicationContent.Text;
+            var doc = XDocument.Load(reader);
+
+            var feed = new RssFeed();
+
+            feed.Description = doc.Root.GetSafeElementString("description");
+            feed.ImageUri = GetImageUriForFeed(feed);
+            feed.Items = new ObservableCollection<RssItem>();
+            feed.LastBuildDate = doc.Root.GetSafeElementDate("pubDate");
+            feed.Link = doc.Root.GetSafeElementString("link");
+
+            foreach (var item in doc.Descendants("item"))
+            {
+                var newItem = new RssItem()
+                {
+                    Title = item.GetSafeElementString("title"),
+                    Link = item.GetSafeElementString("link"),
+                    Description = item.GetSafeElementString("description"),
+                    PublishDate = item.GetSafeElementDate("pubDate"),
+                    Guid = item.GetSafeElementString("guid"),
+                };
+                feed.Items.Add(newItem);
+            }
+
+            // choose the best image for the ImageUrl
+            SetMediaImage(feed, doc);
+
+            return feed;
+        }
+
+        private Uri GetImageUriForFeed(RssFeed feed)
+        {
+            return new Uri("/Images/FeedType/rss.jpg", UriKind.Relative);
+        }
+
+        private void SetMediaImage(RssFeed feed, XDocument doc)
+        {
+            var image = doc.Element("image");
+            if (image != null)
+            {
+                feed.ImageUri = new Uri(image.Element("url").Value);
+                return;
+            }
+
+            var thumbnail = doc.Element(NS_MEDIA + "thumbnail");
+            if (thumbnail != null)
+            {
+                feed.ImageUri = new Uri(thumbnail.Value);
+                return;
+            }
+
+            // if all else fails...
+            feed.ImageUri = new Uri("/Images/FeedType/rss.jpg", UriKind.Relative);
         }
 
         /// <summary>
