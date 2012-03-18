@@ -336,8 +336,41 @@ namespace RssStarterKit.ViewModels
 
             var feed = new RssFeed();
 
+            var defaultNamespace = doc.Root.GetDefaultNamespace();
+            if (defaultNamespace.NamespaceName.EndsWith("Atom"))
+                LoadAtomFeed(doc, feed);
+            else
+                LoadRssFeed(doc, feed);
+
+            return feed;
+        }
+
+        private void LoadAtomFeed(XDocument doc, RssFeed feed)
+        {
+            SetMediaImage(feed, doc);
+            feed.Description = doc.Root.GetSafeElementString("summary");
+            feed.Items = new ObservableCollection<RssItem>();
+            feed.LastBuildDate = doc.Root.GetSafeElementDate("updated");
+            feed.Link = doc.Root.GetLink("self");
+
+            foreach (var item in doc.Root.Elements(doc.Root.GetDefaultNamespace() + "entry"))
+            {
+                var newItem = new RssItem()
+                {
+                    Title = item.GetSafeElementString("title"),
+                    Description = item.GetSafeElementString("description"),
+                    PublishDate = item.GetSafeElementDate("published"),
+                    Guid = item.GetSafeElementString("id"),
+                };
+                newItem.Link = item.GetLink("alternate");
+                feed.Items.Add(newItem);
+            }
+        }
+
+        private void LoadRssFeed(XDocument doc, RssFeed feed)
+        {
+            SetMediaImage(feed, doc);
             feed.Description = doc.Root.GetSafeElementString("description");
-            feed.ImageUri = GetImageUriForFeed(feed);
             feed.Items = new ObservableCollection<RssItem>();
             feed.LastBuildDate = doc.Root.GetSafeElementDate("pubDate");
             feed.Link = doc.Root.GetSafeElementString("link");
@@ -354,24 +387,14 @@ namespace RssStarterKit.ViewModels
                 };
                 feed.Items.Add(newItem);
             }
-
-            // choose the best image for the ImageUrl
-            SetMediaImage(feed, doc);
-
-            return feed;
-        }
-
-        private Uri GetImageUriForFeed(RssFeed feed)
-        {
-            return new Uri("/Images/FeedType/rss.jpg", UriKind.Relative);
         }
 
         private void SetMediaImage(RssFeed feed, XDocument doc)
         {
-            var image = doc.Element("image");
+            var image = doc.Root.Descendants(NS_ITUNES + "image").FirstOrDefault();
             if (image != null)
             {
-                feed.ImageUri = new Uri(image.Element("url").Value);
+                feed.ImageUri = new Uri(image.Attribute("href").Value);
                 return;
             }
 

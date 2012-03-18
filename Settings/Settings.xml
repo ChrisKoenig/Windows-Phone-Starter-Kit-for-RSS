@@ -10,7 +10,7 @@
   <Title>RssStarterKit Application</Title>
 
   <!-- This parameter indicates how often a refresh should occur to the content of each of the feeds -->
-  <RefreshIntervalInMinutes>5</RefreshIntervalInMinutes>
+  <RefreshIntervalInMinutes>60</RefreshIntervalInMinutes>
 
   <!--
   This setting enables a local preview of the selected feed item. This is useful if your
@@ -63,6 +63,14 @@
     <m:RssFeed>
       <m:Title>Chris Koenig</m:Title>
       <m:RssUrl>http://feeds.feedburner.com/chriskoenig</m:RssUrl>
+    </m:RssFeed>
+    <m:RssFeed>
+      <m:Title>Thirsty Developer</m:Title>
+      <m:RssUrl>http://feeds.feedburner.com/ThirstyDeveloperPodcast</m:RssUrl>
+    </m:RssFeed>
+    <m:RssFeed>
+      <m:Title>This Developer's Life</m:Title>
+      <m:RssUrl>http://feeds.feedburner.com/thisdeveloperslife</m:RssUrl>
     </m:RssFeed>
     <m:RssFeed>
       <m:Title>Atom Enabled</m:Title>
