@@ -14,7 +14,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Views/ThemeDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <localization:Localization x:Name="LocalizedStrings" />
+            <localization:Localization x:Key="LocalizedStrings" />
             <vm:ViewModelLocator x:Key="Locator" />
             <SolidColorBrush Color="{StaticResource PhoneForegroundColor}"
                              x:Key="ThemeForgroundBrush" />

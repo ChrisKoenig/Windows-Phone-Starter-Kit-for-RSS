@@ -12,6 +12,13 @@ namespace RssStarterKit.Configuration
         public string BodyBackground { get; set; }
     }
 
+    public class AdvertisingInfo
+    {
+        public string ApplicationId { get; set; }
+
+        public string AdUnitId { get; set; }
+    }
+
     public class Settings
     {
         public string Title { get; set; }
@@ -29,5 +36,7 @@ namespace RssStarterKit.Configuration
         public RssFeed SelectedFeed { get; set; }
 
         public RssItem SelectedItem { get; set; }
+
+        public AdvertisingInfo AdInfo { get; set; }
     }
 }

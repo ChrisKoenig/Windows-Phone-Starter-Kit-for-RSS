@@ -30,6 +30,22 @@
   </Theme>
 
   <!--
+  This section allows you to have ads in your application.  Go to http://pubcenter.microsoft.com and create
+  a free account there, define an application with a few ad units, according to the instructions, and put
+  that information here.
+
+  To test, please use the following information:
+    ApplicationId = test_client
+    AdUnitID = Image480_80
+
+  To remove the ads, empty out both the ApplicationId and AdUnitId nodes
+  -->
+  <AdInfo>
+    <ApplicationId></ApplicationId>
+    <AdUnitId></AdUnitId>
+  </AdInfo>
+
+  <!--
   This section contains the separate RSS or ATOM feeds consumed by the application.  Each feed
   contains the following elements - both of which are REQUIRED:
 

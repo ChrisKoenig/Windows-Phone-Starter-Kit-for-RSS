@@ -120,6 +120,14 @@ namespace RssStarterKit.ViewModels
             }
         }
 
+        public Settings Settings
+        {
+            get
+            {
+                return settings;
+            }
+        }
+
         #endregion Properties
 
         #region Methods
@@ -139,7 +147,6 @@ namespace RssStarterKit.ViewModels
             else
             {
                 var isoData = IsoHelper.LoadIsoString(ISO_STORE_FILE);
-
                 if (isoData == null || isoData.Length == 0)
                 {
                     settings = GetSettingsFromConfigFile();
@@ -154,7 +161,6 @@ namespace RssStarterKit.ViewModels
                         settings = configSettings;
                         InitializeProperties();
                     }
-
                     else
                     {
                         settings = isoSettings;
@@ -181,10 +187,17 @@ namespace RssStarterKit.ViewModels
         private Settings DeserializeSettings(string data)
         {
             Settings settings;
-            var ser = new DataContractSerializer(typeof(Settings));
-            using (var sr = new StringReader(data))
-            using (var xr = XmlReader.Create(sr))
-                settings = (Settings)ser.ReadObject(xr);
+            try
+            {
+                var ser = new DataContractSerializer(typeof(Settings));
+                using (var sr = new StringReader(data))
+                using (var xr = XmlReader.Create(sr))
+                    settings = (Settings)ser.ReadObject(xr);
+            }
+            catch
+            {
+                settings = new Settings() { Version = -1 };
+            }
             return settings;
         }
 
@@ -361,8 +374,8 @@ namespace RssStarterKit.ViewModels
                     Description = item.GetSafeElementString("description"),
                     PublishDate = item.GetSafeElementDate("published"),
                     Guid = item.GetSafeElementString("id"),
+                    Link = item.GetLink("alternate"),
                 };
-                newItem.Link = item.GetLink("alternate");
                 feed.Items.Add(newItem);
             }
         }
@@ -414,10 +427,10 @@ namespace RssStarterKit.ViewModels
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private bool IsValidFileExtension(string path)
-        {
-            return path.EndsWith("png") || path.EndsWith("jpg");
-        }
+        //private bool IsValidFileExtension(string path)
+        //{
+        //    return path.EndsWith("png") || path.EndsWith("jpg");
+        //}
 
         /// <summary>
         /// share the current feed via the windows phone social media task

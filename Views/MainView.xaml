@@ -1,4 +1,5 @@
-﻿<phone:PhoneApplicationPage xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<phone:PhoneApplicationPage xmlns:my="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                             xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
                             xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
@@ -28,6 +29,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
@@ -56,6 +58,7 @@
                        Foreground="{StaticResource PhoneAccentBrush}"
                        HorizontalAlignment="Center"
                        Margin="0,0,0,10"
+                       Grid.Row="0"
                        FontSize="36" />
             <ListBox x:Name="AllFeedsListBox"
                      Grid.Row="1"
