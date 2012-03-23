@@ -6,6 +6,14 @@ namespace RssStarterKit.Helpers
 {
     public static class Extensions
     {
+        public static string OrNoneProvided(this string value, string @default = "None provided")
+        {
+            if (value != null && value.Trim().Length > 0)
+                return value;
+            else
+                return @default;
+        }
+
         public static string GetLink(this XElement item, string rel)
         {
             var links = item.Elements(item.GetDefaultNamespace() + "link");

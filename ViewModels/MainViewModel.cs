@@ -324,7 +324,7 @@ namespace RssStarterKit.ViewModels
                     DispatcherHelper.CheckBeginInvokeOnUI(() =>
                     {
                         // man, this is ugly
-                        SelectedFeed.Description = feed.Description;
+                        SelectedFeed.Description = feed.Description.OrNoneProvided();
                         SelectedFeed.FeedType = feed.FeedType;
                         SelectedFeed.ImageUri = feed.ImageUri;
                         SelectedFeed.Items = feed.Items;
@@ -383,10 +383,9 @@ namespace RssStarterKit.ViewModels
         private void LoadRssFeed(XDocument doc, RssFeed feed)
         {
             SetMediaImage(feed, doc);
-            feed.Description = doc.Root.GetSafeElementString("description");
+            feed.Description = doc.Root.Element("channel").GetSafeElementString("description");
             feed.Items = new ObservableCollection<RssItem>();
-            feed.LastBuildDate = doc.Root.GetSafeElementDate("pubDate");
-            feed.Link = doc.Root.GetSafeElementString("link");
+            feed.Link = doc.Root.Element("channel").GetSafeElementString("link");
 
             foreach (var item in doc.Descendants("item"))
             {
@@ -399,6 +398,12 @@ namespace RssStarterKit.ViewModels
                     Guid = item.GetSafeElementString("guid"),
                 };
                 feed.Items.Add(newItem);
+            }
+
+            var lastItem = feed.Items.OrderByDescending(i => i.PublishDate).FirstOrDefault();
+            if (lastItem != null)
+            {
+                feed.LastBuildDate = lastItem.PublishDate;
             }
         }
 
