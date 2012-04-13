@@ -175,7 +175,7 @@
     <Content Include="Images\RssStarterKit173x173.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\RssStarterKit99x99.png">
+    <Content Include="Images\RssStarterKit62x62.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="lib\System.ServiceModel.Syndication.dll" />
