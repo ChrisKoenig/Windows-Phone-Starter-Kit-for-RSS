@@ -424,7 +424,7 @@ namespace RssStarterKit.ViewModels
             }
 
             // if all else fails...
-            feed.ImageUri = new Uri("/Images/FeedType/rss.jpg", UriKind.Relative);
+            feed.ImageUri = new Uri("/Images/DefaultFeedIcon.jpg", UriKind.Relative);
         }
 
         /// <summary>

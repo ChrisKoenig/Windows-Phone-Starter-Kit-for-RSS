@@ -9,7 +9,7 @@ namespace RssStarterKit.Converters
         {
             if (value == null)
             {
-                return new Uri("/Images/FeedType/RSS.jpg", UriKind.Relative);
+                return new Uri("/Images/DefaultFeedIcon.jpg", UriKind.Relative);
             }
             else
             {
