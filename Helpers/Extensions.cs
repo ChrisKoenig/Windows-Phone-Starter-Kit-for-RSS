@@ -37,6 +37,7 @@ namespace RssStarterKit.Helpers
 
         public static string GetSafeElementString(this XElement item, string elementName)
         {
+            if (item == null) return String.Empty;
             var value = item.Element(item.GetDefaultNamespace() + elementName);
             if (value != null)
                 return value.Value;
@@ -46,6 +47,7 @@ namespace RssStarterKit.Helpers
 
         public static string GetSafeElementString(this XElement item, XName elementName)
         {
+            if (item == null) return String.Empty;
             var value = item.Element(elementName);
             if (value != null)
                 return value.Value;
