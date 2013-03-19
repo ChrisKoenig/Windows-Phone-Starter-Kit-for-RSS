@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Coding4Fun.Phone.Controls;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Advertising.Mobile.UI;
 using Microsoft.Phone.Controls;
@@ -13,6 +12,7 @@ using Microsoft.Phone.Shell;
 using RssStarterKit.Localization;
 using RssStarterKit.Messages;
 using RssStarterKit.ViewModels;
+using Coding4Fun.Toolkit.Controls;
 
 namespace RssStarterKit.Views
 {
