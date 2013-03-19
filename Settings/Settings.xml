@@ -2,33 +2,12 @@
 <Settings xmlns="http://schemas.datacontract.org/2004/07/RssStarterKit.Configuration"
           xmlns:m="http://schemas.datacontract.org/2004/07/RssStarterKit.Models">
 
-  <!-- Increment this number each time you submit to the marketplace
-       so that the application will update properly-->
-  <Version>1</Version>
-
-  <!-- This is the title of the application that shows up on the application pages -->
-  <Title>RssStarterKit Application</Title>
-
-  <!-- This parameter indicates how often a refresh should occur to the content of each of the feeds -->
-  <RefreshIntervalInMinutes>60</RefreshIntervalInMinutes>
-
   <!--
-  This setting enables a local preview of the selected feed item. This is useful if your
-  application is running offline, without access to the network, and you want to maintain
-  some text to display to the user.
+  NOTE: Windows Phone 8 requires that the elements in this xml document
+  are in alphabetical order. If they are not in order, deserialization will
+  not work.
   -->
-  <PreviewEnabled>false</PreviewEnabled>
-
-  <!--
-  This section describes the theme customization points for colors, etc. for the HTML Preview.
-  Application theme customization is handled via Blend or Visual Studio customization.
-  Colors can be listed by name, or by hex equivalents (e.g. #00FF00 for green)
-  -->
-  <Theme>
-    <BodyForeground>White</BodyForeground>
-    <BodyBackground>Black</BodyBackground>
-  </Theme>
-
+  
   <!--
   This section allows you to have ads in your application.  Go to http://pubcenter.microsoft.com and create
   a free account there, define an application with a few ad units, according to the instructions, and put
@@ -41,9 +20,19 @@
   To remove the ads, empty out both the ApplicationId and AdUnitId nodes
   -->
   <AdInfo>
-    <ApplicationId></ApplicationId>
     <AdUnitId></AdUnitId>
+    <ApplicationId></ApplicationId>
   </AdInfo>
+
+  <!--
+  This setting enables a local preview of the selected feed item. This is useful if your
+  application is running offline, without access to the network, and you want to maintain
+  some text to display to the user.
+  -->
+  <PreviewEnabled>false</PreviewEnabled>
+
+  <!-- This parameter indicates how often a refresh should occur to the content of each of the feeds -->
+  <RefreshIntervalInMinutes>60</RefreshIntervalInMinutes>
 
   <!--
   This section contains the separate RSS or ATOM feeds consumed by the application.  Each feed
@@ -65,33 +54,50 @@
   -->
   <RssFeeds>
     <m:RssFeed>
-      <m:Title>Windows Phone Blog</m:Title>
       <m:RssUrl>http://windowsteamblog.com/windows_phone/b/windowsphone/rss.aspx</m:RssUrl>
+      <m:Title>Windows Phone Blog</m:Title>
     </m:RssFeed>
     <m:RssFeed>
-      <m:Title>Windows Phone Developer Blog</m:Title>
       <m:RssUrl>http://windowsteamblog.com/windows_phone/b/wpdev/rss.aspx</m:RssUrl>
+      <m:Title>Windows Phone Developer Blog</m:Title>
     </m:RssFeed>
     <m:RssFeed>
-      <m:Title>Blogging Windows</m:Title>
       <m:RssUrl>http://windowsteamblog.com/windows/b/bloggingwindows/rss.aspx</m:RssUrl>
+      <m:Title>Blogging Windows</m:Title>
     </m:RssFeed>
     <m:RssFeed>
-      <m:Title>Chris Koenig</m:Title>
-      <m:RssUrl>http://feeds.feedburner.com/chriskoenig</m:RssUrl>
+      <m:RssUrl>http://feeds.feedburner.com/ThinkFirstCodeLater</m:RssUrl>
+      <m:Title>Think first. Code later.</m:Title>
     </m:RssFeed>
     <m:RssFeed>
-      <m:Title>Thirsty Developer</m:Title>
       <m:RssUrl>http://feeds.feedburner.com/ThirstyDeveloperPodcast</m:RssUrl>
+      <m:Title>Thirsty Developer</m:Title>
     </m:RssFeed>
     <m:RssFeed>
-      <m:Title>This Developer's Life</m:Title>
       <m:RssUrl>http://feeds.feedburner.com/thisdeveloperslife</m:RssUrl>
+      <m:Title>This Developer's Life</m:Title>
     </m:RssFeed>
     <m:RssFeed>
-      <m:Title>Atom Enabled</m:Title>
       <m:RssUrl>http://www.atomenabled.org/atom.xml</m:RssUrl>
+      <m:Title>Atom Enabled</m:Title>
     </m:RssFeed>
   </RssFeeds>
+
+  <!--
+  This section describes the theme customization points for colors, etc. for the HTML Preview.
+  Application theme customization is handled via Blend or Visual Studio customization.
+  Colors can be listed by name, or by hex equivalents (e.g. #00FF00 for green)
+  -->
+  <Theme>
+    <BodyForeground>White</BodyForeground>
+    <BodyBackground>Black</BodyBackground>
+  </Theme>
+
+  <!-- This is the title of the application that shows up on the application pages -->
+  <Title>RssStarterKit Application</Title>
+
+  <!-- Increment this number each time you submit to the marketplace
+       so that the application will update properly-->
+  <Version>1</Version>
 
 </Settings>
