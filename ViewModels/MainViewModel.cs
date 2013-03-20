@@ -23,7 +23,7 @@ namespace RssStarterKit.ViewModels
     {
         private readonly static XNamespace NS_MEDIA = "http://search.yahoo.com/mrss/";
         private readonly static XNamespace NS_ITUNES = "http://www.itunes.com/dtds/podcast-1.0.dtd";
-        private readonly static string NS_ATOM = "http://www.w3.org/2005/Atom";
+        //private readonly static string NS_ATOM = "http://www.w3.org/2005/Atom";
         private RssItem _SelectedItem;
         private const string ISO_STORE_FILE = "settings.xml";
         private bool _IsBusy;
