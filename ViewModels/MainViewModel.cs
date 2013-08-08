@@ -302,7 +302,7 @@ namespace RssStarterKit.ViewModels
         /// </summary>
         public async Task RefreshSelectedFeed()
         {
-            var app = (App)App.Current;
+            var app = (App) App.Current;
             if (!app.IsNetworkAvailable)
                 return;
 
@@ -312,17 +312,17 @@ namespace RssStarterKit.ViewModels
             // retrieve the feed and it's items from the internet
             var request = HttpWebRequest.CreateHttp(SelectedFeed.RssUrl) as HttpWebRequest;
             var task = request.GetResponseAsync();
-            {
-                // process the response
-                using (var response = await task.ConfigureAwait(false) as HttpWebResponse)
-                using (var stream = response.GetResponseStream())
-                using (var reader = XmlReader.Create(stream))
-                {
-                    var feed = GetFeedDataFromReader(reader);
-                    feed.RssUrl = request.RequestUri.AbsoluteUri;
 
-                    // use the dispatcher thread to update properties of the SelectedFeed since it's bound to the UI
-                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            // process the response
+            using (var response = await task.ConfigureAwait(false) as HttpWebResponse)
+            using (var stream = response.GetResponseStream())
+            using (var reader = XmlReader.Create(stream))
+            {
+                var feed = GetFeedDataFromReader(reader);
+                feed.RssUrl = request.RequestUri.AbsoluteUri;
+
+                // use the dispatcher thread to update properties of the SelectedFeed since it's bound to the UI
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
                     {
                         // man, this is ugly
                         SelectedFeed.Description = feed.Description.OrNoneProvided();
@@ -338,9 +338,8 @@ namespace RssStarterKit.ViewModels
                         IsBusy = false;
                     });
 
-                    // cache back to IsolatedStorage
-                    SaveState();
-                }
+                // cache back to IsolatedStorage
+                SaveState();
             }
         }
 
