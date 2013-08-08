@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
@@ -299,7 +300,7 @@ namespace RssStarterKit.ViewModels
         /// This is the workhorse of the MainViewModel, responsible for retrieving the data from the RSS
         /// feed and processing it for viewing
         /// </summary>
-        public void RefreshSelectedFeed()
+        public async Task RefreshSelectedFeed()
         {
             var app = (App)App.Current;
             if (!app.IsNetworkAvailable)
@@ -310,10 +311,10 @@ namespace RssStarterKit.ViewModels
 
             // retrieve the feed and it's items from the internet
             var request = HttpWebRequest.CreateHttp(SelectedFeed.RssUrl) as HttpWebRequest;
-            request.BeginGetResponse((token) =>
+            var task = request.GetResponseAsync();
             {
                 // process the response
-                using (var response = request.EndGetResponse(token) as HttpWebResponse)
+                using (var response = await task.ConfigureAwait(false) as HttpWebResponse)
                 using (var stream = response.GetResponseStream())
                 using (var reader = XmlReader.Create(stream))
                 {
@@ -340,7 +341,7 @@ namespace RssStarterKit.ViewModels
                     // cache back to IsolatedStorage
                     SaveState();
                 }
-            }, null);
+            }
         }
 
         private RssFeed GetFeedDataFromReader(XmlReader reader)
